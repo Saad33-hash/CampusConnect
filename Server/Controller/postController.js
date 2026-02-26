@@ -402,3 +402,109 @@ exports.getPostStats = async (req, res) => {
     });
   }
 };
+
+// Save/Bookmark a post
+exports.savePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    // Check if post exists
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found'
+      });
+    }
+
+    // Add to savedPosts if not already saved
+    const User = require('../Model/User');
+    const user = await User.findById(userId);
+    
+    if (user.savedPosts.includes(postId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Post already saved'
+      });
+    }
+
+    user.savedPosts.push(postId);
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Post saved successfully'
+    });
+  } catch (error) {
+    console.error('Save post error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to save post'
+    });
+  }
+};
+
+// Unsave/Remove bookmark from a post
+exports.unsavePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    const User = require('../Model/User');
+    const user = await User.findById(userId);
+
+    const index = user.savedPosts.indexOf(postId);
+    if (index === -1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Post not in saved list'
+      });
+    }
+
+    user.savedPosts.splice(index, 1);
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Post removed from saved'
+    });
+  } catch (error) {
+    console.error('Unsave post error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to remove post from saved'
+    });
+  }
+};
+
+// Get all saved posts for current user
+exports.getSavedPosts = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const User = require('../Model/User');
+
+    const user = await User.findById(userId).populate({
+      path: 'savedPosts',
+      populate: {
+        path: 'creator',
+        select: 'displayName avatar university'
+      }
+    });
+
+    // Filter out any null posts (deleted posts)
+    const savedPosts = user.savedPosts.filter(post => post !== null);
+
+    res.json({
+      success: true,
+      posts: savedPosts,
+      total: savedPosts.length
+    });
+  } catch (error) {
+    console.error('Get saved posts error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch saved posts'
+    });
+  }
+};

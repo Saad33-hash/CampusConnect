@@ -72,6 +72,11 @@ const Navbar = () => {
               <Link to="/chat" className="text-slate-600 hover:text-slate-900 font-medium transition">
                 Messages
               </Link>
+              {activeRole === 'talent-seeker' && (
+                <Link to="/saved-jobs" className="text-slate-600 hover:text-slate-900 font-medium transition">
+                  Saved Jobs
+                </Link>
+              )}
               <Link to="/my-applications" className="text-slate-600 hover:text-slate-900 font-medium transition">
                 Applications
               </Link>
@@ -169,6 +174,19 @@ const Navbar = () => {
                         </svg>
                         Messages
                       </Link>
+
+                      {activeRole === 'talent-seeker' && (
+                        <Link
+                          to="/saved-jobs"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                          </svg>
+                          Saved Jobs
+                        </Link>
+                      )}
 
                       <Link
                         to="/profile"

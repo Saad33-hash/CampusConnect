@@ -155,6 +155,24 @@ export const postsAPI = {
     const response = await api.patch(`/posts/${id}/close`, { filled });
     return response.data;
   },
+
+  // Save/Bookmark a post
+  savePost: async (id) => {
+    const response = await api.post(`/posts/${id}/save`);
+    return response.data;
+  },
+
+  // Unsave/Remove bookmark
+  unsavePost: async (id) => {
+    const response = await api.delete(`/posts/${id}/save`);
+    return response.data;
+  },
+
+  // Get saved posts
+  getSavedPosts: async () => {
+    const response = await api.get('/posts/user/saved');
+    return response.data;
+  },
 };
 
 // Applications API calls

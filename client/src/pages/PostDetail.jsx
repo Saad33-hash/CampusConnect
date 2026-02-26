@@ -63,6 +63,8 @@ export default function PostDetail() {
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [applicationStatus, setApplicationStatus] = useState(null);
   const [checkingApplication, setCheckingApplication] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [savingPost, setSavingPost] = useState(false);
 
   const fetchPost = useCallback(async () => {
     try {
@@ -98,8 +100,44 @@ export default function PostDetail() {
   useEffect(() => {
     if (post && user) {
       checkApplicationStatus();
+      // Check if post is saved
+      checkIfSaved();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post, user, checkApplicationStatus]);
+
+  const checkIfSaved = async () => {
+    try {
+      const response = await postsAPI.getSavedPosts();
+      const savedIds = (response.posts || []).map(p => p._id);
+      setIsSaved(savedIds.includes(post._id));
+    } catch (error) {
+      console.error('Failed to check saved status:', error);
+    }
+  };
+
+  const handleToggleSave = async () => {
+    if (!user) {
+      showToast('Please log in to save posts', 'error');
+      return;
+    }
+    setSavingPost(true);
+    try {
+      if (isSaved) {
+        await postsAPI.unsavePost(post._id);
+        setIsSaved(false);
+        showToast('Removed from saved jobs', 'success');
+      } else {
+        await postsAPI.savePost(post._id);
+        setIsSaved(true);
+        showToast('Saved to your jobs', 'success');
+      }
+    } catch {
+      showToast('Failed to update saved status', 'error');
+    } finally {
+      setSavingPost(false);
+    }
+  };
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this post?')) return;
@@ -297,15 +335,33 @@ export default function PostDetail() {
                 </div>
               </div>
               {user && !isOwner && (
-                <button
-                  onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                  className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all duration-200 font-medium flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  Message
-                </button>
+                <div className="flex items-center gap-2">
+                  {/* Bookmark Button */}
+                  <button
+                    onClick={handleToggleSave}
+                    disabled={savingPost}
+                    className={`p-2.5 rounded-xl transition-all duration-200 disabled:opacity-50 ${
+                      isSaved 
+                        ? 'bg-rose-50 text-rose-500 hover:bg-rose-100' 
+                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
+                    }`}
+                    title={isSaved ? 'Remove from saved' : 'Save job'}
+                  >
+                    <svg className="w-5 h-5" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                  </button>
+                  {/* Message Button */}
+                  <button
+                    onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
+                    className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all duration-200 font-medium flex items-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    Message
+                  </button>
+                </div>
               )}
             </div>
           </div>
