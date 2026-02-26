@@ -59,6 +59,18 @@ const Navbar = () => {
             CampusConnect
           </Link>
 
+          {/* Center Navigation */}
+          {isAuthenticated && (
+            <div className="hidden md:flex items-center gap-6">
+              <Link to="/dashboard" className="text-slate-600 hover:text-slate-900 font-medium transition">
+                Dashboard
+              </Link>
+              <Link to="/posts" className="text-slate-600 hover:text-slate-900 font-medium transition">
+                Explore
+              </Link>
+            </div>
+          )}
+
           {/* Right side */}
           <div className="flex items-center gap-3">
             {isAuthenticated ? (

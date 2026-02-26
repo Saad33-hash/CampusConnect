@@ -1,6 +1,8 @@
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { postsAPI } from '../services/api';
 
 const Dashboard = () => {
   const { user, activeRole } = useAuth();
@@ -38,14 +40,37 @@ const Dashboard = () => {
 
 // Talent Finder Dashboard - For posting jobs/opportunities
 const TalentFinderDashboard = ({ user }) => {
+  const [stats, setStats] = useState({ totalPosts: 0, openPosts: 0, totalViews: 0, totalApplications: 0 });
+  const [myPosts, setMyPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const [statsRes, postsRes] = await Promise.all([
+        postsAPI.getPostStats(),
+        postsAPI.getMyPosts({ limit: 5 })
+      ]);
+      setStats(statsRes.stats || { totalPosts: 0, openPosts: 0, totalViews: 0, totalApplications: 0 });
+      setMyPosts(postsRes.posts || []);
+    } catch (error) {
+      console.error('Failed to fetch dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <div className="space-y-6">
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Active Posts" value="0" icon="briefcase" color="amber" />
-        <StatCard title="Total Applications" value="0" icon="users" color="blue" />
-        <StatCard title="Views This Week" value="0" icon="eye" color="slate" />
-        <StatCard title="Response Rate" value="0%" icon="chart" color="emerald" />
+        <StatCard title="Active Posts" value={loading ? '-' : stats.openPosts || 0} icon="briefcase" color="amber" />
+        <StatCard title="Total Applications" value={loading ? '-' : stats.totalApplications || 0} icon="users" color="blue" />
+        <StatCard title="Total Views" value={loading ? '-' : stats.totalViews || 0} icon="eye" color="slate" />
+        <StatCard title="Total Posts" value={loading ? '-' : stats.totalPosts || 0} icon="chart" color="emerald" />
       </div>
 
       {/* Main Content Grid */}
@@ -55,32 +80,77 @@ const TalentFinderDashboard = ({ user }) => {
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b border-slate-100">
               <h2 className="text-lg font-semibold text-slate-900">My Posts</h2>
-              <button className="bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-600 transition flex items-center gap-2">
+              <Link to="/posts/create" className="bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-600 transition flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 Create Post
-              </button>
+              </Link>
             </div>
             
-            {/* Empty State */}
-            <div className="p-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+            {loading ? (
+              <div className="p-12 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto"></div>
               </div>
-              <h3 className="text-slate-900 font-semibold text-lg mb-2">No posts yet</h3>
-              <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                Create your first job posting to start finding talented students for your projects
-              </p>
-              <button className="inline-flex items-center gap-2 text-amber-600 text-sm font-medium hover:text-amber-700 transition">
-                Create your first post
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
-            </div>
+            ) : myPosts.length === 0 ? (
+              /* Empty State */
+              <div className="p-12 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-slate-900 font-semibold text-lg mb-2">No posts yet</h3>
+                <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
+                  Create your first job posting to start finding talented students for your projects
+                </p>
+                <Link to="/posts/create" className="inline-flex items-center gap-2 text-amber-600 text-sm font-medium hover:text-amber-700 transition">
+                  Create your first post
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            ) : (
+              /* Posts List */
+              <div className="divide-y divide-slate-100">
+                {myPosts.map((post) => (
+                  <Link 
+                    key={post._id} 
+                    to={`/posts/${post._id}`}
+                    className="block p-4 hover:bg-slate-50 transition"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-slate-900 truncate">{post.title}</h3>
+                        <p className="text-sm text-slate-500 mt-1">{post.type.replace('-', ' ')}</p>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="text-slate-500 flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          {post.views || 0}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                          post.status === 'open' ? 'bg-emerald-100 text-emerald-700' :
+                          post.status === 'draft' ? 'bg-slate-100 text-slate-600' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {post.status}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+                <div className="p-4 text-center border-t border-slate-100">
+                  <Link to="/posts?filter=my" className="text-amber-600 text-sm font-medium hover:text-amber-700">
+                    View all my posts
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -122,6 +192,24 @@ const TalentFinderDashboard = ({ user }) => {
 
 // Talent Seeker Dashboard - For browsing jobs
 const TalentSeekerDashboard = ({ user }) => {
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPosts = useCallback(async () => {
+    try {
+      const response = await postsAPI.getPosts({ limit: 5, status: 'open' });
+      setRecentPosts(response.posts || []);
+    } catch (error) {
+      console.error('Failed to fetch posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
   // Calculate profile completion
   const profileChecks = [
     { label: 'Add your skills', completed: user?.skills?.length > 0 },
@@ -139,7 +227,7 @@ const TalentSeekerDashboard = ({ user }) => {
         <StatCard title="Applications Sent" value="0" icon="send" color="blue" />
         <StatCard title="Saved Jobs" value="0" icon="bookmark" color="amber" />
         <StatCard title="Profile Views" value="0" icon="eye" color="slate" />
-        <StatCard title="Match Score Avg" value="--" icon="chart" color="emerald" />
+        <StatCard title="Profile Complete" value={`${completionPercent}%`} icon="chart" color="emerald" />
       </div>
 
       {/* Main Content Grid */}
@@ -148,33 +236,71 @@ const TalentSeekerDashboard = ({ user }) => {
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h2 className="text-lg font-semibold text-slate-900">Recommended for You</h2>
-              <button className="text-blue-600 text-sm font-medium hover:text-blue-700 flex items-center gap-1">
+              <h2 className="text-lg font-semibold text-slate-900">Recent Opportunities</h2>
+              <Link to="/posts" className="text-blue-600 text-sm font-medium hover:text-blue-700 flex items-center gap-1">
                 View all
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </button>
+              </Link>
             </div>
             
-            {/* Empty State */}
-            <div className="p-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+            {loading ? (
+              <div className="p-12 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
               </div>
-              <h3 className="text-slate-900 font-semibold text-lg mb-2">No jobs available yet</h3>
-              <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                Complete your profile to get personalized job recommendations
-              </p>
-              <button className="inline-flex items-center gap-2 text-blue-600 text-sm font-medium hover:text-blue-700 transition">
-                Browse all categories
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
-            </div>
+            ) : recentPosts.length === 0 ? (
+              /* Empty State */
+              <div className="p-12 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-slate-900 font-semibold text-lg mb-2">No opportunities available yet</h3>
+                <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
+                  Check back soon for new opportunities
+                </p>
+                <Link to="/posts" className="inline-flex items-center gap-2 text-blue-600 text-sm font-medium hover:text-blue-700 transition">
+                  Browse all opportunities
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            ) : (
+              /* Posts List */
+              <div className="divide-y divide-slate-100">
+                {recentPosts.map((post) => (
+                  <Link 
+                    key={post._id} 
+                    to={`/posts/${post._id}`}
+                    className="block p-4 hover:bg-slate-50 transition"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-slate-900 truncate">{post.title}</h3>
+                        <p className="text-sm text-slate-500 mt-1 capitalize">{post.type.replace('-', ' ')}</p>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          post.compensation?.type === 'paid' ? 'bg-emerald-100 text-emerald-700' :
+                          post.compensation?.type === 'equity' ? 'bg-purple-100 text-purple-700' :
+                          'bg-slate-100 text-slate-600'
+                        }`}>
+                          {post.compensation?.type || 'Flexible'}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+                <div className="p-4 text-center border-t border-slate-100">
+                  <Link to="/posts" className="text-blue-600 text-sm font-medium hover:text-blue-700">
+                    Browse all opportunities
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

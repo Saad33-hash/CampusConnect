@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Posts from './pages/Posts';
+import CreatePost from './pages/CreatePost';
+import EditPost from './pages/EditPost';
+import PostDetail from './pages/PostDetail';
 import AuthCallback from './pages/AuthCallback';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -41,6 +45,26 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Posts Routes */}
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/posts/:id" element={<PostDetail />} />
+          <Route
+            path="/posts/create"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/:id/edit"
+            element={
+              <ProtectedRoute>
+                <EditPost />
               </ProtectedRoute>
             }
           />
