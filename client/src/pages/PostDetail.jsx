@@ -275,25 +275,38 @@ export default function PostDetail() {
             </div>
 
             {/* Creator Info */}
-            <div className="flex items-center gap-3 mt-6 pt-6 border-t border-slate-100">
-              {post.creator?.avatar ? (
-                <img
-                  src={post.creator.avatar}
-                  alt={post.creator.displayName}
-                  className="w-12 h-12 rounded-full ring-2 ring-white shadow-md"
-                />
-              ) : (
-                <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${typeConfig.gradient} flex items-center justify-center text-lg font-bold text-white shadow-md`}>
-                  {post.creator?.displayName?.[0] || '?'}
+            <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-100">
+              <div className="flex items-center gap-3">
+                {post.creator?.avatar ? (
+                  <img
+                    src={post.creator.avatar}
+                    alt={post.creator.displayName}
+                    className="w-12 h-12 rounded-full ring-2 ring-white shadow-md"
+                  />
+                ) : (
+                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${typeConfig.gradient} flex items-center justify-center text-lg font-bold text-white shadow-md`}>
+                    {post.creator?.displayName?.[0] || '?'}
+                  </div>
+                )}
+                <div>
+                  <p className="font-semibold text-slate-900">{post.creator?.displayName}</p>
+                  <p className="text-sm text-slate-500">
+                    {post.creator?.university}
+                    {post.creator?.department && ` · ${post.creator.department}`}
+                  </p>
                 </div>
-              )}
-              <div>
-                <p className="font-semibold text-slate-900">{post.creator?.displayName}</p>
-                <p className="text-sm text-slate-500">
-                  {post.creator?.university}
-                  {post.creator?.department && ` · ${post.creator.department}`}
-                </p>
               </div>
+              {user && !isOwner && (
+                <button
+                  onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
+                  className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all duration-200 font-medium flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  Message
+                </button>
+              )}
             </div>
           </div>
 
@@ -456,12 +469,23 @@ export default function PostDetail() {
                     </Link>
                   </div>
                 ) : user ? (
-                  <button 
-                    onClick={() => setShowApplyModal(true)}
-                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-                  >
-                    Apply Now
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => setShowApplyModal(true)}
+                      className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                    >
+                      Apply Now
+                    </button>
+                    <button
+                      onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
+                      className="px-4 py-2.5 bg-white border-2 border-slate-200 text-slate-700 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 font-semibold flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                      Message
+                    </button>
+                  </div>
                 ) : (
                   <Link 
                     to="/login"

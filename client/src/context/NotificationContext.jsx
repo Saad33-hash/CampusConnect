@@ -1,11 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import Pusher from 'pusher-js';
 import { useAuth } from '../hooks/useAuth';
 import { NotificationContext } from './notificationContextDef';
-
-// Pusher configuration
-const PUSHER_KEY = '4ac5da104157d01a9278';
-const PUSHER_CLUSTER = 'ap2';
+import { getPusherInstance, releasePusherInstance, subscribeToChannel, unsubscribeFromChannel } from '../services/pusher';
 
 // Helper to load notifications from localStorage
 const loadNotifications = (userId) => {
@@ -28,36 +24,52 @@ const saveNotifications = (userId, notifications) => {
 
 export const NotificationProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth();
-  const [notifications, setNotifications] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const pusherRef = useRef(null);
   const subscribedRef = useRef(false);
 
   // Get user ID (could be 'id' or '_id' depending on source)
   const userId = user?.id || user?._id;
 
-  // Load notifications from localStorage when user changes
-  useEffect(() => {
+  // Initialize notifications from localStorage (lazy initialization)
+  const [notifications, setNotifications] = useState(() => {
+    if (userId) {
+      return loadNotifications(userId);
+    }
+    return [];
+  });
+
+  const [unreadCount, setUnreadCount] = useState(() => {
     if (userId) {
       const stored = loadNotifications(userId);
-      setNotifications(stored);
-      setUnreadCount(stored.filter(n => !n.read).length);
+      return stored.filter(n => !n.read).length;
+    }
+    return 0;
+  });
+
+  // Load notifications when userId changes (after initial render)
+  const prevUserIdRef = useRef(userId);
+  useEffect(() => {
+    if (userId && userId !== prevUserIdRef.current) {
+      prevUserIdRef.current = userId;
+      const stored = loadNotifications(userId);
+      // Use queueMicrotask to avoid synchronous setState in effect
+      queueMicrotask(() => {
+        setNotifications(stored);
+        setUnreadCount(stored.filter(n => !n.read).length);
+      });
     }
   }, [userId]);
 
   // Initialize Pusher when user is authenticated
   useEffect(() => {
     if (isAuthenticated && userId && !subscribedRef.current) {
-      console.log('Subscribing to Pusher channel:', `user-${userId}`);
+      console.log('Subscribing to notification channel:', `user-${userId}`);
       subscribedRef.current = true;
       
-      const pusherInstance = new Pusher(PUSHER_KEY, {
-        cluster: PUSHER_CLUSTER,
-        forceTLS: true
-      });
+      // Get shared Pusher instance
+      getPusherInstance();
 
       // Subscribe to user-specific channel
-      const channel = pusherInstance.subscribe(`user-${userId}`);
+      const channel = subscribeToChannel(`user-${userId}`);
       
       channel.bind('notification', (data) => {
         console.log('Received notification:', data);
@@ -70,14 +82,11 @@ export const NotificationProvider = ({ children }) => {
         setUnreadCount(prev => prev + 1);
       });
 
-      pusherRef.current = pusherInstance;
-
       return () => {
         subscribedRef.current = false;
         channel.unbind_all();
-        pusherInstance.unsubscribe(`user-${userId}`);
-        pusherInstance.disconnect();
-        pusherRef.current = null;
+        unsubscribeFromChannel(`user-${userId}`);
+        releasePusherInstance();
       };
     }
   }, [isAuthenticated, userId]);

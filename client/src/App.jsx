@@ -18,6 +18,7 @@ import AuthCallback from './pages/AuthCallback';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
+import Chat from './pages/Chat';
 import './App.css';
 
 function App() {
@@ -87,6 +88,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <PostApplications />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Chat Routes */}
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <Chat />
               </ProtectedRoute>
             }
           />

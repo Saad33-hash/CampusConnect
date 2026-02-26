@@ -242,6 +242,41 @@ export const uploadAPI = {
   },
 };
 
+// Chat API
+export const chatAPI = {
+  // Get all conversations
+  getConversations: async () => {
+    const response = await api.get('/chat/conversations');
+    return response.data;
+  },
+
+  // Start or get existing conversation with a user
+  startConversation: async (userId) => {
+    const response = await api.post('/chat/conversations', { userId });
+    return response.data;
+  },
+
+  // Get messages for a conversation
+  getMessages: async (conversationId, page = 1) => {
+    const response = await api.get(`/chat/conversations/${conversationId}/messages`, {
+      params: { page }
+    });
+    return response.data;
+  },
+
+  // Send a message
+  sendMessage: async (conversationId, content) => {
+    const response = await api.post(`/chat/conversations/${conversationId}/messages`, { content });
+    return response.data;
+  },
+
+  // Mark conversation as read
+  markAsRead: async (conversationId) => {
+    const response = await api.put(`/chat/conversations/${conversationId}/read`);
+    return response.data;
+  },
+};
+
 // OAuth URLs
 export const GOOGLE_AUTH_URL = 'http://localhost:5000/api/auth/google';
 export const GITHUB_AUTH_URL = 'http://localhost:5000/api/auth/github';
