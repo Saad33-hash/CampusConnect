@@ -107,6 +107,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data.user);
         return { success: true, message: data.message };
       }
+      return { success: false, message: data.message || 'Failed to update profile' };
     } catch (err) {
       const message = err.response?.data?.message || 'Failed to update profile';
       setError(message);

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
+import NotificationBell from './NotificationBell';
 
 const Navbar = () => {
   const { user, isAuthenticated, logout, activeRole, switchRole } = useAuth();
@@ -68,6 +69,9 @@ const Navbar = () => {
               <Link to="/posts" className="text-slate-600 hover:text-slate-900 font-medium transition">
                 Explore
               </Link>
+              <Link to="/my-applications" className="text-slate-600 hover:text-slate-900 font-medium transition">
+                Applications
+              </Link>
             </div>
           )}
 
@@ -75,6 +79,9 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
               <>
+                {/* Notification Bell */}
+                <NotificationBell />
+                
                 {/* Avatar with dropdown */}
                 <div className="relative" ref={dropdownRef}>
                   <button

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
 import { ToastProvider } from './providers/ToastProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
@@ -11,6 +12,8 @@ import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
 import PostDetail from './pages/PostDetail';
+import MyApplications from './pages/MyApplications';
+import PostApplications from './pages/PostApplications';
 import AuthCallback from './pages/AuthCallback';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -20,6 +23,7 @@ import './App.css';
 function App() {
   return (
     <AuthProvider>
+      <NotificationProvider>
       <ToastProvider>
       <Router>
         <Routes>
@@ -69,6 +73,24 @@ function App() {
             }
           />
           
+          {/* Applications Routes */}
+          <Route
+            path="/my-applications"
+            element={
+              <ProtectedRoute>
+                <MyApplications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/:postId/applications"
+            element={
+              <ProtectedRoute>
+                <PostApplications />
+              </ProtectedRoute>
+            }
+          />
+          
           {/* Public Landing Page */}
           <Route path="/" element={<Landing />} />
           
@@ -77,6 +99,7 @@ function App() {
         </Routes>
       </Router>
       </ToastProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

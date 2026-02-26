@@ -1,6 +1,18 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'http://localhost:5000';
+
+// Helper to convert resume URL to full URL
+export const getFullResumeUrl = (url) => {
+  if (!url) return null;
+  // If it's a relative path (our proxy URL), prepend the API base
+  if (url.startsWith('/api/')) {
+    return `${API_BASE_URL}${url}`;
+  }
+  // Otherwise return as-is (for external URLs like old cloudinary URLs)
+  return url;
+};
 
 // Create axios instance
 const api = axios.create({
@@ -141,6 +153,91 @@ export const postsAPI = {
   // Close post
   closePost: async (id, filled = false) => {
     const response = await api.patch(`/posts/${id}/close`, { filled });
+    return response.data;
+  },
+};
+
+// Applications API calls
+export const applicationsAPI = {
+  // Apply to a post
+  applyToPost: async (postId, applicationData) => {
+    const response = await api.post(`/applications/posts/${postId}/apply`, applicationData);
+    return response.data;
+  },
+
+  // Check if already applied
+  checkApplicationStatus: async (postId) => {
+    const response = await api.get(`/applications/posts/${postId}/check`);
+    return response.data;
+  },
+
+  // Get my applications
+  getMyApplications: async (params = {}) => {
+    const response = await api.get('/applications/my-applications', { params });
+    return response.data;
+  },
+
+  // Get my application stats
+  getMyStats: async () => {
+    const response = await api.get('/applications/my-stats');
+    return response.data;
+  },
+
+  // Get applications for a post (as creator)
+  getPostApplications: async (postId, params = {}) => {
+    const response = await api.get(`/applications/posts/${postId}`, { params });
+    return response.data;
+  },
+
+  // Get single application
+  getApplication: async (applicationId) => {
+    const response = await api.get(`/applications/${applicationId}`);
+    return response.data;
+  },
+
+  // Update application (as applicant)
+  updateApplication: async (applicationId, data) => {
+    const response = await api.put(`/applications/${applicationId}`, data);
+    return response.data;
+  },
+
+  // Withdraw application
+  withdrawApplication: async (applicationId) => {
+    const response = await api.delete(`/applications/${applicationId}/withdraw`);
+    return response.data;
+  },
+
+  // Update application status (as post creator)
+  updateStatus: async (applicationId, status, note) => {
+    const response = await api.patch(`/applications/${applicationId}/status`, { status, note });
+    return response.data;
+  },
+
+  // Add reviewer notes
+  addNotes: async (applicationId, notes) => {
+    const response = await api.patch(`/applications/${applicationId}/notes`, { notes });
+    return response.data;
+  },
+};
+
+// Upload API
+export const uploadAPI = {
+  // Upload resume file
+  uploadResume: async (file) => {
+    const formData = new FormData();
+    formData.append('resume', file);
+    
+    const response = await api.post('/upload/resume', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
+  // Delete file
+  deleteFile: async (publicId) => {
+    const response = await api.delete('/upload/file', { data: { publicId } });
     return response.data;
   },
 };

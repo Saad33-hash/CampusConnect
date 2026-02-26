@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
+import { uploadAPI, getFullResumeUrl } from '../services/api';
 import Navbar from '../components/Navbar';
 
 const Profile = () => {
@@ -9,6 +10,9 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [skillInput, setSkillInput] = useState('');
   const [interestInput, setInterestInput] = useState('');
+  const [resumeUploading, setResumeUploading] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
+  const fileInputRef = useRef(null);
   
   // Create initial form data from user
   const initialFormData = useMemo(() => ({
@@ -19,6 +23,7 @@ const Profile = () => {
     year: user?.year || '',
     skills: user?.skills || [],
     interests: user?.interests || [],
+    resumeUrl: user?.resumeUrl || '',
   }), [user]);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -33,7 +38,53 @@ const Profile = () => {
       year: user?.year || '',
       skills: user?.skills || [],
       interests: user?.interests || [],
+      resumeUrl: user?.resumeUrl || '',
     });
+    setResumeFile(null);
+  };
+
+  // Handle resume file selection
+  const handleResumeSelect = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      showToast('Please upload a PDF or Word document', 'error');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File size must be less than 5MB', 'error');
+      return;
+    }
+
+    setResumeFile(file);
+    setResumeUploading(true);
+
+    try {
+      const response = await uploadAPI.uploadResume(file);
+      if (response.success) {
+        setFormData(prev => ({ ...prev, resumeUrl: response.url }));
+        showToast('Resume uploaded successfully', 'success');
+      }
+    } catch {
+      showToast('Failed to upload resume', 'error');
+      setResumeFile(null);
+    } finally {
+      setResumeUploading(false);
+    }
+  };
+
+  // Remove resume
+  const handleRemoveResume = () => {
+    setFormData(prev => ({ ...prev, resumeUrl: '' }));
+    setResumeFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleChange = (e) => {
@@ -305,6 +356,81 @@ const Profile = () => {
                     </button>
                   </span>
                 ))}
+              </div>
+            </div>
+
+            {/* Resume Upload */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                Resume
+              </label>
+              <div className="border-2 border-dashed border-slate-200 rounded-lg p-4 hover:border-slate-300 transition">
+                {formData.resumeUrl ? (
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-slate-900">
+                          {resumeFile?.name || 'Resume uploaded'}
+                        </p>
+                        <a 
+                          href={getFullResumeUrl(formData.resumeUrl)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-600 hover:underline"
+                        >
+                          View resume
+                        </a>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemoveResume}
+                      className="text-slate-400 hover:text-red-500 transition"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    {resumeUploading ? (
+                      <div className="py-4">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                        <p className="text-sm text-slate-500">Uploading...</p>
+                      </div>
+                    ) : (
+                      <>
+                        <svg className="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <p className="text-sm text-slate-600 mb-1">
+                          Drag and drop your resume, or{' '}
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            browse
+                          </button>
+                        </p>
+                        <p className="text-xs text-slate-400">PDF or Word document, max 5MB</p>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept=".pdf,.doc,.docx"
+                          onChange={handleResumeSelect}
+                          className="hidden"
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 

@@ -437,7 +437,7 @@ exports.resetPassword = async (req, res) => {
 // @access  Private
 exports.updateProfile = async (req, res) => {
   try {
-    const { displayName, bio, skills, interests, university, department, year, avatar } = req.body;
+    const { displayName, bio, skills, interests, university, department, year, avatar, resumeUrl } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -456,6 +456,7 @@ exports.updateProfile = async (req, res) => {
     if (department !== undefined) user.department = department;
     if (year !== undefined) user.year = year;
     if (avatar) user.avatar = avatar;
+    if (resumeUrl !== undefined) user.resumeUrl = resumeUrl;
 
     await user.save();
 
@@ -474,7 +475,8 @@ exports.updateProfile = async (req, res) => {
         department: user.department,
         year: user.year,
         activeRole: user.activeRole,
-        isEmailVerified: user.isEmailVerified
+        isEmailVerified: user.isEmailVerified,
+        resumeUrl: user.resumeUrl
       }
     });
   } catch (error) {

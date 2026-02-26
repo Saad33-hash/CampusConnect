@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { postsAPI } from '../services/api';
+import { postsAPI, applicationsAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
 import Navbar from '../components/Navbar';
+import ApplyModal from '../components/ApplyModal';
 
 // SVG Icons
 const AcademicIcon = ({ className = "w-5 h-5" }) => (
@@ -59,6 +60,9 @@ export default function PostDetail() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applicationStatus, setApplicationStatus] = useState(null);
+  const [checkingApplication, setCheckingApplication] = useState(false);
 
   const fetchPost = useCallback(async () => {
     try {
@@ -72,9 +76,30 @@ export default function PostDetail() {
     }
   }, [id, showToast, navigate]);
 
+  const checkApplicationStatus = useCallback(async () => {
+    if (!user) return;
+    setCheckingApplication(true);
+    try {
+      const response = await applicationsAPI.checkApplicationStatus(id);
+      if (response.hasApplied) {
+        setApplicationStatus(response.application);
+      }
+    } catch (error) {
+      console.error('Failed to check application status:', error);
+    } finally {
+      setCheckingApplication(false);
+    }
+  }, [id, user]);
+
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
+
+  useEffect(() => {
+    if (post && user) {
+      checkApplicationStatus();
+    }
+  }, [post, user, checkApplicationStatus]);
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this post?')) return;
@@ -224,6 +249,12 @@ export default function PostDetail() {
                       </button>
                     </>
                   )}
+                  <Link
+                    to={`/posts/${post._id}/applications`}
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg shadow-blue-500/25 font-medium"
+                  >
+                    Applications
+                  </Link>
                   <Link
                     to={`/posts/${post._id}/edit`}
                     className="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors font-medium"
@@ -401,9 +432,45 @@ export default function PostDetail() {
             </div>
 
             {!isOwner && post.status === 'open' && (
-              <button className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40">
-                Apply Now
-              </button>
+              <>
+                {checkingApplication ? (
+                  <div className="px-6 py-2.5 bg-slate-100 rounded-xl text-slate-500 font-medium">
+                    Checking...
+                  </div>
+                ) : applicationStatus ? (
+                  <div className="flex items-center gap-3">
+                    <span className={`px-4 py-2 rounded-xl text-sm font-medium ${
+                      applicationStatus.status === 'pending' ? 'bg-amber-100 text-amber-700' :
+                      applicationStatus.status === 'reviewing' ? 'bg-blue-100 text-blue-700' :
+                      applicationStatus.status === 'shortlisted' ? 'bg-purple-100 text-purple-700' :
+                      applicationStatus.status === 'accepted' ? 'bg-emerald-100 text-emerald-700' :
+                      'bg-red-100 text-red-700'
+                    }`}>
+                      Application {applicationStatus.status}
+                    </span>
+                    <Link
+                      to="/my-applications"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                ) : user ? (
+                  <button 
+                    onClick={() => setShowApplyModal(true)}
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                  >
+                    Apply Now
+                  </button>
+                ) : (
+                  <Link 
+                    to="/login"
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                  >
+                    Login to Apply
+                  </Link>
+                )}
+              </>
             )}
           </div>
 
@@ -424,6 +491,18 @@ export default function PostDetail() {
           )}
         </div>
       </div>
+
+      {/* Apply Modal */}
+      <ApplyModal
+        post={post}
+        isOpen={showApplyModal}
+        onClose={() => setShowApplyModal(false)}
+        onSuccess={() => {
+          checkApplicationStatus();
+          // Update application count
+          setPost(prev => ({ ...prev, applicationsCount: (prev.applicationsCount || 0) + 1 }));
+        }}
+      />
     </div>
   );
 }
