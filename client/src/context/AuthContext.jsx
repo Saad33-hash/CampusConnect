@@ -82,6 +82,50 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Switch role (Talent Finder <-> Talent Seeker)
+  const switchRole = async (role) => {
+    try {
+      setError(null);
+      const data = await authAPI.switchRole(role);
+      if (data.success) {
+        setUser(prev => ({ ...prev, activeRole: data.activeRole }));
+        return { success: true, message: data.message };
+      }
+    } catch (err) {
+      const message = err.response?.data?.message || 'Failed to switch role';
+      setError(message);
+      return { success: false, message };
+    }
+  };
+
+  // Update user profile
+  const updateProfile = async (profileData) => {
+    try {
+      setError(null);
+      const data = await authAPI.updateProfile(profileData);
+      if (data.success) {
+        setUser(data.user);
+        return { success: true, message: data.message };
+      }
+    } catch (err) {
+      const message = err.response?.data?.message || 'Failed to update profile';
+      setError(message);
+      return { success: false, message };
+    }
+  };
+
+  // Refresh user data
+  const refreshUser = async () => {
+    try {
+      const data = await authAPI.getMe();
+      if (data.success) {
+        setUser(data.user);
+      }
+    } catch (err) {
+      console.error('Failed to refresh user:', err);
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -90,7 +134,11 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     handleOAuthCallback,
+    switchRole,
+    updateProfile,
+    refreshUser,
     isAuthenticated: !!user,
+    activeRole: user?.activeRole || 'talent-seeker',
   };
 
   return (

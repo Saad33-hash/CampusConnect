@@ -431,3 +431,135 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+exports.updateProfile = async (req, res) => {
+  try {
+    const { displayName, bio, skills, interests, university, department, year, avatar } = req.body;
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Update fields if provided
+    if (displayName) user.displayName = displayName;
+    if (bio !== undefined) user.bio = bio;
+    if (skills !== undefined) user.skills = skills;
+    if (interests !== undefined) user.interests = interests;
+    if (university !== undefined) user.university = university;
+    if (department !== undefined) user.department = department;
+    if (year !== undefined) user.year = year;
+    if (avatar) user.avatar = avatar;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email: user.email,
+        avatar: user.avatar,
+        bio: user.bio,
+        skills: user.skills,
+        interests: user.interests,
+        university: user.university,
+        department: user.department,
+        year: user.year,
+        activeRole: user.activeRole,
+        isEmailVerified: user.isEmailVerified
+      }
+    });
+  } catch (error) {
+    console.error('Update Profile Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while updating profile'
+    });
+  }
+};
+
+// @desc    Switch user role (Talent Finder <-> Talent Seeker)
+// @route   PUT /api/auth/switch-role
+// @access  Private
+exports.switchRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    if (!role || !['talent-finder', 'talent-seeker'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role. Must be "talent-finder" or "talent-seeker"'
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.activeRole = role;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `Switched to ${role === 'talent-finder' ? 'Talent Finder' : 'Talent Seeker'} mode`,
+      activeRole: user.activeRole
+    });
+  } catch (error) {
+    console.error('Switch Role Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while switching role'
+    });
+  }
+};
+
+// @desc    Upload resume
+// @route   PUT /api/auth/resume
+// @access  Private
+exports.updateResume = async (req, res) => {
+  try {
+    const { resumeUrl } = req.body;
+
+    if (!resumeUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Resume URL is required'
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.resumeUrl = resumeUrl;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Resume updated successfully',
+      resumeUrl: user.resumeUrl
+    });
+  } catch (error) {
+    console.error('Update Resume Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while updating resume'
+    });
+  }
+};

@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+/* ============================================
+   CAMPUSCONNECT COLOR SYSTEM
+   ============================================
+   To change colors across the entire website,
+   simply update the hex values below.
+   ============================================ */
+
+:root {
+  /* Primary Colors - Main Brand */
+  --color-primary: #0f172a;           /* Slate 900 - Headers, Primary Buttons, Logo */
+  --color-primary-hover: #1e293b;     /* Slate 800 - Button Hover States */
+  --color-primary-light: #334155;     /* Slate 700 - Secondary Elements */
+  
+  /* Accent Colors - Actions & Links */
+  --color-accent: #2563eb;            /* Blue 600 - Links, Active States, CTAs */
+  --color-accent-hover: #1d4ed8;      /* Blue 700 - Link/Button Hover */
+  --color-accent-light: #dbeafe;      /* Blue 100 - Light Backgrounds */
+  --color-accent-bg: #eff6ff;         /* Blue 50 - Subtle Backgrounds */
+
+  /* Success Colors - Positive Actions */
+  --color-success: #10B981;           /* Emerald - Match Score, Accepted, Filled */
+  --color-success-hover: #059669;     /* Emerald 600 - Hover State */
+  --color-success-light: #d1fae5;     /* Emerald 100 - Light Background */
+  --color-success-bg: #ecfdf5;        /* Emerald 50 - Subtle Background */
+
+  /* Warning Colors - Attention & Active */
+  --color-warning: #F59E0B;           /* Amber - Startups, Shortlisted, Apply */
+  --color-warning-hover: #d97706;     /* Amber 600 - Hover State */
+  --color-warning-light: #fef3c7;     /* Amber 100 - Light Background */
+  --color-warning-bg: #fffbeb;        /* Amber 50 - Subtle Background */
+
+  /* Error Colors - Destructive Actions */
+  --color-error: #ef4444;             /* Red 500 - Errors, Rejected, Delete */
+  --color-error-hover: #dc2626;       /* Red 600 - Hover State */
+  --color-error-light: #fee2e2;       /* Red 100 - Light Background */
+  --color-error-bg: #fef2f2;          /* Red 50 - Subtle Background */
+
+  /* Neutral Colors - Text & Backgrounds */
+  --color-text-primary: #0f172a;      /* Slate 900 - Main Text */
+  --color-text-secondary: #64748B;    /* Slate Gray - Subheadings, Icons */
+  --color-text-muted: #94a3b8;        /* Slate 400 - Placeholder, Hints */
+  --color-text-inverse: #ffffff;      /* White - Text on Dark Backgrounds */
+
+  /* Background Colors */
+  --color-bg-primary: #ffffff;        /* White - Main Background */
+  --color-bg-secondary: #f8fafc;      /* Slate 50 - Secondary Background */
+  --color-bg-tertiary: #f1f5f9;       /* Slate 100 - Cards, Inputs */
+  
+  /* Border Colors */
+  --color-border: #e2e8f0;            /* Slate 200 - Default Borders */
+  --color-border-hover: #cbd5e1;      /* Slate 300 - Hover Borders */
+
+  /* Category Colors - Post Types */
+  --color-academic: #8b5cf6;          /* Violet - Academic Projects */
+  --color-startup: #F59E0B;           /* Amber - Startup/Collaborations */
+  --color-parttime: #06b6d4;          /* Cyan - Part-time Jobs */
+  --color-hackathon: #10B981;         /* Emerald - Hackathons/Competitions */
+}
+
+/* Dark mode support (future) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Can be customized for dark mode later */
+  }
+}

@@ -39,12 +39,49 @@ const UserSchema = new mongoose.Schema({
         sparse: true // Allows multiple null values for non-GitHub users
     },
 
-    // Campus Specific Info (Useful for your Hackathon project!)
-    college: {
+    // Campus Specific Info
+    university: {
         type: String,
         default: ''
     },
-    role: {
+    department: {
+        type: String,
+        default: ''
+    },
+    year: {
+        type: String,
+        enum: ['', '1st Year', '2nd Year', '3rd Year', '4th Year', 'Graduate', 'Post-Graduate'],
+        default: ''
+    },
+
+    // Profile Information
+    bio: {
+        type: String,
+        maxlength: 500,
+        default: ''
+    },
+    skills: [{
+        type: String,
+        trim: true
+    }],
+    interests: [{
+        type: String,
+        trim: true
+    }],
+    resumeUrl: {
+        type: String,
+        default: ''
+    },
+
+    // Role System (Talent Finder / Talent Seeker)
+    activeRole: {
+        type: String,
+        enum: ['talent-finder', 'talent-seeker'],
+        default: 'talent-seeker'
+    },
+
+    // User Type (for admin purposes)
+    userType: {
         type: String,
         enum: ['student', 'admin', 'faculty'],
         default: 'student'

@@ -68,6 +68,24 @@ export const authAPI = {
     const response = await api.post('/reset-password', { token, password });
     return response.data;
   },
+
+  // Update profile
+  updateProfile: async (profileData) => {
+    const response = await api.put('/profile', profileData);
+    return response.data;
+  },
+
+  // Switch role (Talent Finder <-> Talent Seeker)
+  switchRole: async (role) => {
+    const response = await api.put('/switch-role', { role });
+    return response.data;
+  },
+
+  // Update resume URL
+  updateResume: async (resumeUrl) => {
+    const response = await api.put('/resume', { resumeUrl });
+    return response.data;
+  },
 };
 
 // OAuth URLs

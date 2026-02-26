@@ -9,7 +9,10 @@ const {
   verifyEmail, 
   resendVerification, 
   forgotPassword, 
-  resetPassword 
+  resetPassword,
+  updateProfile,
+  switchRole,
+  updateResume
 } = require('../Controller/authController');
 const { protect } = require('../middleware/auth');
 
@@ -97,6 +100,20 @@ router.get('/github/callback',
     res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}`);
   }
 );
+
+// ==================== PROFILE ROUTES ====================
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+router.put('/profile', protect, updateProfile);
+
+// @desc    Switch user role
+// @route   PUT /api/auth/switch-role
+router.put('/switch-role', protect, switchRole);
+
+// @desc    Update resume URL
+// @route   PUT /api/auth/resume
+router.put('/resume', protect, updateResume);
 
 // ==================== LOGOUT ROUTE ====================
 
