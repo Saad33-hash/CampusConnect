@@ -201,6 +201,12 @@ export const applicationsAPI = {
     return response.data;
   },
 
+  // Get recruiter's recent applications (across all their posts)
+  getRecruiterApplications: async (params = {}) => {
+    const response = await api.get('/applications/recruiter/recent', { params });
+    return response.data;
+  },
+
   // Get applications for a post (as creator)
   getPostApplications: async (postId, params = {}) => {
     const response = await api.get(`/applications/posts/${postId}`, { params });

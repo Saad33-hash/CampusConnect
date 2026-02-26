@@ -568,3 +568,37 @@ exports.checkApplicationStatus = async (req, res) => {
     });
   }
 };
+
+// Get recent applications for recruiter (across all their posts)
+exports.getRecruiterApplications = async (req, res) => {
+  try {
+    const { limit = 5 } = req.query;
+    const userId = req.user._id;
+
+    // First get all posts by this user
+    const userPosts = await Post.find({ creator: userId }).select('_id');
+    const postIds = userPosts.map(p => p._id);
+
+    // Get recent applications to these posts
+    const applications = await Application.find({
+      post: { $in: postIds },
+      isWithdrawn: false
+    })
+      .sort({ appliedAt: -1 })
+      .limit(parseInt(limit))
+      .populate('applicant', 'displayName avatar email university')
+      .populate('post', 'title type');
+
+    res.json({
+      success: true,
+      applications,
+      total: applications.length
+    });
+  } catch (error) {
+    console.error('Get recruiter applications error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch applications'
+    });
+  }
+};

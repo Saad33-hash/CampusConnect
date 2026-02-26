@@ -374,13 +374,19 @@ exports.getPostStats = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const [totalPosts, openPosts, draftPosts, totalViews] = await Promise.all([
+    const [totalPosts, openPosts, draftPosts, viewsAndApps] = await Promise.all([
       Post.countDocuments({ creator: userId }),
       Post.countDocuments({ creator: userId, status: 'open' }),
       Post.countDocuments({ creator: userId, status: 'draft' }),
       Post.aggregate([
         { $match: { creator: userId } },
-        { $group: { _id: null, totalViews: { $sum: '$views' } } }
+        { 
+          $group: { 
+            _id: null, 
+            totalViews: { $sum: '$views' },
+            totalApplications: { $sum: '$applicationsCount' }
+          } 
+        }
       ])
     ]);
 
@@ -391,7 +397,8 @@ exports.getPostStats = async (req, res) => {
         openPosts,
         draftPosts,
         closedPosts: totalPosts - openPosts - draftPosts,
-        totalViews: totalViews[0]?.totalViews || 0
+        totalViews: viewsAndApps[0]?.totalViews || 0,
+        totalApplications: viewsAndApps[0]?.totalApplications || 0
       }
     });
   } catch (error) {

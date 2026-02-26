@@ -9,6 +9,7 @@ router.use(protect);
 // Applicant routes
 router.get('/my-applications', applicationController.getMyApplications);
 router.get('/my-stats', applicationController.getApplicationStats);
+router.get('/recruiter/recent', applicationController.getRecruiterApplications);
 router.post('/posts/:postId/apply', applicationController.applyToPost);
 router.get('/posts/:postId/check', applicationController.checkApplicationStatus);
 
