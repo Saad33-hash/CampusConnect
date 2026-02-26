@@ -239,9 +239,9 @@ const Chat = () => {
                   <div className="flex items-start gap-3">
                     {/* Avatar */}
                     {conversation.otherUser?.avatar ? (
-                      <img src={conversation.otherUser.avatar} alt="" className="w-12 h-12 rounded-full flex-shrink-0 object-cover" />
+                      <img src={conversation.otherUser.avatar} alt="" className="w-12 h-12 rounded-full shrink-0 object-cover" />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg shrink-0">
                         {conversation.otherUser?.displayName?.charAt(0).toUpperCase() || '?'}
                       </div>
                     )}
@@ -283,7 +283,7 @@ const Chat = () => {
                 {selectedConversation.otherUser?.avatar ? (
                   <img src={selectedConversation.otherUser.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
                     {selectedConversation.otherUser?.displayName?.charAt(0).toUpperCase() || '?'}
                   </div>
                 )}
@@ -331,9 +331,9 @@ const Chat = () => {
                           {/* Avatar */}
                           {showAvatar && !isOwn && (
                             message.sender.avatar ? (
-                              <img src={message.sender.avatar} alt="" className="w-8 h-8 rounded-full flex-shrink-0 object-cover" />
+                              <img src={message.sender.avatar} alt="" className="w-8 h-8 rounded-full shrink-0 object-cover" />
                             ) : (
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
+                              <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold shrink-0">
                                 {message.sender.displayName?.charAt(0).toUpperCase() || '?'}
                               </div>
                             )
@@ -348,7 +348,7 @@ const Chat = () => {
                                 : 'bg-white text-slate-900 rounded-bl-md shadow-sm border border-slate-200'
                             }`}
                           >
-                            <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                            <p className="text-sm whitespace-pre-wrap wrap-break-word">{message.content}</p>
                             <p className={`text-xs mt-1 ${isOwn ? 'text-indigo-200' : 'text-slate-400'}`}>
                               {formatTime(message.createdAt)}
                             </p>
@@ -413,3 +413,4 @@ const Chat = () => {
 };
 
 export default Chat;
+

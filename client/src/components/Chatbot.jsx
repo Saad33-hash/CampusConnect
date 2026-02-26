@@ -108,7 +108,7 @@ export default function Chatbot() {
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
           isOpen 
             ? 'bg-slate-700 hover:bg-slate-800 rotate-0' 
-            : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
+            : 'bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
         }`}
         aria-label={isOpen ? 'Close chat' : 'Open chat assistant'}
       >
@@ -127,7 +127,7 @@ export default function Chatbot() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[520px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 flex items-center justify-between">
+          <div className="bg-linear-to-r from-blue-600 to-indigo-600 px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +160,7 @@ export default function Chatbot() {
                 <div
                   className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
                     message.role === 'user'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-md'
+                      ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-br-md'
                       : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-md'
                   }`}
                 >
@@ -219,7 +219,7 @@ export default function Chatbot() {
               <button
                 onClick={() => sendMessage()}
                 disabled={!inputValue.trim() || isLoading}
-                className="p-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -235,3 +235,4 @@ export default function Chatbot() {
     </>
   );
 }
+

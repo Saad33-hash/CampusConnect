@@ -108,7 +108,7 @@ export default function PostCard({ post, showStatus = false }) {
       className="group relative block bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 hover:border-slate-300/80 hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300 overflow-hidden"
     >
       {/* Gradient accent bar */}
-      <div className={`h-1 bg-gradient-to-r ${typeConfig.gradient}`} />
+      <div className={`h-1 bg-linear-to-r ${typeConfig.gradient}`} />
       
       <div className="p-5">
         {/* Header */}
@@ -134,7 +134,7 @@ export default function PostCard({ post, showStatus = false }) {
               </span>
             )}
           </div>
-          <span className="text-xs text-slate-400 font-medium bg-slate-100/80 px-2 py-1 rounded-md flex-shrink-0">
+          <span className="text-xs text-slate-400 font-medium bg-slate-100/80 px-2 py-1 rounded-md shrink-0">
             {getTimeAgo(post.createdAt)}
           </span>
         </div>
@@ -178,7 +178,7 @@ export default function PostCard({ post, showStatus = false }) {
                 className="w-7 h-7 rounded-full ring-2 ring-white shadow-sm"
               />
             ) : (
-              <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${typeConfig.gradient} flex items-center justify-center text-[10px] font-bold text-white shadow-sm`}>
+              <div className={`w-7 h-7 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-[10px] font-bold text-white shadow-sm`}>
                 {post.creator?.displayName?.charAt(0) || '?'}
               </div>
             )}
@@ -208,7 +208,8 @@ export default function PostCard({ post, showStatus = false }) {
       </div>
       
       {/* Hover glow effect */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${typeConfig.gradient} opacity-0 group-hover:opacity-[0.02] transition-opacity duration-300 pointer-events-none`} />
+      <div className={`absolute inset-0 bg-linear-to-br ${typeConfig.gradient} opacity-0 group-hover:opacity-[0.02] transition-opacity duration-300 pointer-events-none`} />
     </Link>
   );
 }
+

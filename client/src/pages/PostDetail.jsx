@@ -192,7 +192,7 @@ export default function PostDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
         <Navbar />
         <div className="flex justify-center items-center py-24">
           <div className="relative">
@@ -210,7 +210,7 @@ export default function PostDetail() {
   const isOwner = user && post.creator?._id === user._id;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -228,7 +228,7 @@ export default function PostDetail() {
         {/* Main Content */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60 overflow-hidden">
           {/* Gradient Header Bar */}
-          <div className={`h-2 bg-gradient-to-r ${typeConfig.gradient}`} />
+          <div className={`h-2 bg-linear-to-r ${typeConfig.gradient}`} />
           
           {/* Header */}
           <div className="p-6 md:p-8 border-b border-slate-100">
@@ -321,7 +321,7 @@ export default function PostDetail() {
                     <button
                       onClick={handlePublish}
                       disabled={actionLoading}
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/25 font-medium disabled:opacity-50"
+                      className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/25 font-medium disabled:opacity-50"
                     >
                       Publish
                     </button>
@@ -346,7 +346,7 @@ export default function PostDetail() {
                   )}
                   <Link
                     to={`/posts/${post._id}/applications`}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg shadow-blue-500/25 font-medium"
+                    className="px-4 py-2 bg-linear-to-r from-blue-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg shadow-blue-500/25 font-medium"
                   >
                     Applications
                   </Link>
@@ -379,7 +379,7 @@ export default function PostDetail() {
                     className="w-12 h-12 rounded-full ring-2 ring-white shadow-md"
                   />
                 ) : (
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${typeConfig.gradient} flex items-center justify-center text-lg font-bold text-white shadow-md`}>
+                  <div className={`w-12 h-12 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-lg font-bold text-white shadow-md`}>
                     {post.creator?.displayName?.[0] || '?'}
                   </div>
                 )}
@@ -585,7 +585,7 @@ export default function PostDetail() {
                   <div className="flex items-center gap-3">
                     <button 
                       onClick={() => setShowApplyModal(true)}
-                      className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                      className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                     >
                       Apply Now
                     </button>
@@ -602,7 +602,7 @@ export default function PostDetail() {
                 ) : (
                   <Link 
                     to="/login"
-                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                    className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                   >
                     Login to Apply
                   </Link>
@@ -643,3 +643,4 @@ export default function PostDetail() {
     </div>
   );
 }
+

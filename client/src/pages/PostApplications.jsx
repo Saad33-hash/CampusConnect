@@ -88,7 +88,7 @@ export default function PostApplications() {
 
   if (loading && !post) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
         <Navbar />
         <div className="flex items-center justify-center py-20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -98,7 +98,7 @@ export default function PostApplications() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -169,7 +169,7 @@ export default function PostApplications() {
                   <div className="p-5">
                     <div className="flex items-start gap-4">
                       {/* Avatar */}
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
                         {app.applicant?.displayName?.[0]?.toUpperCase() || 'U'}
                       </div>
                       
@@ -370,3 +370,4 @@ export default function PostApplications() {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { recommendationsAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
@@ -77,7 +77,7 @@ const RecommendationCard = ({ recommendation }) => {
       className="block bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-200 overflow-hidden group"
     >
       {/* Top gradient bar */}
-      <div className={`h-1 bg-gradient-to-r ${typeConfig.gradient}`} />
+      <div className={`h-1 bg-linear-to-r ${typeConfig.gradient}`} />
       
       <div className="p-5">
         {/* Header */}
@@ -92,7 +92,7 @@ const RecommendationCard = ({ recommendation }) => {
           </div>
           
           {/* Ranking Score Circle */}
-          <div className={`flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br ${getScoreColor(rankingScore)} flex items-center justify-center shadow-md`}>
+          <div className={`shrink-0 w-14 h-14 rounded-full bg-linear-to-br ${getScoreColor(rankingScore)} flex items-center justify-center shadow-md`}>
             <div className="text-center">
               <span className="text-white font-bold text-sm">{rankingScore}</span>
               <span className="text-white/80 text-[8px] block -mt-0.5">score</span>
@@ -148,7 +148,7 @@ const RecommendationCard = ({ recommendation }) => {
           {post.creator?.avatar ? (
             <img src={post.creator.avatar} alt="" className="w-6 h-6 rounded-full" />
           ) : (
-            <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${typeConfig.gradient} flex items-center justify-center text-white text-xs font-bold`}>
+            <div className={`w-6 h-6 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-white text-xs font-bold`}>
               {post.creator?.displayName?.[0] || '?'}
             </div>
           )}
@@ -177,11 +177,7 @@ export default function Recommendations() {
     { id: 'closing-soon', label: 'Closing Soon' },
   ];
 
-  useEffect(() => {
-    fetchRecommendations();
-  }, [activeCategory]);
-
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -200,10 +196,14 @@ export default function Recommendations() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeCategory]);
+
+  useEffect(() => {
+    fetchRecommendations();
+  }, [fetchRecommendations]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -219,7 +219,7 @@ export default function Recommendations() {
 
         {/* Profile completion prompt */}
         {user && (!user.skills?.length || !user.interests?.length) && (
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6">
+          <div className="bg-linear-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                 <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -340,3 +340,4 @@ export default function Recommendations() {
     </div>
   );
 }
+

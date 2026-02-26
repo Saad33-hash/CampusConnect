@@ -75,7 +75,7 @@ export default function MyApplications() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
       <div className="max-w-5xl mx-auto px-4 py-8">
@@ -151,7 +151,7 @@ export default function MyApplications() {
                   <div key={app._id} className="p-5 hover:bg-slate-50/50 transition">
                     <div className="flex items-start gap-4">
                       {/* Type indicator */}
-                      <div className={`w-2 h-full min-h-[60px] rounded-full bg-gradient-to-b ${typeConfig.gradient}`} />
+                      <div className={`w-2 h-full min-h-[60px] rounded-full bg-linear-to-b ${typeConfig.gradient}`} />
                       
                       {/* Content */}
                       <div className="flex-1 min-w-0">
@@ -258,3 +258,4 @@ export default function MyApplications() {
     </div>
   );
 }
+

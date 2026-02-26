@@ -298,7 +298,7 @@ export default function EditPost() {
 
   if (fetching) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
         <Navbar />
         <div className="flex items-center justify-center py-20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -308,7 +308,7 @@ export default function EditPost() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
       <div className="max-w-3xl mx-auto px-4 py-8">
@@ -339,11 +339,11 @@ export default function EditPost() {
                     }`}
                   >
                     {isSelected && (
-                      <div className={`absolute inset-0 bg-gradient-to-br ${type.gradient} opacity-10`} />
+                      <div className={`absolute inset-0 bg-linear-to-br ${type.gradient} opacity-10`} />
                     )}
                     <div className={`relative z-10 w-10 h-10 mx-auto mb-2 rounded-xl flex items-center justify-center transition-all ${
                       isSelected 
-                        ? `bg-gradient-to-br ${type.gradient} text-white shadow-lg`
+                        ? `bg-linear-to-br ${type.gradient} text-white shadow-lg`
                         : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
                     }`}>
                       <TypeIcon className="w-5 h-5" />
@@ -354,7 +354,7 @@ export default function EditPost() {
                       {type.label}
                     </span>
                     {isSelected && (
-                      <div className={`absolute top-2 right-2 w-5 h-5 rounded-full bg-gradient-to-br ${type.gradient} flex items-center justify-center`}>
+                      <div className={`absolute top-2 right-2 w-5 h-5 rounded-full bg-linear-to-br ${type.gradient} flex items-center justify-center`}>
                         <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
@@ -612,7 +612,7 @@ export default function EditPost() {
             <button
               type="submit"
               disabled={loading || !formData.type || !formData.title || !formData.description}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : 'Save Changes'}
             </button>
@@ -622,3 +622,4 @@ export default function EditPost() {
     </div>
   );
 }
+
