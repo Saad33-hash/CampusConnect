@@ -301,6 +301,38 @@ export const chatAPI = {
   },
 };
 
+// Chatbot API calls
+export const chatbotAPI = {
+  // Send message to AI assistant
+  sendMessage: async (message, conversationHistory = []) => {
+    const response = await api.post('/chatbot/message', { message, conversationHistory });
+    return response.data;
+  },
+
+  // Get suggested questions
+  getSuggestions: async () => {
+    const response = await api.get('/chatbot/suggestions');
+    return response.data;
+  },
+};
+
+// Recommendations API calls
+export const recommendationsAPI = {
+  // Get personalized recommendations
+  getRecommendations: async (params = {}) => {
+    const response = await api.get('/recommendations', { params });
+    return response.data;
+  },
+
+  // Get category-specific recommendations
+  getCategoryRecommendations: async (category, limit = 5) => {
+    const response = await api.get(`/recommendations/category/${category}`, {
+      params: { limit }
+    });
+    return response.data;
+  },
+};
+
 // OAuth URLs
 export const GOOGLE_AUTH_URL = 'http://localhost:5000/api/auth/google';
 export const GITHUB_AUTH_URL = 'http://localhost:5000/api/auth/github';

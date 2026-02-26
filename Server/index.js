@@ -44,6 +44,8 @@ app.use('/api/posts', require('./routes/posts'));
 app.use('/api/applications', require('./routes/applications'));
 app.use('/api/upload', require('./routes/upload'));
 app.use('/api/chat', require('./routes/chat'));
+app.use('/api/chatbot', require('./routes/chatbot'));
+app.use('/api/recommendations', require('./routes/recommendations'));
 
 // Health Check Route
 app.get('/', (req, res) => {

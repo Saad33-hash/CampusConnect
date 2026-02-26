@@ -20,6 +20,8 @@ import ResetPassword from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import Chat from './pages/Chat';
 import SavedJobs from './pages/SavedJobs';
+import Recommendations from './pages/Recommendations';
+import Chatbot from './components/Chatbot';
 import './App.css';
 
 function App() {
@@ -103,6 +105,16 @@ function App() {
             }
           />
           
+          {/* Recommendations Route */}
+          <Route
+            path="/recommendations"
+            element={
+              <ProtectedRoute>
+                <Recommendations />
+              </ProtectedRoute>
+            }
+          />
+          
           {/* Chat Routes */}
           <Route
             path="/chat"
@@ -119,6 +131,9 @@ function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        
+        {/* AI Chatbot - available on all pages */}
+        <Chatbot />
       </Router>
       </ToastProvider>
       </NotificationProvider>
