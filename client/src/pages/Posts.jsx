@@ -36,6 +36,12 @@ const HackathonIcon = () => (
   </svg>
 );
 
+const FilterIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+  </svg>
+);
+
 const POST_TYPES = [
   { value: '', label: 'All', Icon: AllIcon },
   { value: 'academic-project', label: 'Academic', Icon: AcademicIcon },
@@ -44,17 +50,40 @@ const POST_TYPES = [
   { value: 'hackathon', label: 'Hackathon', Icon: HackathonIcon },
 ];
 
+const LOCATION_TYPES = [
+  { value: 'remote', label: 'Remote' },
+  { value: 'on-campus', label: 'On Campus' },
+  { value: 'hybrid', label: 'Hybrid' },
+  { value: 'flexible', label: 'Flexible' },
+];
+
+const COMPENSATION_TYPES = [
+  { value: 'paid', label: 'Paid' },
+  { value: 'unpaid', label: 'Unpaid' },
+  { value: 'equity', label: 'Equity' },
+  { value: 'negotiable', label: 'Negotiable' },
+];
+
 export default function Posts() {
   const { activeRole } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ total: 0, pages: 1 });
+  const [showFilters, setShowFilters] = useState(false);
   
   // Filters
   const [type, setType] = useState(searchParams.get('type') || '');
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [page, setPage] = useState(parseInt(searchParams.get('page')) || 1);
+  const [locationTypes, setLocationTypes] = useState(
+    searchParams.get('locationType')?.split(',').filter(Boolean) || []
+  );
+  const [compensationTypes, setCompensationTypes] = useState(
+    searchParams.get('compensationType')?.split(',').filter(Boolean) || []
+  );
+
+  const activeFilterCount = locationTypes.length + compensationTypes.length;
 
   const fetchPosts = useCallback(async () => {
     setLoading(true);
@@ -62,6 +91,8 @@ export default function Posts() {
       const params = { page, limit: 12 };
       if (type) params.type = type;
       if (search) params.search = search;
+      if (locationTypes.length > 0) params.locationType = locationTypes.join(',');
+      if (compensationTypes.length > 0) params.compensationType = compensationTypes.join(',');
 
       const response = await postsAPI.getPosts(params);
       setPosts(response.posts);
@@ -71,27 +102,68 @@ export default function Posts() {
     } finally {
       setLoading(false);
     }
-  }, [type, page, search]);
+  }, [type, page, search, locationTypes, compensationTypes]);
 
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
 
+  const updateSearchParams = (newParams) => {
+    const params = { 
+      type, 
+      search, 
+      page: '1',
+      ...newParams
+    };
+    if (locationTypes.length > 0) params.locationType = locationTypes.join(',');
+    if (compensationTypes.length > 0) params.compensationType = compensationTypes.join(',');
+    // Remove empty params
+    Object.keys(params).forEach(key => {
+      if (!params[key]) delete params[key];
+    });
+    setSearchParams(params);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
-    fetchPosts();
+    updateSearchParams({ search });
   };
 
   const handleTypeChange = (newType) => {
     setType(newType);
     setPage(1);
-    setSearchParams({ type: newType, search, page: '1' });
+    updateSearchParams({ type: newType });
+  };
+
+  const handleLocationToggle = (value) => {
+    const newLocations = locationTypes.includes(value)
+      ? locationTypes.filter(l => l !== value)
+      : [...locationTypes, value];
+    setLocationTypes(newLocations);
+    setPage(1);
+  };
+
+  const handleCompensationToggle = (value) => {
+    const newCompensations = compensationTypes.includes(value)
+      ? compensationTypes.filter(c => c !== value)
+      : [...compensationTypes, value];
+    setCompensationTypes(newCompensations);
+    setPage(1);
+  };
+
+  const clearAllFilters = () => {
+    setType('');
+    setSearch('');
+    setLocationTypes([]);
+    setCompensationTypes([]);
+    setPage(1);
+    setSearchParams({});
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    setSearchParams({ type, search, page: newPage.toString() });
+    updateSearchParams({ page: newPage.toString() });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -150,7 +222,7 @@ export default function Posts() {
           </form>
 
           {/* Type Filter Pills */}
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="flex flex-wrap items-center gap-2 mt-4">
             {POST_TYPES.map((postType) => {
               const TypeIcon = postType.Icon;
               const isActive = type === postType.value;
@@ -169,8 +241,122 @@ export default function Posts() {
                 </button>
               );
             })}
+            
+            {/* More Filters Button */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ml-auto ${
+                showFilters || activeFilterCount > 0
+                  ? 'bg-blue-100 text-blue-700'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              <FilterIcon />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="ml-1 w-5 h-5 flex items-center justify-center bg-blue-600 text-white text-xs rounded-full">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
           </div>
+
+          {/* Advanced Filters Panel */}
+          {showFilters && (
+            <div className="mt-4 pt-4 border-t border-slate-200">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Location Type */}
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Location</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {LOCATION_TYPES.map((loc) => (
+                      <button
+                        key={loc.value}
+                        onClick={() => handleLocationToggle(loc.value)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          locationTypes.includes(loc.value)
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        {loc.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Compensation Type */}
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Compensation</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {COMPENSATION_TYPES.map((comp) => (
+                      <button
+                        key={comp.value}
+                        onClick={() => handleCompensationToggle(comp.value)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          compensationTypes.includes(comp.value)
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        {comp.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Clear Filters */}
+              {activeFilterCount > 0 && (
+                <button
+                  onClick={clearAllFilters}
+                  className="mt-4 text-sm text-slate-500 hover:text-slate-700 underline"
+                >
+                  Clear all filters
+                </button>
+              )}
+            </div>
+          )}
         </div>
+
+        {/* Active Filters Display */}
+        {activeFilterCount > 0 && !showFilters && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="text-sm text-slate-500">Active filters:</span>
+            {locationTypes.map((loc) => (
+              <span
+                key={loc}
+                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium"
+              >
+                {LOCATION_TYPES.find(l => l.value === loc)?.label}
+                <button onClick={() => handleLocationToggle(loc)} className="hover:text-blue-900">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </span>
+            ))}
+            {compensationTypes.map((comp) => (
+              <span
+                key={comp}
+                className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-medium"
+              >
+                {COMPENSATION_TYPES.find(c => c.value === comp)?.label}
+                <button onClick={() => handleCompensationToggle(comp)} className="hover:text-emerald-900">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </span>
+            ))}
+            <button
+              onClick={clearAllFilters}
+              className="text-xs text-slate-500 hover:text-slate-700 underline ml-2"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
 
         {/* Posts Grid */}
         {loading ? (

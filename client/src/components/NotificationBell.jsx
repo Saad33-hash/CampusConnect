@@ -26,15 +26,19 @@ const NotificationBell = () => {
     }
   };
 
-  const handleNotificationClick = (notification, index) => {
-    // Navigate based on notification type
+  const handleNotificationClick = (notification) => {
+    // Navigate based on notification type (don't remove notification)
     if (notification.type === 'application_received') {
       navigate(`/posts/${notification.data.postId}/applications`);
     } else if (notification.type === 'application_status_changed') {
       navigate('/my-applications');
     }
-    clearNotification(index);
     setIsOpen(false);
+  };
+
+  const handleDismiss = (e, index) => {
+    e.stopPropagation(); // Prevent triggering navigation
+    clearNotification(index);
   };
 
   const getNotificationIcon = (type) => {
@@ -126,15 +130,24 @@ const NotificationBell = () => {
               notifications.map((notification, index) => (
                 <div
                   key={index}
-                  onClick={() => handleNotificationClick(notification, index)}
-                  className="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-b-0 flex gap-3 items-start"
+                  onClick={() => handleNotificationClick(notification)}
+                  className={`px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-b-0 flex gap-3 items-start ${!notification.read ? 'bg-blue-50' : ''}`}
                 >
                   {getNotificationIcon(notification.type)}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-slate-900">{notification.title}</p>
-                    <p className="text-sm text-slate-600 truncate">{notification.message}</p>
+                    <p className="text-sm text-slate-600">{notification.message}</p>
                     <p className="text-xs text-slate-400 mt-1">{formatTime(notification.timestamp)}</p>
                   </div>
+                  <button
+                    onClick={(e) => handleDismiss(e, index)}
+                    className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded"
+                    title="Dismiss"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
               ))
             )}

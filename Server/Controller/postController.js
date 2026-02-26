@@ -35,6 +35,8 @@ exports.getPosts = async (req, res) => {
       status = 'open',
       skills,
       search,
+      locationType,
+      compensationType,
       sortBy = 'createdAt',
       sortOrder = 'desc',
       page = 1,
@@ -44,9 +46,14 @@ exports.getPosts = async (req, res) => {
     // Build query
     const query = {};
 
-    // Filter by type
+    // Filter by type (can be comma-separated for multiple types)
     if (type) {
-      query.type = type;
+      const types = type.split(',').map(t => t.trim());
+      if (types.length === 1) {
+        query.type = types[0];
+      } else {
+        query.type = { $in: types };
+      }
     }
 
     // Filter by status (default: open posts only for public view)
@@ -60,9 +67,32 @@ exports.getPosts = async (req, res) => {
       query.requiredSkills = { $in: skillsArray };
     }
 
-    // Text search
+    // Filter by location type (can be comma-separated)
+    if (locationType) {
+      const locations = locationType.split(',').map(l => l.trim());
+      if (locations.length === 1) {
+        query.locationType = locations[0];
+      } else {
+        query.locationType = { $in: locations };
+      }
+    }
+
+    // Filter by compensation type (can be comma-separated)
+    if (compensationType) {
+      const compensations = compensationType.split(',').map(c => c.trim());
+      if (compensations.length === 1) {
+        query.compensationType = compensations[0];
+      } else {
+        query.compensationType = { $in: compensations };
+      }
+    }
+
+    // Text search (searches title and description)
     if (search) {
-      query.$text = { $search: search };
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
     }
 
     // Pagination
