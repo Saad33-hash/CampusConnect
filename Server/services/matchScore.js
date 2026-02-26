@@ -4,7 +4,7 @@
  */
 
 const calculateMatchScore = (user, post) => {
-  if (!user || !post) return 0;
+  if (!user || !post) return { score: 0, breakdown: { skills: null, hasResume: false, hasProfile: false } };
 
   let totalScore = 0;
   let totalWeight = 0;
