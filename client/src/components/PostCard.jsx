@@ -63,10 +63,19 @@ const STATUS_CONFIG = {
   'draft': { label: 'Draft', bgClass: 'bg-amber-500/10', textClass: 'text-amber-600', dotClass: 'bg-amber-500' },
 };
 
+// Match score badge colors
+const getMatchScoreStyle = (score) => {
+  if (score >= 80) return { bg: 'bg-emerald-500/10', text: 'text-emerald-600', ring: 'ring-emerald-500/20' };
+  if (score >= 60) return { bg: 'bg-blue-500/10', text: 'text-blue-600', ring: 'ring-blue-500/20' };
+  if (score >= 40) return { bg: 'bg-amber-500/10', text: 'text-amber-600', ring: 'ring-amber-500/20' };
+  return { bg: 'bg-slate-500/10', text: 'text-slate-500', ring: 'ring-slate-500/20' };
+};
+
 export default function PostCard({ post, showStatus = false }) {
   const typeConfig = TYPE_CONFIG[post.type] || TYPE_CONFIG['academic-project'];
   const statusConfig = STATUS_CONFIG[post.status] || STATUS_CONFIG['open'];
   const TypeIcon = typeConfig.Icon;
+  const matchScoreStyle = post.matchScore !== undefined ? getMatchScoreStyle(post.matchScore) : null;
 
   const getTimeAgo = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -104,7 +113,7 @@ export default function PostCard({ post, showStatus = false }) {
       <div className="p-5">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${typeConfig.bgLight} ${typeConfig.textColor}`}>
               <TypeIcon />
               {typeConfig.label}
@@ -115,8 +124,17 @@ export default function PostCard({ post, showStatus = false }) {
                 {statusConfig.label}
               </span>
             )}
+            {/* Match Score Badge */}
+            {matchScoreStyle && post.matchScore > 0 && (
+              <span className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${matchScoreStyle.bg} ${matchScoreStyle.text} ring-1 ${matchScoreStyle.ring}`}>
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                {post.matchScore}% Match
+              </span>
+            )}
           </div>
-          <span className="text-xs text-slate-400 font-medium bg-slate-100/80 px-2 py-1 rounded-md">
+          <span className="text-xs text-slate-400 font-medium bg-slate-100/80 px-2 py-1 rounded-md flex-shrink-0">
             {getTimeAgo(post.createdAt)}
           </span>
         </div>

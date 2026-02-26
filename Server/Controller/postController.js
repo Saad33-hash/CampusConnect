@@ -1,4 +1,6 @@
 const Post = require('../Model/Post');
+const User = require('../Model/User');
+const { calculateMatchScore } = require('../services/matchScore');
 
 // Create a new post
 exports.createPost = async (req, res) => {
@@ -111,9 +113,22 @@ exports.getPosts = async (req, res) => {
       Post.countDocuments(query)
     ]);
 
+    // Calculate match scores if user is authenticated
+    let postsWithScores = posts;
+    if (req.user) {
+      const user = await User.findById(req.user._id);
+      postsWithScores = posts.map(post => {
+        const postObj = post.toObject();
+        const matchResult = calculateMatchScore(user, postObj);
+        postObj.matchScore = matchResult.score;
+        postObj.matchBreakdown = matchResult.breakdown;
+        return postObj;
+      });
+    }
+
     res.json({
       success: true,
-      posts,
+      posts: postsWithScores,
       pagination: {
         total,
         page: parseInt(page),
@@ -188,9 +203,18 @@ exports.getPost = async (req, res) => {
       await post.save();
     }
 
+    // Calculate match score if user is authenticated
+    let postData = post.toObject();
+    if (req.user && post.creator._id.toString() !== req.user._id.toString()) {
+      const user = await User.findById(req.user._id);
+      const matchResult = calculateMatchScore(user, postData);
+      postData.matchScore = matchResult.score;
+      postData.matchBreakdown = matchResult.breakdown;
+    }
+
     res.json({
       success: true,
-      post
+      post: postData
     });
   } catch (error) {
     console.error('Get post error:', error);

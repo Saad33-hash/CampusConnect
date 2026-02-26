@@ -255,6 +255,61 @@ export default function PostDetail() {
                   </span>
                 </div>
                 <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">{post.title}</h1>
+                
+                {/* Match Score Display - for non-owners */}
+                {!isOwner && post.matchScore !== undefined && (
+                  <div className={`mt-4 p-4 rounded-xl border ${
+                    post.matchScore >= 80 ? 'bg-emerald-50 border-emerald-200' :
+                    post.matchScore >= 60 ? 'bg-blue-50 border-blue-200' :
+                    post.matchScore >= 40 ? 'bg-amber-50 border-amber-200' :
+                    'bg-slate-50 border-slate-200'
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center w-14 h-14 rounded-full font-bold text-lg ${
+                        post.matchScore >= 80 ? 'bg-emerald-500 text-white' :
+                        post.matchScore >= 60 ? 'bg-blue-500 text-white' :
+                        post.matchScore >= 40 ? 'bg-amber-500 text-white' :
+                        'bg-slate-400 text-white'
+                      }`}>
+                        {post.matchScore}%
+                      </div>
+                      <div>
+                        <p className={`font-semibold ${
+                          post.matchScore >= 80 ? 'text-emerald-700' :
+                          post.matchScore >= 60 ? 'text-blue-700' :
+                          post.matchScore >= 40 ? 'text-amber-700' :
+                          'text-slate-600'
+                        }`}>
+                          {post.matchScore >= 80 ? 'Excellent Match!' :
+                           post.matchScore >= 60 ? 'Good Match' :
+                           post.matchScore >= 40 ? 'Potential Match' :
+                           'Low Match'}
+                        </p>
+                        <p className="text-sm text-slate-500">
+                          You match {post.matchScore}% of this opportunity based on your profile
+                        </p>
+                        {post.matchBreakdown && (
+                          <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
+                            <span className="flex items-center gap-1">
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Skills: {post.matchBreakdown.skills}%
+                            </span>
+                            {post.matchBreakdown.hasResume && (
+                              <span className="flex items-center gap-1 text-emerald-600">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Resume uploaded
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Owner Actions */}
