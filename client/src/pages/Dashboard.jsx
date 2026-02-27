@@ -30,7 +30,7 @@ const Dashboard = () => {
               </div>
               <p className="text-slate-500 ml-5">Discover jobs and opportunities that match your skills</p>
             </div>
-            <TalentSeekerDashboard user={user} />
+            <TalentSeekerDashboard />
           </div>
         )}
       </div>
@@ -249,22 +249,19 @@ const TalentFinderDashboard = ({ user }) => {
 };
 
 // Talent Seeker Dashboard - For browsing jobs
-const TalentSeekerDashboard = ({ user }) => {
+const TalentSeekerDashboard = () => {
   const [recentPosts, setRecentPosts] = useState([]);
   const [appStats, setAppStats] = useState({ total: 0, pending: 0, reviewing: 0, shortlisted: 0, accepted: 0, rejected: 0 });
-  const [recentApps, setRecentApps] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
     try {
-      const [postsRes, statsRes, appsRes] = await Promise.all([
-        postsAPI.getPosts({ limit: 5, status: 'open' }),
-        applicationsAPI.getMyStats(),
-        applicationsAPI.getMyApplications({ limit: 3 })
+      const [postsRes, statsRes] = await Promise.all([
+        postsAPI.getPosts({ limit: 6, status: 'open' }),
+        applicationsAPI.getMyStats()
       ]);
       setRecentPosts(postsRes.posts || []);
       setAppStats(statsRes.stats || { total: 0, pending: 0, reviewing: 0, shortlisted: 0, accepted: 0, rejected: 0 });
-      setRecentApps(appsRes.applications || []);
     } catch (error) {
       console.error('Failed to fetch data:', error);
     } finally {
@@ -276,282 +273,232 @@ const TalentSeekerDashboard = ({ user }) => {
     fetchData();
   }, [fetchData]);
 
-  // Calculate profile completion
-  const profileChecks = [
-    { label: 'Add your skills', completed: user?.skills?.length > 0 },
-    { label: 'Add your interests', completed: user?.interests?.length > 0 },
-    { label: 'Upload resume', completed: !!user?.resumeUrl },
-    { label: 'Add university info', completed: !!user?.university },
+  // Chart data for the bar visualization
+  const chartData = [
+    { label: 'Pending', value: appStats.pending || 0, color: 'bg-slate-400' },
+    { label: 'In Review', value: appStats.reviewing || 0, color: 'bg-slate-500' },
+    { label: 'Shortlisted', value: appStats.shortlisted || 0, color: 'bg-slate-600' },
+    { label: 'Accepted', value: appStats.accepted || 0, color: 'bg-slate-700' },
+    { label: 'Rejected', value: appStats.rejected || 0, color: 'bg-slate-300' },
   ];
-  const completedCount = profileChecks.filter(c => c.completed).length;
-  const completionPercent = Math.round((completedCount / profileChecks.length) * 100);
+
+  const maxValue = Math.max(...chartData.map(d => d.value), 1);
+
+  // Type badge styling
+  const getTypeBadge = (type) => {
+    const styles = {
+      'academic-project': { bg: 'bg-violet-100', text: 'text-violet-700', label: 'Academic' },
+      'startup-gig': { bg: 'bg-orange-100', text: 'text-orange-700', label: 'Startup' },
+      'part-time-job': { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Part-time' },
+      'hackathon': { bg: 'bg-pink-100', text: 'text-pink-700', label: 'Hackathon' },
+    };
+    return styles[type] || { bg: 'bg-slate-100', text: 'text-slate-600', label: type };
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Applications" value={loading ? '-' : appStats.total || 0} icon="send" color="blue" />
-        <StatCard title="In Review" value={loading ? '-' : (appStats.pending + appStats.reviewing) || 0} icon="eye" color="amber" />
-        <StatCard title="Shortlisted" value={loading ? '-' : appStats.shortlisted || 0} icon="bookmark" color="emerald" />
-        <StatCard title="Profile Complete" value={`${completionPercent}%`} icon="chart" color="slate" />
+    <div className="space-y-8">
+      {/* Application Stats with Graph */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-6 pb-0">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">Application Overview</h2>
+              <p className="text-sm text-slate-500 mt-1">Track your job application progress</p>
+            </div>
+            <Link 
+              to="/my-applications" 
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition"
+            >
+              View all
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
+          {/* Stats Overview Row */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <div className="text-center p-4 bg-slate-50 rounded-xl">
+              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.total}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">Total</p>
+            </div>
+            <div className="text-center p-4 bg-slate-50 rounded-xl">
+              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.pending}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">Pending</p>
+            </div>
+            <div className="text-center p-4 bg-slate-50 rounded-xl">
+              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.reviewing}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">In Review</p>
+            </div>
+            <div className="text-center p-4 bg-slate-50 rounded-xl">
+              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.shortlisted}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">Shortlisted</p>
+            </div>
+            <div className="text-center p-4 bg-slate-50 rounded-xl">
+              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.accepted}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">Accepted</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bar Chart Visualization */}
+        <div className="px-6 pb-6">
+          <div className="bg-slate-50 rounded-xl p-5">
+            <div className="flex items-end gap-3 h-32">
+              {chartData.map((item, index) => (
+                <div key={index} className="flex-1 flex flex-col items-center gap-2">
+                  <div className="w-full flex flex-col justify-end h-24">
+                    <div 
+                      className={`w-full ${item.color} rounded-t-lg transition-all duration-700 ease-out`}
+                      style={{ 
+                        height: loading ? '0%' : `${Math.max((item.value / maxValue) * 100, item.value > 0 ? 15 : 0)}%`,
+                        minHeight: item.value > 0 ? '12px' : '0'
+                      }}
+                    />
+                  </div>
+                  <span className="text-xs text-slate-500 font-medium truncate w-full text-center">{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Job Listings */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h2 className="text-lg font-semibold text-slate-900">Recent Opportunities</h2>
-              <Link to="/posts" className="text-blue-600 text-sm font-medium hover:text-blue-700 flex items-center gap-1">
-                View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-            
-            {loading ? (
-              <div className="p-12 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-              </div>
-            ) : recentPosts.length === 0 ? (
-              /* Empty State */
-              <div className="p-12 text-center">
-                <div className="w-20 h-20 bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
+      {/* Recent Opportunities - Card Grid */}
+      <div>
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-900">Discover Opportunities</h2>
+            <p className="text-sm text-slate-500 mt-0.5">Fresh opportunities matching your profile</p>
+          </div>
+          <Link 
+            to="/posts" 
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-medium hover:bg-slate-800 transition"
+          >
+            Browse all
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+
+        {loading ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[1, 2].map((i) => (
+              <div key={i} className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 animate-pulse">
+                <div className="h-5 bg-slate-200 rounded w-24 mb-6" />
+                <div className="h-6 bg-slate-200 rounded w-full mb-3" />
+                <div className="h-4 bg-slate-200 rounded w-3/4 mb-6" />
+                <div className="h-20 bg-slate-100 rounded-xl mb-6" />
+                <div className="flex gap-3">
+                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
+                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
                 </div>
-                <h3 className="text-slate-900 font-semibold text-lg mb-2">No opportunities available yet</h3>
-                <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                  Check back soon for new opportunities
-                </p>
-                <Link to="/posts" className="inline-flex items-center gap-2 text-blue-600 text-sm font-medium hover:text-blue-700 transition">
-                  Browse all opportunities
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
               </div>
-            ) : (
-              /* Posts List */
-              <div className="divide-y divide-slate-100">
-                {recentPosts.map((post) => (
-                  <Link 
-                    key={post._id} 
-                    to={`/posts/${post._id}`}
-                    className="block p-4 hover:bg-slate-50 transition"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-slate-900 truncate">{post.title}</h3>
-                        <p className="text-sm text-slate-500 mt-1 capitalize">{post.type.replace('-', ' ')}</p>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          post.compensation?.type === 'paid' ? 'bg-emerald-100 text-emerald-700' :
-                          post.compensation?.type === 'equity' ? 'bg-purple-100 text-purple-700' :
-                          'bg-slate-100 text-slate-600'
-                        }`}>
-                          {post.compensation?.type || 'Flexible'}
+            ))}
+          </div>
+        ) : recentPosts.length === 0 ? (
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-16 text-center">
+            <div className="w-24 h-24 bg-linear-to-br from-blue-100 to-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h3 className="text-slate-900 font-semibold text-xl mb-3">No opportunities available yet</h3>
+            <p className="text-slate-500 text-base mb-6 max-w-md mx-auto">
+              New opportunities are being posted regularly. Check back soon!
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {recentPosts.map((post) => {
+              const typeBadge = getTypeBadge(post.type);
+              return (
+                <Link
+                  key={post._id}
+                  to={`/posts/${post._id}`}
+                  className="group relative bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 hover:bg-white/90 hover:border-slate-300/50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
+                >
+                  {/* Glassmorphism highlight */}
+                  <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/50 via-transparent to-transparent pointer-events-none" />
+                  
+                  {/* Type Badge */}
+                  <div className="relative flex items-center justify-between mb-5">
+                    <span className={`inline-flex items-center px-3.5 py-1.5 rounded-xl text-sm font-medium ${typeBadge.bg} ${typeBadge.text}`}>
+                      {typeBadge.label}
+                    </span>
+                    {post.compensation?.type === 'paid' && (
+                      <span className="flex items-center gap-1.5 text-emerald-600 text-sm font-medium bg-emerald-50 px-3 py-1.5 rounded-xl">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472c.08-.185.167-.36.264-.521z" />
+                        </svg>
+                        Paid
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="relative text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    {post.title}
+                  </h3>
+
+                  {/* Description Preview */}
+                  <p className="relative text-base text-slate-500 line-clamp-3 mb-6 leading-relaxed">
+                    {post.description}
+                  </p>
+
+                  {/* Skills/Tags preview if available */}
+                  {post.requiredSkills && post.requiredSkills.length > 0 && (
+                    <div className="relative flex flex-wrap gap-2 mb-6">
+                      {post.requiredSkills.slice(0, 3).map((skill, idx) => (
+                        <span key={idx} className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">
+                          {skill}
+                        </span>
+                      ))}
+                      {post.requiredSkills.length > 3 && (
+                        <span className="px-3 py-1.5 bg-slate-100 text-slate-400 rounded-lg text-xs font-medium">
+                          +{post.requiredSkills.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Footer */}
+                  <div className="relative flex items-center justify-between pt-5 border-t border-slate-200/50">
+                    <div className="flex items-center gap-3">
+                      {post.creator?.avatar ? (
+                        <img 
+                          src={post.creator.avatar} 
+                          alt={post.creator.displayName}
+                          className="w-10 h-10 rounded-xl object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-xl bg-slate-200 flex items-center justify-center text-sm font-semibold text-slate-600">
+                          {post.creator?.displayName?.charAt(0) || '?'}
+                        </div>
+                      )}
+                      <div>
+                        <span className="block text-sm font-medium text-slate-900">
+                          {post.creator?.displayName || 'Unknown'}
+                        </span>
+                        <span className="block text-xs text-slate-400">
+                          {post.creator?.university || 'University'}
                         </span>
                       </div>
                     </div>
-                  </Link>
-                ))}
-                <div className="p-4 text-center border-t border-slate-100">
-                  <Link to="/posts" className="text-blue-600 text-sm font-medium hover:text-blue-700">
-                    Browse all opportunities
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Profile Completion */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="font-semibold text-slate-900">Profile Completion</h2>
-              <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                completionPercent === 100 
-                  ? 'bg-emerald-50 text-emerald-700' 
-                  : 'bg-amber-50 text-amber-700'
-              }`}>
-                {completionPercent}%
-              </span>
-            </div>
-            <div className="p-4">
-              {/* Progress Bar */}
-              <div className="h-2 bg-slate-100 rounded-full mb-4 overflow-hidden">
-                <div 
-                  className={`h-full rounded-full transition-all duration-500 ${
-                    completionPercent === 100 ? 'bg-emerald-500' : 'bg-amber-500'
-                  }`}
-                  style={{ width: `${completionPercent}%` }}
-                />
-              </div>
-              <div className="space-y-3">
-                {profileChecks.map((item, index) => (
-                  <ProfileCheckItem key={index} label={item.label} completed={item.completed} />
-                ))}
-              </div>
-              <Link 
-                to="/profile"
-                className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition"
-              >
-                Complete Profile
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-
-          {/* My Applications */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="font-semibold text-slate-900">My Applications</h2>
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">{appStats.total || 0} total</span>
-            </div>
-            {loading ? (
-              <div className="p-6 text-center">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
-              </div>
-            ) : recentApps.length === 0 ? (
-              <div className="p-6 text-center">
-                <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-                <p className="text-slate-500 text-sm">No applications yet</p>
-                <Link to="/posts" className="text-blue-600 text-sm font-medium hover:text-blue-700 mt-2 inline-block">
-                  Browse opportunities
-                </Link>
-              </div>
-            ) : (
-              <div className="divide-y divide-slate-100">
-                {recentApps.map((app) => (
-                  <Link
-                    key={app._id}
-                    to={`/posts/${app.post?._id}`}
-                    className="block p-3 hover:bg-slate-50 transition"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-medium text-slate-900 truncate">{app.post?.title || 'Post'}</p>
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                        app.status === 'accepted' ? 'bg-emerald-100 text-emerald-700' :
-                        app.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                        app.status === 'shortlisted' ? 'bg-purple-100 text-purple-700' :
-                        app.status === 'reviewing' ? 'bg-blue-100 text-blue-700' :
-                        'bg-amber-100 text-amber-700'
-                      }`}>
-                        {app.status}
-                      </span>
+                    <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-50 px-3 py-2 rounded-xl">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </div>
-                  </Link>
-                ))}
-                <div className="p-3 text-center">
-                  <Link to="/my-applications" className="text-blue-600 text-sm font-medium hover:text-blue-700">
-                    View all applications
-                  </Link>
-                </div>
-              </div>
-            )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Stat Card Component
-const StatCard = ({ title, value, icon, color }) => {
-  const bgClasses = {
-    amber: 'bg-amber-50',
-    blue: 'bg-blue-50',
-    slate: 'bg-slate-100',
-    emerald: 'bg-emerald-50',
-  };
-
-  const iconColorClasses = {
-    amber: 'text-amber-500',
-    blue: 'text-blue-500',
-    slate: 'text-slate-500',
-    emerald: 'text-emerald-500',
-  };
-
-  const icons = {
-    briefcase: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-    users: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
-    eye: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-      </svg>
-    ),
-    chart: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    send: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-      </svg>
-    ),
-    bookmark: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-      </svg>
-    ),
-  };
-
-  return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-slate-500 font-medium">{title}</p>
-          <p className="text-2xl font-bold text-slate-900 mt-1">{value}</p>
-        </div>
-        <div className={`w-12 h-12 ${bgClasses[color]} rounded-xl flex items-center justify-center ${iconColorClasses[color]}`}>
-          {icons[icon]}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Profile Check Item Component
-const ProfileCheckItem = ({ label, completed }) => {
-  return (
-    <div className="flex items-center gap-3">
-      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-        completed ? 'bg-emerald-100' : 'bg-slate-100'
-      }`}>
-        {completed ? (
-          <svg className="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-        ) : (
-          <div className="w-2 h-2 rounded-full bg-slate-300" />
         )}
       </div>
-      <span className={`text-sm ${completed ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
-        {label}
-      </span>
     </div>
   );
 };
