@@ -8,6 +8,9 @@ router.get('/user/my-posts', protect, postController.getMyPosts);
 router.get('/user/stats', protect, postController.getPostStats);
 router.get('/user/saved', protect, postController.getSavedPosts);
 
+// Public landing page stats (no auth required)
+router.get('/landing-stats', postController.getLandingStats);
+
 // Public routes (with optional auth for view tracking)
 router.get('/', optionalAuth, postController.getPosts);
 router.get('/:id', optionalAuth, postController.getPost);

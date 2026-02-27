@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
-import { GOOGLE_AUTH_URL, GITHUB_AUTH_URL } from '../services/api';
+import { GOOGLE_AUTH_URL, GITHUB_AUTH_URL, authAPI } from '../services/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [resendingEmail, setResendingEmail] = useState(false);
   
   const { login, error } = useAuth();
   const { showToast } = useToast();
@@ -17,6 +19,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLocalError('');
+    setNeedsVerification(false);
     
     if (!email || !password) {
       setLocalError('Please fill in all fields');
@@ -31,7 +34,27 @@ const Login = () => {
       showToast('Authentication successful', 'success');
       navigate('/dashboard');
     } else {
+      if (result.needsVerification) {
+        setNeedsVerification(true);
+      }
       showToast(result.message || 'Authentication failed', 'error');
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!email) {
+      showToast('Please enter your email address', 'error');
+      return;
+    }
+    
+    setResendingEmail(true);
+    try {
+      await authAPI.resendVerification(email);
+      showToast('Verification email sent! Check your inbox.', 'success');
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to resend verification email', 'error');
+    } finally {
+      setResendingEmail(false);
     }
   };
 
@@ -71,6 +94,21 @@ const Login = () => {
           {(error || localError) && (
             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 mb-6 text-sm">
               {error || localError}
+            </div>
+          )}
+
+          {needsVerification && (
+            <div className="bg-amber-50 border-l-4 border-amber-500 text-amber-700 px-4 py-3 mb-6 text-sm">
+              <p className="font-medium mb-2">Email not verified</p>
+              <p className="mb-3">Please check your inbox for the verification link, or click below to resend.</p>
+              <button
+                type="button"
+                onClick={handleResendVerification}
+                disabled={resendingEmail}
+                className="text-amber-800 underline font-medium hover:text-amber-900 disabled:opacity-50"
+              >
+                {resendingEmail ? 'Sending...' : 'Resend verification email'}
+              </button>
             </div>
           )}
 

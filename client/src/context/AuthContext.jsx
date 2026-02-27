@@ -39,8 +39,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Login failed';
+      const needsVerification = err.response?.data?.needsVerification || false;
       setError(message);
-      return { success: false, message };
+      return { success: false, message, needsVerification };
     }
   };
 
@@ -49,8 +50,8 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       const data = await authAPI.signup({ displayName, email, password });
       if (data.success) {
-        localStorage.setItem('token', data.token);
-        setUser(data.user);
+        // Don't set user/token - they need to verify email first
+        // Just return success so UI can show verification message
         return { success: true };
       }
     } catch (err) {

@@ -11,6 +11,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [localError, setLocalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
   
   const { signup, error } = useAuth();
   const { showToast } = useToast();
@@ -40,8 +41,9 @@ const Signup = () => {
     setIsLoading(false);
 
     if (result.success) {
-      showToast('Account created successfully', 'success');
-      navigate('/dashboard');
+      // Show verification message instead of navigating
+      setShowVerificationMessage(true);
+      showToast('Account created! Please check your email to verify.', 'success');
     } else {
       showToast(result.message || 'Signup failed', 'error');
     }
@@ -54,6 +56,37 @@ const Signup = () => {
   const handleGitHubLogin = () => {
     window.location.href = GITHUB_AUTH_URL;
   };
+
+  // Show verification success screen
+  if (showVerificationMessage) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md text-center">
+          <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Check Your Email</h1>
+          <p className="text-slate-600 mb-6">
+            We've sent a verification link to <strong>{email}</strong>. 
+            Please click the link to verify your email address and activate your account.
+          </p>
+          <div className="space-y-3">
+            <Link
+              to="/login"
+              className="block w-full bg-slate-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-slate-800 transition text-center"
+            >
+              Go to Login
+            </Link>
+            <p className="text-slate-400 text-sm">
+              Didn't receive the email? Check your spam folder or contact support.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-white">

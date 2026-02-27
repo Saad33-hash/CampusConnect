@@ -539,3 +539,31 @@ exports.getSavedPosts = async (req, res) => {
     });
   }
 };
+
+// Public landing page stats (no auth required)
+exports.getLandingStats = async (req, res) => {
+  try {
+    const [activeStudents, liveOpportunities, totalApplications, acceptedApplications] = await Promise.all([
+      User.countDocuments(),
+      Post.countDocuments({ status: 'open' }),
+      require('../Model/Application').countDocuments(),
+      require('../Model/Application').countDocuments({ status: 'accepted' }),
+    ]);
+
+    const matchRate = totalApplications > 0
+      ? Math.round((acceptedApplications / totalApplications) * 100)
+      : 94;
+
+    res.json({
+      success: true,
+      stats: {
+        activeStudents,
+        liveOpportunities,
+        matchRate,
+      }
+    });
+  } catch (error) {
+    console.error('Landing stats error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch stats' });
+  }
+};
