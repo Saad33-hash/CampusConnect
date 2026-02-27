@@ -105,28 +105,28 @@ export default function PostCard({ post, showStatus = false }) {
   return (
     <Link
       to={`/posts/${post._id}`}
-      className="group relative block bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 hover:border-slate-300/80 hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300 overflow-hidden"
+      className="group relative block bg-white/60 backdrop-blur-xl border border-white/80 rounded-lg ring-1 ring-slate-900/5 hover:ring-slate-900/10 transition-all duration-300 overflow-hidden"
     >
-      {/* Gradient accent bar */}
-      <div className={`h-1 bg-linear-to-r ${typeConfig.gradient}`} />
-      
-      <div className="p-5">
+      {/* Hover color overlay */}
+      <div className={`absolute inset-0 bg-linear-to-br ${typeConfig.gradient} opacity-0 group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none`} />
+
+      <div className="relative p-7">
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-start justify-between gap-3 mb-5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${typeConfig.bgLight} ${typeConfig.textColor}`}>
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold ${typeConfig.bgLight} ${typeConfig.textColor} group-hover:ring-1 group-hover:ring-current/20 transition-all`}>
               <TypeIcon />
               {typeConfig.label}
             </span>
             {showStatus && (
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${statusConfig.bgClass} ${statusConfig.textClass}`}>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold ${statusConfig.bgClass} ${statusConfig.textClass}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotClass} animate-pulse`} />
                 {statusConfig.label}
               </span>
             )}
             {/* Match Score Badge */}
             {matchScoreStyle && post.matchScore > 0 && (
-              <span className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${matchScoreStyle.bg} ${matchScoreStyle.text} ring-1 ${matchScoreStyle.ring}`}>
+              <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold ${matchScoreStyle.bg} ${matchScoreStyle.text} ring-1 ${matchScoreStyle.ring}`}>
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
@@ -134,60 +134,60 @@ export default function PostCard({ post, showStatus = false }) {
               </span>
             )}
           </div>
-          <span className="text-xs text-slate-400 font-medium bg-slate-100/80 px-2 py-1 rounded-md shrink-0">
+          <span className="text-xs text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-md shrink-0">
             {getTimeAgo(post.createdAt)}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-slate-700 transition-colors">
+        <h3 className="text-xl font-semibold text-slate-900 mb-3 line-clamp-2 group-hover:text-slate-800 transition-colors leading-snug">
           {post.title}
         </h3>
 
         {/* Description */}
-        <p className="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+        <p className="text-slate-500 text-sm mb-6 line-clamp-4 leading-relaxed">
           {post.description}
         </p>
 
         {/* Skills */}
         {post.requiredSkills?.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {post.requiredSkills.slice(0, 3).map((skill) => (
+          <div className="flex flex-wrap gap-2 mb-6">
+            {post.requiredSkills.slice(0, 5).map((skill) => (
               <span
                 key={skill}
-                className="px-2.5 py-1 bg-slate-100/80 text-slate-600 rounded-md text-xs font-medium"
+                className="px-3 py-1.5 bg-slate-100/80 text-slate-600 rounded-md text-xs font-medium group-hover:bg-white/60 transition-colors"
               >
                 {skill}
               </span>
             ))}
-            {post.requiredSkills.length > 3 && (
-              <span className="px-2.5 py-1 text-slate-400 text-xs font-medium">
-                +{post.requiredSkills.length - 3}
+            {post.requiredSkills.length > 5 && (
+              <span className="px-3 py-1.5 text-slate-400 text-xs font-medium">
+                +{post.requiredSkills.length - 5}
               </span>
             )}
           </div>
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100/80">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between pt-5 border-t border-slate-100/80">
+          <div className="flex items-center gap-3">
             {post.creator?.avatar ? (
               <img
                 src={post.creator.avatar}
                 alt={post.creator.displayName}
-                className="w-7 h-7 rounded-full ring-2 ring-white shadow-sm"
+                className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
               />
             ) : (
-              <div className={`w-7 h-7 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-[10px] font-bold text-white shadow-sm`}>
+              <div className={`w-9 h-9 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-xs font-bold text-white shadow-sm`}>
                 {post.creator?.displayName?.charAt(0) || '?'}
               </div>
             )}
-            <span className="text-sm text-slate-600 font-medium truncate max-w-[100px]">
+            <span className="text-sm text-slate-600 font-medium truncate max-w-36">
               {post.creator?.displayName || 'Anonymous'}
             </span>
           </div>
           
-          <div className="flex items-center gap-3 text-xs text-slate-400">
+          <div className="flex items-center gap-4 text-xs text-slate-400">
             {post.deadline && (
               <span className={`flex items-center gap-1 ${new Date(post.deadline) < new Date() ? 'text-red-400' : ''}`}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,9 +206,6 @@ export default function PostCard({ post, showStatus = false }) {
           </div>
         </div>
       </div>
-      
-      {/* Hover glow effect */}
-      <div className={`absolute inset-0 bg-linear-to-br ${typeConfig.gradient} opacity-0 group-hover:opacity-[0.02] transition-opacity duration-300 pointer-events-none`} />
     </Link>
   );
 }
