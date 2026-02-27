@@ -192,11 +192,11 @@ export default function PostDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-100 via-slate-50 to-blue-50/30">
         <Navbar />
-        <div className="flex justify-center items-center py-24">
+        <div className="flex justify-center items-center py-32">
           <div className="relative">
-            <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin"></div>
+            <div className="w-14 h-14 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin"></div>
           </div>
         </div>
       </div>
@@ -210,42 +210,40 @@ export default function PostDetail() {
   const isOwner = user && post.creator?._id === user._id;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-100 via-slate-50 to-blue-50/30">
       <Navbar />
       
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Back Button */}
         <Link
           to="/posts"
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 transition-colors group"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           <span className="font-medium">Back to opportunities</span>
         </Link>
 
-        {/* Main Content */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/60 overflow-hidden">
-          {/* Gradient Header Bar */}
-          <div className={`h-2 bg-linear-to-r ${typeConfig.gradient}`} />
+        {/* Main Content Card */}
+        <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.2)] transition-shadow duration-500 overflow-hidden">
           
           {/* Header */}
-          <div className="p-6 md:p-8 border-b border-slate-100">
-            <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="p-8 md:p-10">
+            <div className="flex flex-wrap items-start justify-between gap-6">
               <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2 mb-4">
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold ${typeConfig.bg} ${typeConfig.text}`}>
+                <div className="flex flex-wrap items-center gap-3 mb-5">
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${typeConfig.bg} ${typeConfig.text}`}>
                     <TypeIcon className="w-4 h-4" />
                     {typeConfig.label}
                   </span>
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold ${
-                    post.status === 'open' ? 'bg-emerald-500/10 text-emerald-600' :
-                    post.status === 'draft' ? 'bg-amber-500/10 text-amber-600' :
-                    post.status === 'filled' ? 'bg-blue-500/10 text-blue-600' :
-                    'bg-slate-500/10 text-slate-500'
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
+                    post.status === 'open' ? 'bg-emerald-50 text-emerald-600' :
+                    post.status === 'draft' ? 'bg-amber-50 text-amber-600' :
+                    post.status === 'filled' ? 'bg-blue-50 text-blue-600' :
+                    'bg-slate-100 text-slate-500'
                   }`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${
+                    <span className={`w-2 h-2 rounded-full ${
                       post.status === 'open' ? 'bg-emerald-500 animate-pulse' :
                       post.status === 'draft' ? 'bg-amber-500' :
                       post.status === 'filled' ? 'bg-blue-500' :
@@ -254,27 +252,27 @@ export default function PostDetail() {
                     {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
                   </span>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">{post.title}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">{post.title}</h1>
                 
                 {/* Match Score Display - for non-owners */}
                 {!isOwner && post.matchScore !== undefined && (
-                  <div className={`mt-4 p-4 rounded-xl border ${
-                    post.matchScore >= 80 ? 'bg-emerald-50 border-emerald-200' :
-                    post.matchScore >= 60 ? 'bg-blue-50 border-blue-200' :
-                    post.matchScore >= 40 ? 'bg-amber-50 border-amber-200' :
-                    'bg-slate-50 border-slate-200'
+                  <div className={`mt-6 p-5 rounded-2xl shadow-sm ${
+                    post.matchScore >= 80 ? 'bg-linear-to-r from-emerald-50 to-teal-50' :
+                    post.matchScore >= 60 ? 'bg-linear-to-r from-blue-50 to-indigo-50' :
+                    post.matchScore >= 40 ? 'bg-linear-to-r from-amber-50 to-orange-50' :
+                    'bg-slate-50'
                   }`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`flex items-center justify-center w-14 h-14 rounded-full font-bold text-lg ${
-                        post.matchScore >= 80 ? 'bg-emerald-500 text-white' :
-                        post.matchScore >= 60 ? 'bg-blue-500 text-white' :
-                        post.matchScore >= 40 ? 'bg-amber-500 text-white' :
+                    <div className="flex items-center gap-4">
+                      <div className={`flex items-center justify-center w-16 h-16 rounded-2xl font-bold text-xl shadow-sm ${
+                        post.matchScore >= 80 ? 'bg-linear-to-br from-emerald-500 to-teal-500 text-white' :
+                        post.matchScore >= 60 ? 'bg-linear-to-br from-blue-500 to-indigo-500 text-white' :
+                        post.matchScore >= 40 ? 'bg-linear-to-br from-amber-500 to-orange-500 text-white' :
                         'bg-slate-400 text-white'
                       }`}>
                         {post.matchScore}%
                       </div>
                       <div>
-                        <p className={`font-semibold ${
+                        <p className={`font-bold text-lg ${
                           post.matchScore >= 80 ? 'text-emerald-700' :
                           post.matchScore >= 60 ? 'text-blue-700' :
                           post.matchScore >= 40 ? 'text-amber-700' :
@@ -316,12 +314,12 @@ export default function PostDetail() {
 
               {/* Owner Actions */}
               {isOwner && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-3">
                   {post.status === 'draft' && (
                     <button
                       onClick={handlePublish}
                       disabled={actionLoading}
-                      className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/25 font-medium disabled:opacity-50"
+                      className="px-5 py-2.5 bg-linear-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/20 font-semibold disabled:opacity-50"
                     >
                       Publish
                     </button>
@@ -331,14 +329,14 @@ export default function PostDetail() {
                       <button
                         onClick={() => handleClose(true)}
                         disabled={actionLoading}
-                        className="px-4 py-2 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors font-medium disabled:opacity-50"
+                        className="px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors font-semibold disabled:opacity-50"
                       >
                         Mark Filled
                       </button>
                       <button
                         onClick={() => handleClose(false)}
                         disabled={actionLoading}
-                        className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors font-medium disabled:opacity-50"
+                        className="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors font-semibold disabled:opacity-50"
                       >
                         Close
                       </button>
@@ -346,20 +344,20 @@ export default function PostDetail() {
                   )}
                   <Link
                     to={`/posts/${post._id}/applications`}
-                    className="px-4 py-2 bg-linear-to-r from-blue-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg shadow-blue-500/25 font-medium"
+                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all font-semibold"
                   >
                     Applications
                   </Link>
                   <Link
                     to={`/posts/${post._id}/edit`}
-                    className="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors font-medium"
+                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-600 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-colors font-semibold"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={handleDelete}
                     disabled={actionLoading}
-                    className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
+                    className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -370,21 +368,21 @@ export default function PostDetail() {
             </div>
 
             {/* Creator Info */}
-            <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-100">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between mt-8 pt-8 border-t border-slate-100">
+              <div className="flex items-center gap-4">
                 {post.creator?.avatar ? (
                   <img
                     src={post.creator.avatar}
                     alt={post.creator.displayName}
-                    className="w-12 h-12 rounded-full ring-2 ring-white shadow-md"
+                    className="w-14 h-14 rounded-full ring-4 ring-white shadow-lg"
                   />
                 ) : (
-                  <div className={`w-12 h-12 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-lg font-bold text-white shadow-md`}>
+                  <div className={`w-14 h-14 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-xl font-bold text-white shadow-lg ring-4 ring-white`}>
                     {post.creator?.displayName?.[0] || '?'}
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-slate-900">{post.creator?.displayName}</p>
+                  <p className="font-bold text-slate-900 text-lg">{post.creator?.displayName}</p>
                   <p className="text-sm text-slate-500">
                     {post.creator?.university}
                     {post.creator?.department && ` · ${post.creator.department}`}
@@ -392,12 +390,12 @@ export default function PostDetail() {
                 </div>
               </div>
               {user && !isOwner && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   {/* Bookmark Button */}
                   <button
                     onClick={handleToggleSave}
                     disabled={savingPost}
-                    className={`p-2.5 rounded-xl transition-all duration-200 disabled:opacity-50 ${
+                    className={`p-3 rounded-xl transition-all duration-200 disabled:opacity-50 ${
                       isSaved 
                         ? 'bg-rose-50 text-rose-500 hover:bg-rose-100' 
                         : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
@@ -411,7 +409,7 @@ export default function PostDetail() {
                   {/* Message Button */}
                   <button
                     onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                    className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all duration-200 font-medium flex items-center gap-2"
+                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 font-semibold flex items-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -424,33 +422,33 @@ export default function PostDetail() {
           </div>
 
           {/* Details Grid */}
-          <div className="p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 bg-slate-50/50 border-b border-slate-100">
-            <div className="space-y-1">
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Location</p>
+          <div className="p-8 md:p-10 grid grid-cols-2 md:grid-cols-4 gap-8 bg-linear-to-br from-slate-50/80 to-blue-50/30">
+            <div className="space-y-2">
+              <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Location</p>
               <p className="font-semibold text-slate-900">{LOCATION_LABELS[post.location]}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Compensation</p>
+            <div className="space-y-2">
+              <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Compensation</p>
               <p className="font-semibold text-slate-900">
                 {COMPENSATION_LABELS[post.compensation?.type]}
                 {post.compensation?.amount && ` · ${post.compensation.amount}`}
               </p>
             </div>
             {post.duration && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Duration</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Duration</p>
                 <p className="font-semibold text-slate-900">{post.duration}</p>
               </div>
             )}
             {post.teamSize && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Team Size</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Team Size</p>
                 <p className="font-semibold text-slate-900">{post.teamSize} people</p>
               </div>
             )}
             {post.deadline && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Deadline</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Deadline</p>
                 <p className={`font-semibold ${new Date(post.deadline) < new Date() ? 'text-red-500' : 'text-slate-900'}`}>
                   {formatDate(post.deadline)}
                 </p>
@@ -458,56 +456,56 @@ export default function PostDetail() {
             )}
             {/* Type-specific fields */}
             {post.courseCode && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Course</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Course</p>
                 <p className="font-semibold text-slate-900">{post.courseCode}</p>
               </div>
             )}
             {post.professor && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Professor</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Professor</p>
                 <p className="font-semibold text-slate-900">{post.professor}</p>
               </div>
             )}
             {post.companyName && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Company</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Company</p>
                 <p className="font-semibold text-slate-900">{post.companyName}</p>
               </div>
             )}
             {post.eventDate && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Event Date</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Event Date</p>
                 <p className="font-semibold text-slate-900">{formatDate(post.eventDate)}</p>
               </div>
             )}
             {post.venue && (
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Venue</p>
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Venue</p>
                 <p className="font-semibold text-slate-900">{post.venue}</p>
               </div>
             )}
           </div>
 
           {/* Description */}
-          <div className="p-6 md:p-8 border-b border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Description</h2>
+          <div className="p-8 md:p-10">
+            <h2 className="text-xl font-bold text-slate-900 mb-5">About This Opportunity</h2>
             <div className="prose prose-slate max-w-none">
-              <p className="whitespace-pre-wrap text-slate-600 leading-relaxed">{post.description}</p>
+              <p className="whitespace-pre-wrap text-slate-600 leading-relaxed text-base">{post.description}</p>
             </div>
           </div>
 
           {/* Skills & Tags */}
           {(post.requiredSkills?.length > 0 || post.tags?.length > 0) && (
-            <div className="p-6 md:p-8 border-b border-slate-100">
+            <div className="px-8 md:px-10 pb-8 md:pb-10">
               {post.requiredSkills?.length > 0 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-semibold text-slate-900 mb-3">Required Skills</h3>
-                  <div className="flex flex-wrap gap-2">
+                <div className="mb-6">
+                  <h3 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider">Required Skills</h3>
+                  <div className="flex flex-wrap gap-3">
                     {post.requiredSkills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1.5 bg-emerald-500/10 text-emerald-600 rounded-lg text-sm font-medium"
+                        className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-semibold"
                       >
                         {skill}
                       </span>
@@ -517,12 +515,12 @@ export default function PostDetail() {
               )}
               {post.tags?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900 mb-3">Tags</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider">Tags</h3>
+                  <div className="flex flex-wrap gap-3">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1.5 bg-blue-500/10 text-blue-600 rounded-lg text-sm font-medium"
+                        className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-semibold"
                       >
                         #{tag}
                       </span>
@@ -534,22 +532,22 @@ export default function PostDetail() {
           )}
 
           {/* Stats & Apply */}
-          <div className="p-6 md:p-8 flex flex-wrap items-center justify-between gap-4 bg-slate-50/50">
-            <div className="flex items-center gap-6 text-sm text-slate-500">
-              <span className="flex items-center gap-2">
+          <div className="p-8 md:p-10 flex flex-wrap items-center justify-between gap-6 bg-linear-to-br from-slate-50/80 to-blue-50/30 border-t border-slate-100">
+            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-500">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
-                <span className="font-medium text-slate-700">{post.views}</span> views
+                <span className="font-semibold text-slate-700">{post.views}</span> views
               </span>
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span className="font-medium text-slate-700">{post.applicationsCount || 0}</span> applications
+                <span className="font-semibold text-slate-700">{post.applicationsCount || 0}</span> applications
               </span>
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -560,12 +558,12 @@ export default function PostDetail() {
             {!isOwner && post.status === 'open' && (
               <>
                 {checkingApplication ? (
-                  <div className="px-6 py-2.5 bg-slate-100 rounded-xl text-slate-500 font-medium">
+                  <div className="px-6 py-3 bg-slate-100 rounded-xl text-slate-500 font-semibold">
                     Checking...
                   </div>
                 ) : applicationStatus ? (
-                  <div className="flex items-center gap-3">
-                    <span className={`px-4 py-2 rounded-xl text-sm font-medium ${
+                  <div className="flex items-center gap-4">
+                    <span className={`px-5 py-2.5 rounded-full text-sm font-semibold ${
                       applicationStatus.status === 'pending' ? 'bg-amber-100 text-amber-700' :
                       applicationStatus.status === 'reviewing' ? 'bg-blue-100 text-blue-700' :
                       applicationStatus.status === 'shortlisted' ? 'bg-purple-100 text-purple-700' :
@@ -576,22 +574,22 @@ export default function PostDetail() {
                     </span>
                     <Link
                       to="/my-applications"
-                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-semibold underline underline-offset-2"
                     >
                       View Details
                     </Link>
                   </div>
                 ) : user ? (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setShowApplyModal(true)}
-                      className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                      className="px-8 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5"
                     >
                       Apply Now
                     </button>
                     <button
                       onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                      className="px-4 py-2.5 bg-white border-2 border-slate-200 text-slate-700 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 font-semibold flex items-center gap-2"
+                      className="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 font-semibold flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -602,7 +600,7 @@ export default function PostDetail() {
                 ) : (
                   <Link 
                     to="/login"
-                    className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                    className="px-8 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5"
                   >
                     Login to Apply
                   </Link>
@@ -612,14 +610,14 @@ export default function PostDetail() {
           </div>
 
           {post.website && (
-            <div className="px-6 md:px-8 pb-6 md:pb-8">
+            <div className="px-8 md:px-10 pb-8 md:pb-10">
               <a
                 href={post.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold transition-colors hover:underline underline-offset-2"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
                 Visit website
