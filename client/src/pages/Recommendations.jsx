@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { recommendationsAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 // Icons
 const CheckIcon = () => (
@@ -206,16 +207,18 @@ export default function Recommendations() {
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Recommended for You
-          </h1>
-          <p className="text-slate-600">
-            AI-powered recommendations based on your profile, skills, and activity
-          </p>
-        </div>
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 min-w-0 p-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              Recommended for You
+            </h1>
+            <p className="text-slate-600">
+              AI-powered recommendations based on your profile, skills, and activity
+            </p>
+          </div>
 
         {/* Profile completion prompt */}
         {user && (!user.skills?.length || !user.interests?.length) && (
@@ -336,6 +339,7 @@ export default function Recommendations() {
             </p>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

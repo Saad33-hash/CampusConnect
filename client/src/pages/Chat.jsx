@@ -4,6 +4,7 @@ import { chatAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { getPusherInstance, releasePusherInstance, subscribeToChannel, unsubscribeFromChannel } from '../services/pusher';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 const Chat = () => {
   const { user } = useAuth();
@@ -155,7 +156,7 @@ const Chat = () => {
         // Move to top
         const selected = updated.find(c => c._id === selectedConversation._id);
         const others = updated.filter(c => c._id !== selectedConversation._id);
-        return [selected, ...others];
+        return selected ? [selected, ...others] : others;
       });
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -179,8 +180,8 @@ const Chat = () => {
 
   // Filter conversations by search
   const filteredConversations = conversations.filter(c =>
-    c.otherUser?.displayName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    !searchQuery.trim()
+    c && (c.otherUser?.displayName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    !searchQuery.trim())
   );
 
   if (loading) {
@@ -197,7 +198,9 @@ const Chat = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <div className="h-[calc(100vh-64px)] flex">
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 h-[calc(100vh-64px)] flex">
         {/* Conversations Sidebar */}
         <div className="w-80 bg-white border-r border-slate-200 flex flex-col">
           {/* Search Header */}
@@ -406,6 +409,7 @@ const Chat = () => {
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

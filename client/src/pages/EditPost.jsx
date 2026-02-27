@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postsAPI } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 // SVG Icons
 const AcademicIcon = ({ className = "w-6 h-6" }) => (
@@ -311,11 +312,13 @@ export default function EditPost() {
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Edit Post</h1>
-          <p className="text-slate-600 mt-2">Update your opportunity details</p>
-        </div>
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 min-w-0 p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-slate-900">Edit Post</h1>
+            <p className="text-slate-600 mt-2">Update your opportunity details</p>
+          </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Post Type Selection */}
@@ -618,6 +621,7 @@ export default function EditPost() {
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

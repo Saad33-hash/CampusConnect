@@ -4,6 +4,7 @@ import { postsAPI, applicationsAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import ApplyModal from '../components/ApplyModal';
 
 // SVG Icons
@@ -213,17 +214,19 @@ export default function PostDetail() {
     <div className="min-h-screen bg-linear-to-br from-slate-100 via-slate-50 to-blue-50/30">
       <Navbar />
       
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        {/* Back Button */}
-        <Link
-          to="/posts"
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 transition-colors group"
-        >
-          <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span className="font-medium">Back to opportunities</span>
-        </Link>
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 min-w-0 p-8">
+          {/* Back Button */}
+          <Link
+            to="/posts"
+            className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 transition-colors group"
+          >
+            <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span className="font-medium">Back to opportunities</span>
+          </Link>
 
         {/* Main Content Card */}
         <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.2)] transition-shadow duration-500 overflow-hidden">
@@ -624,6 +627,7 @@ export default function PostDetail() {
               </a>
             </div>
           )}
+        </div>
         </div>
       </div>
 

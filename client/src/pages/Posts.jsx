@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { postsAPI } from '../services/api';
 import PostCard from '../components/PostCard';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import { useAuth } from '../hooks/useAuth';
 
 // SVG Icons
@@ -126,28 +127,23 @@ export default function Posts() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
       
-      <div className="max-w-350 mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Explore Opportunities</h1>
-            <p className="text-slate-500 mt-2">Discover projects and roles that match your expertise</p>
+      <div className="flex">
+        <Sidebar />
+        
+        <div className="flex-1 min-w-0 p-8">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-2 h-8 rounded-full bg-blue-600"></div>
+                <h1 className="text-2xl font-semibold text-slate-900">Explore Opportunities</h1>
+              </div>
+              <p className="text-slate-500 ml-5 text-sm">Discover projects and roles that match your expertise</p>
+            </div>
           </div>
-          {activeRole === 'talent-seeker' && (
-            <Link
-              to="/posts/create"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/25 font-medium"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Create Post
-            </Link>
-          )}
-        </div>
 
         {/* Sidebar + Content Layout */}
         <div className="flex gap-6 min-h-[calc(100vh-12rem)]">
@@ -399,7 +395,8 @@ export default function Posts() {
                 </p>
               </>
             )}
-          </div>  {/* end main content */}
+          </div>
+        </div>
         </div>
       </div>
     </div>

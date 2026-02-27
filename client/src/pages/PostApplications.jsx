@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { applicationsAPI, postsAPI, getFullResumeUrl, interviewsAPI } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import ScheduleInterviewModal from '../components/ScheduleInterviewModal';
 
 const STATUS_CONFIG = {
@@ -127,18 +128,20 @@ export default function PostApplications() {
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
       <Navbar />
       
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <Link to={`/posts/${postId}`} className="text-blue-600 hover:text-blue-700 text-sm font-medium mb-2 inline-flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Post
-          </Link>
-          <h1 className="text-3xl font-bold text-slate-900">Applications</h1>
-          <p className="text-slate-600 mt-1">{post?.title}</p>
-        </div>
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 min-w-0 p-8">
+          {/* Header */}
+          <div className="mb-8">
+            <Link to={`/posts/${postId}`} className="text-blue-600 hover:text-blue-700 text-sm font-medium mb-2 inline-flex items-center gap-1">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Post
+            </Link>
+            <h1 className="text-3xl font-bold text-slate-900">Applications</h1>
+            <p className="text-slate-600 mt-1">{post?.title}</p>
+          </div>
 
         {/* Filter Tabs */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -457,6 +460,7 @@ export default function PostApplications() {
             })}
           </div>
         )}
+        </div>
       </div>
 
       {/* Schedule Interview Modal */}

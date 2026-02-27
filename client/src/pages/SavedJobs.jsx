@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import { postsAPI } from '../services/api';
 import { useToast } from '../hooks/useToast';
 
@@ -47,17 +48,19 @@ const SavedJobs = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-2 h-8 rounded-full bg-rose-500"></div>
-            <h1 className="text-2xl font-semibold text-slate-900">Saved Jobs</h1>
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 min-w-0 p-8">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-2 h-8 rounded-full bg-rose-500"></div>
+              <h1 className="text-2xl font-semibold text-slate-900">Saved Jobs</h1>
+            </div>
+            <p className="text-slate-500 ml-5">
+              Jobs and opportunities you've bookmarked for later
+            </p>
           </div>
-          <p className="text-slate-500 ml-5">
-            Jobs and opportunities you've bookmarked for later
-          </p>
-        </div>
 
         {/* Content */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -185,12 +188,13 @@ const SavedJobs = () => {
         </div>
 
         {/* Stats */}
-        {savedPosts.length > 0 && (
-          <div className="mt-4 text-center text-sm text-slate-500">
-            {savedPosts.length} saved {savedPosts.length === 1 ? 'job' : 'jobs'}
-          </div>
-        )}
-      </main>
+          {savedPosts.length > 0 && (
+            <div className="mt-4 text-center text-sm text-slate-500">
+              {savedPosts.length} saved {savedPosts.length === 1 ? 'job' : 'jobs'}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 };
