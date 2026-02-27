@@ -63,129 +63,143 @@ const SavedJobs = () => {
           </div>
 
         {/* Content */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          {loading ? (
-            <div className="p-12 text-center">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500 mx-auto"></div>
-              <p className="text-slate-500 mt-4">Loading saved jobs...</p>
-            </div>
-          ) : savedPosts.length === 0 ? (
-            /* Empty State */
-            <div className="p-12 text-center">
-              <div className="w-20 h-20 bg-linear-to-br from-rose-50 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                </svg>
+        {loading ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[1, 2].map((i) => (
+              <div key={i} className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 animate-pulse">
+                <div className="h-5 bg-slate-200 rounded w-24 mb-6" />
+                <div className="h-6 bg-slate-200 rounded w-full mb-3" />
+                <div className="h-4 bg-slate-200 rounded w-3/4 mb-6" />
+                <div className="h-20 bg-slate-100 rounded-xl mb-6" />
+                <div className="flex gap-3">
+                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
+                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
+                </div>
               </div>
-              <h3 className="text-slate-900 font-semibold text-lg mb-2">No saved jobs yet</h3>
-              <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
-                Browse opportunities and click the bookmark icon to save jobs you're interested in
-              </p>
-              <Link 
-                to="/posts" 
-                className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition"
-              >
-                Browse Opportunities
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
+            ))}
+          </div>
+        ) : savedPosts.length === 0 ? (
+          /* Empty State */
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-16 text-center">
+            <div className="w-24 h-24 bg-linear-to-br from-rose-100 to-rose-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
             </div>
-          ) : (
-            /* Saved Posts List */
-            <div className="divide-y divide-slate-100">
-              {savedPosts.map((post) => (
-                <Link 
-                  key={post._id} 
-                  to={`/posts/${post._id}`}
-                  className="block p-5 hover:bg-slate-50 transition group"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Post Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <h3 className="font-semibold text-slate-900 group-hover:text-blue-600 transition">
-                            {post.title}
-                          </h3>
-                          <p className="text-sm text-slate-500 mt-1 flex items-center gap-2">
-                            <span>{post.creator?.displayName || 'Unknown'}</span>
-                            {post.creator?.university && (
-                              <>
-                                <span className="text-slate-300">•</span>
-                                <span>{post.creator.university}</span>
-                              </>
-                            )}
-                          </p>
-                        </div>
-                        
-                        {/* Unsave Button */}
-                        <button
-                          onClick={(e) => handleUnsave(post._id, e)}
-                          className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition"
-                          title="Remove from saved"
-                        >
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                          </svg>
-                        </button>
+            <h3 className="text-slate-900 font-semibold text-xl mb-3">No saved jobs yet</h3>
+            <p className="text-slate-500 text-base mb-6 max-w-md mx-auto">
+              Browse opportunities and click the bookmark icon to save jobs you're interested in
+            </p>
+            <Link 
+              to="/posts" 
+              className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 transition"
+            >
+              Browse Opportunities
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        ) : (
+          /* Saved Posts Grid */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {savedPosts.map((post) => (
+              <Link 
+                key={post._id} 
+                to={`/posts/${post._id}`}
+                className="group relative bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 hover:bg-white/90 hover:border-slate-300/50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
+              >
+                {/* Glassmorphism highlight */}
+                <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/50 via-transparent to-transparent pointer-events-none" />
+                
+                {/* Header with Type & Unsave */}
+                <div className="relative flex items-center justify-between mb-5">
+                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-xl text-sm font-medium bg-blue-100 text-blue-700 capitalize">
+                    {post.type?.replace('-', ' ') || 'Opportunity'}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {post.compensation?.type === 'paid' && (
+                      <span className="flex items-center gap-1.5 text-emerald-600 text-sm font-medium bg-emerald-50 px-3 py-1.5 rounded-xl">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472c.08-.185.167-.36.264-.521z" />
+                        </svg>
+                        Paid
+                      </span>
+                    )}
+                    <button
+                      onClick={(e) => handleUnsave(post._id, e)}
+                      className="p-2.5 text-rose-500 bg-rose-50 hover:bg-rose-100 rounded-xl transition"
+                      title="Remove from saved"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="relative text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  {post.title}
+                </h3>
+
+                {/* Description Preview */}
+                {post.description && (
+                  <p className="relative text-base text-slate-500 line-clamp-3 mb-6 leading-relaxed">
+                    {post.description}
+                  </p>
+                )}
+
+                {/* Skills Preview */}
+                {post.requiredSkills?.length > 0 && (
+                  <div className="relative flex flex-wrap gap-2 mb-6">
+                    {post.requiredSkills.slice(0, 3).map((skill, idx) => (
+                      <span key={idx} className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">
+                        {skill}
+                      </span>
+                    ))}
+                    {post.requiredSkills.length > 3 && (
+                      <span className="px-3 py-1.5 bg-slate-100 text-slate-400 rounded-lg text-xs font-medium">
+                        +{post.requiredSkills.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Footer */}
+                <div className="relative flex items-center justify-between pt-5 border-t border-slate-200/50">
+                  <div className="flex items-center gap-3">
+                    {post.creator?.avatar ? (
+                      <img 
+                        src={post.creator.avatar} 
+                        alt={post.creator.displayName}
+                        className="w-10 h-10 rounded-xl object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-xl bg-slate-200 flex items-center justify-center text-sm font-semibold text-slate-600">
+                        {post.creator?.displayName?.charAt(0) || '?'}
                       </div>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap items-center gap-2 mt-3">
-                        <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 capitalize">
-                          {post.type?.replace('-', ' ') || 'Opportunity'}
-                        </span>
-                        {post.compensation?.type && (
-                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            post.compensation.type === 'paid' ? 'bg-emerald-100 text-emerald-700' :
-                            post.compensation.type === 'equity' ? 'bg-purple-100 text-purple-700' :
-                            'bg-slate-100 text-slate-600'
-                          }`}>
-                            {post.compensation.type}
-                          </span>
-                        )}
-                        {post.location?.type && (
-                          <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 capitalize">
-                            {post.location.type}
-                          </span>
-                        )}
-                        {post.status !== 'open' && (
-                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            post.status === 'closed' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
-                          }`}>
-                            {post.status}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Skills Preview */}
-                      {post.requiredSkills?.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-3">
-                          {post.requiredSkills.slice(0, 4).map((skill, idx) => (
-                            <span key={idx} className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">
-                              {skill}
-                            </span>
-                          ))}
-                          {post.requiredSkills.length > 4 && (
-                            <span className="px-2 py-0.5 text-slate-400 text-xs">
-                              +{post.requiredSkills.length - 4} more
-                            </span>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Footer Info */}
-                      <p className="text-xs text-slate-400 mt-3">
-                        Posted {formatDate(post.createdAt)}
-                      </p>
+                    )}
+                    <div>
+                      <span className="block text-sm font-medium text-slate-900">
+                        {post.creator?.displayName || 'Unknown'}
+                      </span>
+                      <span className="block text-xs text-slate-400">
+                        {post.creator?.university || 'University'}
+                      </span>
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-50 px-3 py-2 rounded-xl">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {formatDate(post.createdAt)}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Stats */}
           {savedPosts.length > 0 && (
