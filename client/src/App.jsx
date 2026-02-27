@@ -21,6 +21,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import Chat from './pages/Chat';
 import SavedJobs from './pages/SavedJobs';
 import Recommendations from './pages/Recommendations';
+import VideoCall from './pages/VideoCall';
 import Chatbot from './components/Chatbot';
 import './App.css';
 
@@ -121,6 +122,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Chat />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Interview Video Call Route */}
+          <Route
+            path="/interview/:applicationId"
+            element={
+              <ProtectedRoute>
+                <VideoCall />
               </ProtectedRoute>
             }
           />

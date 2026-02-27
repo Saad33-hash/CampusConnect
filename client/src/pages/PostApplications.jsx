@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { applicationsAPI, postsAPI, getFullResumeUrl } from '../services/api';
+import { applicationsAPI, postsAPI, getFullResumeUrl, interviewsAPI } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import Navbar from '../components/Navbar';
+import ScheduleInterviewModal from '../components/ScheduleInterviewModal';
 
 const STATUS_CONFIG = {
   pending: { label: 'Pending', bg: 'bg-amber-100', text: 'text-amber-700', dot: 'bg-amber-500' },
@@ -42,6 +43,8 @@ export default function PostApplications() {
   const [filter, setFilter] = useState('all');
   const [updatingId, setUpdatingId] = useState(null);
   const [selectedApp, setSelectedApp] = useState(null);
+  const [interviewApp, setInterviewApp] = useState(null);
+  const [cancellingInterview, setCancellingInterview] = useState(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -84,6 +87,29 @@ export default function PostApplications() {
       day: 'numeric',
       year: 'numeric'
     });
+  };
+
+  const formatInterviewDate = (date) => {
+    return new Date(date).toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  const handleCancelInterview = async (applicationId) => {
+    setCancellingInterview(applicationId);
+    try {
+      await interviewsAPI.cancelInterview(applicationId);
+      showToast('Interview cancelled', 'success');
+      fetchData();
+    } catch (error) {
+      showToast(error.response?.data?.message || 'Failed to cancel interview', 'error');
+    } finally {
+      setCancellingInterview(null);
+    }
   };
 
   if (loading && !post) {
@@ -282,6 +308,71 @@ export default function PostApplications() {
                             ))}
                           </div>
                         </div>
+                        
+                        {/* Interview Section - Visible on main card */}
+                        <div className="mt-4 pt-4 border-t border-slate-100">
+                          {app.interview?.status === 'scheduled' && app.interview?.scheduledAt ? (
+                            <div className="flex items-center justify-between gap-4 p-3 bg-green-50 border border-green-200 rounded-xl">
+                              <div className="flex items-center gap-3">
+                                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-700 rounded-lg text-sm font-medium">
+                                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                  Interview Scheduled
+                                </span>
+                                <span className="text-sm text-slate-600">
+                                  {formatInterviewDate(app.interview.scheduledAt)}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => navigate(`/interview/${app._id}`)}
+                                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium flex items-center gap-2"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                  </svg>
+                                  Join
+                                </button>
+                                <button
+                                  onClick={() => handleCancelInterview(app._id)}
+                                  disabled={cancellingInterview === app._id}
+                                  className="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition text-sm font-medium disabled:opacity-50"
+                                >
+                                  {cancellingInterview === app._id ? '...' : 'Cancel'}
+                                </button>
+                              </div>
+                            </div>
+                          ) : app.interview?.status === 'completed' ? (
+                            <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl text-sm text-slate-600">
+                              <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Interview completed {app.interview?.scheduledAt ? `on ${formatInterviewDate(app.interview.scheduledAt)}` : ''}
+                            </div>
+                          ) : app.interview?.status === 'cancelled' ? (
+                            <div className="flex items-center justify-between gap-4 p-3 bg-slate-50 rounded-xl">
+                              <span className="text-sm text-slate-500">Previous interview was cancelled</span>
+                              <button
+                                onClick={() => setInterviewApp(app)}
+                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium flex items-center gap-2"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Reschedule
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setInterviewApp(app)}
+                              className="w-full px-4 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-medium flex items-center justify-center gap-2"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              Schedule Interview
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -367,6 +458,18 @@ export default function PostApplications() {
           </div>
         )}
       </div>
+
+      {/* Schedule Interview Modal */}
+      {interviewApp && (
+        <ScheduleInterviewModal
+          application={interviewApp}
+          onClose={() => setInterviewApp(null)}
+          onScheduled={() => {
+            setInterviewApp(null);
+            fetchData();
+          }}
+        />
+      )}
     </div>
   );
 }

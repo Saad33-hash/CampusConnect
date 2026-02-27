@@ -67,6 +67,26 @@ const applicationSchema = new mongoose.Schema({
   isWithdrawn: {
     type: Boolean,
     default: false
+  },
+  // Interview scheduling
+  interview: {
+    scheduledAt: {
+      type: Date
+    },
+    meetingUrl: {
+      type: String
+    },
+    roomName: {
+      type: String
+    },
+    status: {
+      type: String,
+      enum: ['scheduled', 'completed', 'cancelled', 'no-show']
+    },
+    notes: {
+      type: String,
+      maxlength: 500
+    }
   }
 }, {
   timestamps: true

@@ -333,6 +333,39 @@ export const recommendationsAPI = {
   },
 };
 
+// Interviews API calls
+export const interviewsAPI = {
+  // Schedule an interview
+  scheduleInterview: async (applicationId, data) => {
+    const response = await api.post(`/interviews/${applicationId}/schedule`, data);
+    return response.data;
+  },
+
+  // Join interview (get meeting token)
+  joinInterview: async (applicationId) => {
+    const response = await api.get(`/interviews/${applicationId}/join`);
+    return response.data;
+  },
+
+  // Cancel interview
+  cancelInterview: async (applicationId, reason) => {
+    const response = await api.post(`/interviews/${applicationId}/cancel`, { reason });
+    return response.data;
+  },
+
+  // Complete interview
+  completeInterview: async (applicationId, notes) => {
+    const response = await api.post(`/interviews/${applicationId}/complete`, { notes });
+    return response.data;
+  },
+
+  // Reschedule interview
+  rescheduleInterview: async (applicationId, data) => {
+    const response = await api.post(`/interviews/${applicationId}/reschedule`, data);
+    return response.data;
+  },
+};
+
 // OAuth URLs
 export const GOOGLE_AUTH_URL = 'http://localhost:5000/api/auth/google';
 export const GITHUB_AUTH_URL = 'http://localhost:5000/api/auth/github';
