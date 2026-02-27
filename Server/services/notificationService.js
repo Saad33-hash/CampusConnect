@@ -36,11 +36,11 @@ const notifyNewApplication = async (application, post, applicant) => {
   const notification = {
     type: NotificationType.APPLICATION_RECEIVED,
     title: 'New Application Received',
-    message: `${applicant.name} applied for "${post.title}"`,
+    message: `${applicant.displayName} applied for "${post.title}"`,
     data: {
       applicationId: application._id,
       postId: post._id,
-      applicantName: applicant.name,
+      applicantName: applicant.displayName,
       postTitle: post.title
     }
   };

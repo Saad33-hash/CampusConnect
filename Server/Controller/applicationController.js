@@ -86,7 +86,7 @@ exports.applyToPost = async (req, res) => {
     await Post.findByIdAndUpdate(postId, { $inc: { applicationsCount: 1 } });
 
     // Send notification to recruiter
-    const applicant = await User.findById(req.user._id).select('name');
+    const applicant = await User.findById(req.user._id).select('displayName');
     notifyNewApplication(application, post, applicant);
 
     res.status(201).json({
