@@ -7,8 +7,21 @@ require('dotenv').config();
 
 const app = express();
 
+// Log environment variables (without secrets)
+console.log('🔧 Environment Config:');
+console.log('   CLIENT_URL:', process.env.CLIENT_URL);
+console.log('   GOOGLE_CALLBACK_URL:', process.env.GOOGLE_CALLBACK_URL);
+console.log('   GITHUB_CALLBACK_URL:', process.env.GITHUB_CALLBACK_URL);
+console.log('   NODE_ENV:', process.env.NODE_ENV);
+
 // Passport Config
 require('./Config/passport')(passport);
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`📨 ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Middleware
 app.use(cors({
@@ -51,6 +64,18 @@ app.use('/api/interviews', require('./routes/interviews'));
 // Health Check Route
 app.get('/', (req, res) => {
   res.json({ message: 'Auth API is running!' });
+});
+
+// Debug route to check environment
+app.get('/api/debug/config', (req, res) => {
+  res.json({
+    clientUrl: process.env.CLIENT_URL,
+    googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL,
+    githubCallbackUrl: process.env.GITHUB_CALLBACK_URL,
+    nodeEnv: process.env.NODE_ENV,
+    hasGoogleClientId: !!process.env.GOOGLE_CLIENT_ID,
+    hasGithubClientId: !!process.env.GITHUB_CLIENT_ID
+  });
 });
 
 const PORT = process.env.PORT || 5000;

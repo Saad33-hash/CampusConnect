@@ -61,17 +61,27 @@ router.post('/reset-password', resetPassword);
 
 // @desc    Auth with Google
 // @route   GET /api/auth/google
-router.get('/google', passport.authenticate('google', { 
+router.get('/google', (req, res, next) => {
+  console.log('🔵 Google OAuth initiated');
+  console.log('   Callback URL:', process.env.GOOGLE_CALLBACK_URL);
+  next();
+}, passport.authenticate('google', { 
   scope: ['profile', 'email'] 
 }));
 
 // @desc    Google auth callback
 // @route   GET /api/auth/google/callback
 router.get('/google/callback', 
+  (req, res, next) => {
+    console.log('🔵 Google callback received');
+    console.log('   Query:', req.query);
+    next();
+  },
   passport.authenticate('google', { 
     failureRedirect: `${process.env.CLIENT_URL}/login?error=google_auth_failed` 
   }),
   (req, res) => {
+    console.log('✅ Google auth successful for user:', req.user?.email);
     // Generate JWT token for the authenticated user
     const token = generateToken(req.user._id);
     // Redirect to frontend with token
@@ -83,17 +93,27 @@ router.get('/google/callback',
 
 // @desc    Auth with GitHub
 // @route   GET /api/auth/github
-router.get('/github', passport.authenticate('github', { 
+router.get('/github', (req, res, next) => {
+  console.log('🟣 GitHub OAuth initiated');
+  console.log('   Callback URL:', process.env.GITHUB_CALLBACK_URL);
+  next();
+}, passport.authenticate('github', { 
   scope: ['user:email'] 
 }));
 
 // @desc    GitHub auth callback
 // @route   GET /api/auth/github/callback
 router.get('/github/callback', 
+  (req, res, next) => {
+    console.log('🟣 GitHub callback received');
+    console.log('   Query:', req.query);
+    next();
+  },
   passport.authenticate('github', { 
     failureRedirect: `${process.env.CLIENT_URL}/login?error=github_auth_failed` 
   }),
   (req, res) => {
+    console.log('✅ GitHub auth successful for user:', req.user?.email);
     // Generate JWT token for the authenticated user
     const token = generateToken(req.user._id);
     // Redirect to frontend with token
