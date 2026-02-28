@@ -110,19 +110,19 @@ export default function Sidebar() {
           {/* Profile Completion for Seekers */}
           {activeRole === 'talent-seeker' && sidebarOpen && (
             <Link to="/profile" className="px-1 mb-3">
-              <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-3 border border-blue-100">
+              <div className="bg-[#EBF1FF] rounded-xl p-3 border border-[#1152d4]/20">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-slate-600">Profile Completion</span>
-                  <span className="text-xs font-bold text-blue-600">{profileCompletion}%</span>
+                  <span className="text-xs font-medium text-[#1E293B]">Profile Completion</span>
+                  <span className="text-xs font-bold text-[#1152d4]">{profileCompletion}%</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-white rounded-full h-2 overflow-hidden">
                   <div 
-                    className="h-full bg-linear-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
+                    className="h-full bg-[#1152d4] rounded-full transition-all duration-500"
                     style={{ width: `${profileCompletion}%` }}
                   />
                 </div>
                 {profileCompletion < 100 && (
-                  <p className="text-xs text-slate-500 mt-2">Complete your profile to get better matches!</p>
+                  <p className="text-xs text-[#64748B] mt-2">Complete your profile to get better matches!</p>
                 )}
               </div>
             </Link>
@@ -132,14 +132,14 @@ export default function Sidebar() {
           {activeRole === 'talent-seeker' && !sidebarOpen && (
             <Link
               to="/profile"
-              className="flex items-center justify-center px-3 py-2.5 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition"
+              className="flex items-center justify-center px-3 py-2.5 rounded-xl text-[#64748B] hover:text-[#1152d4] hover:bg-[#EBF1FF] transition"
               title={`Profile ${profileCompletion}% complete`}
             >
               <div className="relative">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 1 2-1m0 0l2 1 2-1m-2 1v3m0-3V9m0 0L9 8m6-2l-3 2-3-2m6 2v3" />
                 </svg>
-                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-blue-500 text-white text-[8px] flex items-center justify-center font-bold">
+                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[#1152d4] text-white text-[8px] flex items-center justify-center font-bold">
                   {Math.round(profileCompletion / 10)}
                 </div>
               </div>

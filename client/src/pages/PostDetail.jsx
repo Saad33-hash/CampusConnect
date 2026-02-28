@@ -193,11 +193,11 @@ export default function PostDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-100 via-slate-50 to-blue-50/30">
+      <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
         <Navbar />
         <div className="flex justify-center items-center py-32">
           <div className="relative">
-            <div className="w-14 h-14 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin"></div>
+            <div className="w-14 h-14 rounded-full border-4 border-slate-200 border-t-[#1152d4] animate-spin"></div>
           </div>
         </div>
       </div>
@@ -211,7 +211,7 @@ export default function PostDetail() {
   const isOwner = user && post.creator?._id === user._id;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-100 via-slate-50 to-blue-50/30">
+    <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
       <Navbar />
       
       <div className="flex">
@@ -243,13 +243,13 @@ export default function PostDetail() {
                   <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
                     post.status === 'open' ? 'bg-emerald-50 text-emerald-600' :
                     post.status === 'draft' ? 'bg-amber-50 text-amber-600' :
-                    post.status === 'filled' ? 'bg-blue-50 text-blue-600' :
+                    post.status === 'filled' ? 'bg-[#EBF1FF] text-[#1152d4]' :
                     'bg-slate-100 text-slate-500'
                   }`}>
                     <span className={`w-2 h-2 rounded-full ${
                       post.status === 'open' ? 'bg-emerald-500 animate-pulse' :
                       post.status === 'draft' ? 'bg-amber-500' :
-                      post.status === 'filled' ? 'bg-blue-500' :
+                      post.status === 'filled' ? 'bg-[#1152d4]' :
                       'bg-slate-400'
                     }`} />
                     {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
@@ -268,7 +268,7 @@ export default function PostDetail() {
                     <div className="flex items-center gap-4">
                       <div className={`flex items-center justify-center w-16 h-16 rounded-2xl font-bold text-xl shadow-sm ${
                         post.matchScore >= 80 ? 'bg-linear-to-br from-emerald-500 to-teal-500 text-white' :
-                        post.matchScore >= 60 ? 'bg-linear-to-br from-blue-500 to-indigo-500 text-white' :
+                        post.matchScore >= 60 ? 'bg-linear-to-br from-[#1152d4] to-[#0d42a8] text-white' :
                         post.matchScore >= 40 ? 'bg-linear-to-br from-amber-500 to-orange-500 text-white' :
                         'bg-slate-400 text-white'
                       }`}>
@@ -277,7 +277,7 @@ export default function PostDetail() {
                       <div>
                         <p className={`font-bold text-lg ${
                           post.matchScore >= 80 ? 'text-emerald-700' :
-                          post.matchScore >= 60 ? 'text-blue-700' :
+                          post.matchScore >= 60 ? 'text-[#1152d4]' :
                           post.matchScore >= 40 ? 'text-amber-700' :
                           'text-slate-600'
                         }`}>
@@ -568,7 +568,7 @@ export default function PostDetail() {
                   <div className="flex items-center gap-4">
                     <span className={`px-5 py-2.5 rounded-full text-sm font-semibold ${
                       applicationStatus.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                      applicationStatus.status === 'reviewing' ? 'bg-blue-100 text-blue-700' :
+                      applicationStatus.status === 'reviewing' ? 'bg-[#EBF1FF] text-[#1152d4]' :
                       applicationStatus.status === 'shortlisted' ? 'bg-purple-100 text-purple-700' :
                       applicationStatus.status === 'accepted' ? 'bg-emerald-100 text-emerald-700' :
                       'bg-red-100 text-red-700'
@@ -577,7 +577,7 @@ export default function PostDetail() {
                     </span>
                     <Link
                       to="/my-applications"
-                      className="text-blue-600 hover:text-blue-700 text-sm font-semibold underline underline-offset-2"
+                      className="text-[#1152d4] hover:text-[#0d42a8] text-sm font-semibold underline underline-offset-2"
                     >
                       View Details
                     </Link>
@@ -586,13 +586,13 @@ export default function PostDetail() {
                   <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setShowApplyModal(true)}
-                      className="px-8 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5"
+                      className="px-8 py-3 bg-[#1152d4] text-white rounded-xl hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/30 hover:shadow-[#1152d4]/50 hover:-translate-y-0.5"
                     >
                       Apply Now
                     </button>
                     <button
                       onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                      className="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 font-semibold flex items-center gap-2"
+                      className="px-6 py-3 bg-white border-2 border-[#E2E8F0] text-[#1E293B] rounded-xl hover:border-[#1152d4]/30 hover:bg-[#F8FAFC] transition-all duration-200 font-semibold flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -603,7 +603,7 @@ export default function PostDetail() {
                 ) : (
                   <Link 
                     to="/login"
-                    className="px-8 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5"
+                    className="px-8 py-3 bg-[#1152d4] text-white rounded-xl hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/30 hover:shadow-[#1152d4]/50 hover:-translate-y-0.5"
                   >
                     Login to Apply
                   </Link>
@@ -618,7 +618,7 @@ export default function PostDetail() {
                 href={post.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold transition-colors hover:underline underline-offset-2"
+                className="inline-flex items-center gap-2 text-[#1152d4] hover:text-[#0d42a8] font-semibold transition-colors hover:underline underline-offset-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

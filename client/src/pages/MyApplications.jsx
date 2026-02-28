@@ -167,7 +167,7 @@ export default function MyApplications() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
       <Navbar />
       
       <div className="flex">
@@ -178,10 +178,10 @@ export default function MyApplications() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-2 h-8 rounded-full bg-blue-600"></div>
-              <h1 className="text-2xl font-semibold text-slate-900">My Applications</h1>
+              <div className="w-2 h-8 rounded-full bg-[#1152d4]"></div>
+              <h1 className="text-2xl font-semibold text-[#1E293B]">My Applications</h1>
             </div>
-            <p className="text-slate-500 ml-5 text-sm">Track and manage your job applications</p>
+            <p className="text-[#64748B] ml-5 text-sm">Track and manage your job applications</p>
           </div>
 
           {/* Stats Overview with Chart */}
@@ -264,20 +264,20 @@ export default function MyApplications() {
           {/* Applications Grid - 2 cards per row with larger size */}
           {loading ? (
             <div className="flex justify-center items-center py-24">
-              <div className="w-10 h-10 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin"></div>
+              <div className="w-10 h-10 rounded-full border-4 border-slate-200 border-t-[#1152d4] animate-spin"></div>
             </div>
           ) : applications.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-slate-200 p-16 text-center">
-              <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-16 text-center">
+              <div className="w-16 h-16 bg-[#EBF1FF] rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">No applications yet</h3>
-              <p className="text-slate-500 mb-6 max-w-md mx-auto">Start applying to opportunities to track them here.</p>
+              <h3 className="text-xl font-bold text-[#1E293B] mb-2">No applications yet</h3>
+              <p className="text-[#64748B] mb-6 max-w-md mx-auto">Start applying to opportunities to track them here.</p>
               <Link
                 to="/posts"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#1152d4] text-white rounded-xl font-medium hover:bg-[#0d42a8] transition"
               >
                 Browse Opportunities
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -354,21 +354,21 @@ export default function MyApplications() {
 
                         {/* Interview Section */}
                         {app.interview?.status === 'scheduled' && (
-                          <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl mb-5">
+                          <div className="p-4 bg-[#EBF1FF] border border-[#1152d4]/20 rounded-xl mb-5">
                             <div className="flex items-center justify-between mb-3">
-                              <span className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <span className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+                                <svg className="w-4 h-4 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
                                 Interview Scheduled
                               </span>
-                              <span className="text-sm text-slate-500">
+                              <span className="text-sm text-[#64748B]">
                                 {formatInterviewDate(app.interview.scheduledAt)}
                               </span>
                             </div>
                             <button
                               onClick={(e) => { e.preventDefault(); navigate(`/interview/${app._id}`); }}
-                              className="w-full px-4 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                              className="w-full px-4 py-2.5 bg-[#1152d4] text-white rounded-xl text-sm font-medium hover:bg-[#0d42a8] transition flex items-center justify-center gap-2"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -390,8 +390,8 @@ export default function MyApplications() {
                         )}
 
                         {/* Actions */}
-                        <div className="flex items-center justify-between pt-5 border-t border-slate-100">
-                          <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700">
+                        <div className="flex items-center justify-between pt-5 border-t border-[#E2E8F0]">
+                          <span className="text-sm font-medium text-[#1152d4] group-hover:text-[#0d42a8]">
                             View Details →
                           </span>
                           {['pending', 'reviewing'].includes(app.status) && (

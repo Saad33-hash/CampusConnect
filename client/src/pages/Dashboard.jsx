@@ -23,12 +23,12 @@ const Dashboard = () => {
             {/* Welcome Header */}
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-2 h-8 rounded-full bg-blue-600"></div>
-                <h1 className="text-2xl font-semibold text-slate-900">
+                <div className="w-2 h-8 rounded-full bg-[#1152d4]"></div>
+                <h1 className="text-2xl font-semibold text-[#1E293B]">
                   Welcome back, {user?.displayName?.split(' ')[0] || 'User'}
                 </h1>
               </div>
-              <p className="text-slate-500 ml-5">Discover jobs and opportunities that match your skills</p>
+              <p className="text-[#64748B] ml-5">Discover jobs and opportunities that match your skills</p>
             </div>
             <TalentSeekerDashboard />
           </div>
@@ -215,7 +215,7 @@ const TalentFinderDashboard = ({ user }) => {
                     {/* Status */}
                     <div className="col-span-2 flex justify-center">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                        app.status === 'pending' ? 'bg-slate-100 text-slate-600' :
+                        app.status === 'pending' ? 'bg-[#F8FAFC] text-[#64748B]' :
                         app.status === 'reviewing' ? 'bg-[#EBF1FF] text-[#1152d4]' :
                         app.status === 'shortlisted' ? 'bg-emerald-50 text-emerald-600' :
                         app.status === 'accepted' ? 'bg-green-50 text-green-600' :
@@ -289,25 +289,25 @@ const TalentSeekerDashboard = () => {
     const styles = {
       'academic-project': { bg: 'bg-violet-100', text: 'text-violet-700', label: 'Academic' },
       'startup-gig': { bg: 'bg-orange-100', text: 'text-orange-700', label: 'Startup' },
-      'part-time-job': { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Part-time' },
+      'part-time-job': { bg: 'bg-[#EBF1FF]', text: 'text-[#1152d4]', label: 'Part-time' },
       'hackathon': { bg: 'bg-pink-100', text: 'text-pink-700', label: 'Hackathon' },
     };
-    return styles[type] || { bg: 'bg-slate-100', text: 'text-slate-600', label: type };
+    return styles[type] || { bg: 'bg-[#F8FAFC]', text: 'text-[#64748B]', label: type };
   };
 
   return (
     <div className="space-y-8">
       {/* Application Stats with Graph */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden">
         <div className="p-6 pb-0">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Application Overview</h2>
-              <p className="text-sm text-slate-500 mt-1">Track your job application progress</p>
+              <h2 className="text-lg font-semibold text-[#1E293B]">Application Overview</h2>
+              <p className="text-sm text-[#64748B] mt-1">Track your job application progress</p>
             </div>
             <Link 
               to="/my-applications" 
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1152d4] hover:text-[#0d42a8] transition"
             >
               View all
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -318,32 +318,32 @@ const TalentSeekerDashboard = () => {
 
           {/* Stats Overview Row */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-            <div className="text-center p-4 bg-slate-50 rounded-xl">
-              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.total}</p>
-              <p className="text-xs text-slate-500 mt-1 font-medium">Total</p>
+            <div className="text-center p-4 bg-[#F8FAFC] rounded-xl">
+              <p className="text-3xl font-bold text-[#1E293B]">{loading ? '-' : appStats.total}</p>
+              <p className="text-xs text-[#64748B] mt-1 font-medium">Total</p>
             </div>
-            <div className="text-center p-4 bg-slate-50 rounded-xl">
-              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.pending}</p>
-              <p className="text-xs text-slate-500 mt-1 font-medium">Pending</p>
+            <div className="text-center p-4 bg-[#F8FAFC] rounded-xl">
+              <p className="text-3xl font-bold text-[#1E293B]">{loading ? '-' : appStats.pending}</p>
+              <p className="text-xs text-[#64748B] mt-1 font-medium">Pending</p>
             </div>
-            <div className="text-center p-4 bg-slate-50 rounded-xl">
-              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.reviewing}</p>
-              <p className="text-xs text-slate-500 mt-1 font-medium">In Review</p>
+            <div className="text-center p-4 bg-[#F8FAFC] rounded-xl">
+              <p className="text-3xl font-bold text-[#1E293B]">{loading ? '-' : appStats.reviewing}</p>
+              <p className="text-xs text-[#64748B] mt-1 font-medium">In Review</p>
             </div>
-            <div className="text-center p-4 bg-slate-50 rounded-xl">
-              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.shortlisted}</p>
-              <p className="text-xs text-slate-500 mt-1 font-medium">Shortlisted</p>
+            <div className="text-center p-4 bg-[#F8FAFC] rounded-xl">
+              <p className="text-3xl font-bold text-[#1E293B]">{loading ? '-' : appStats.shortlisted}</p>
+              <p className="text-xs text-[#64748B] mt-1 font-medium">Shortlisted</p>
             </div>
-            <div className="text-center p-4 bg-slate-50 rounded-xl">
-              <p className="text-3xl font-bold text-slate-900">{loading ? '-' : appStats.accepted}</p>
-              <p className="text-xs text-slate-500 mt-1 font-medium">Accepted</p>
+            <div className="text-center p-4 bg-[#F8FAFC] rounded-xl">
+              <p className="text-3xl font-bold text-[#1E293B]">{loading ? '-' : appStats.accepted}</p>
+              <p className="text-xs text-[#64748B] mt-1 font-medium">Accepted</p>
             </div>
           </div>
         </div>
 
         {/* Bar Chart Visualization */}
         <div className="px-6 pb-6">
-          <div className="bg-slate-50 rounded-xl p-5">
+          <div className="bg-[#F8FAFC] rounded-xl p-5">
             <div className="flex items-end gap-3 h-32">
               {chartData.map((item, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
@@ -356,7 +356,7 @@ const TalentSeekerDashboard = () => {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-slate-500 font-medium truncate w-full text-center">{item.label}</span>
+                  <span className="text-xs text-[#64748B] font-medium truncate w-full text-center">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -368,12 +368,12 @@ const TalentSeekerDashboard = () => {
       <div>
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">Discover Opportunities</h2>
-            <p className="text-sm text-slate-500 mt-0.5">Fresh opportunities matching your profile</p>
+            <h2 className="text-lg font-semibold text-[#1E293B]">Discover Opportunities</h2>
+            <p className="text-sm text-[#64748B] mt-0.5">Fresh opportunities matching your profile</p>
           </div>
           <Link 
             to="/posts" 
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-medium hover:bg-slate-800 transition"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1152d4] text-white rounded-xl text-sm font-medium hover:bg-[#0d42a8] transition"
           >
             Browse all
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -385,27 +385,27 @@ const TalentSeekerDashboard = () => {
         {loading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {[1, 2].map((i) => (
-              <div key={i} className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 animate-pulse">
-                <div className="h-5 bg-slate-200 rounded w-24 mb-6" />
-                <div className="h-6 bg-slate-200 rounded w-full mb-3" />
-                <div className="h-4 bg-slate-200 rounded w-3/4 mb-6" />
-                <div className="h-20 bg-slate-100 rounded-xl mb-6" />
+              <div key={i} className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#E2E8F0]/50 p-8 animate-pulse">
+                <div className="h-5 bg-[#E2E8F0] rounded w-24 mb-6" />
+                <div className="h-6 bg-[#E2E8F0] rounded w-full mb-3" />
+                <div className="h-4 bg-[#E2E8F0] rounded w-3/4 mb-6" />
+                <div className="h-20 bg-[#F8FAFC] rounded-xl mb-6" />
                 <div className="flex gap-3">
-                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
-                  <div className="h-8 bg-slate-200 rounded-lg w-20" />
+                  <div className="h-8 bg-[#E2E8F0] rounded-lg w-20" />
+                  <div className="h-8 bg-[#E2E8F0] rounded-lg w-20" />
                 </div>
               </div>
             ))}
           </div>
         ) : recentPosts.length === 0 ? (
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-16 text-center">
-            <div className="w-24 h-24 bg-linear-to-br from-blue-100 to-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#E2E8F0]/50 p-16 text-center">
+            <div className="w-24 h-24 bg-[#EBF1FF] rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <h3 className="text-slate-900 font-semibold text-xl mb-3">No opportunities available yet</h3>
-            <p className="text-slate-500 text-base mb-6 max-w-md mx-auto">
+            <h3 className="text-[#1E293B] font-semibold text-xl mb-3">No opportunities available yet</h3>
+            <p className="text-[#64748B] text-base mb-6 max-w-md mx-auto">
               New opportunities are being posted regularly. Check back soon!
             </p>
           </div>
@@ -417,7 +417,7 @@ const TalentSeekerDashboard = () => {
                 <Link
                   key={post._id}
                   to={`/posts/${post._id}`}
-                  className="group relative bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-8 hover:bg-white/90 hover:border-slate-300/50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
+                  className="group relative bg-white/70 backdrop-blur-xl rounded-3xl border border-[#E2E8F0]/50 p-8 hover:bg-white/90 hover:border-[#1152d4]/30 hover:shadow-2xl hover:shadow-[#1152d4]/10 transition-all duration-500"
                 >
                   {/* Glassmorphism highlight */}
                   <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/50 via-transparent to-transparent pointer-events-none" />
@@ -438,12 +438,12 @@ const TalentSeekerDashboard = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="relative text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="relative text-xl font-bold text-[#1E293B] mb-3 line-clamp-2 group-hover:text-[#1152d4] transition-colors">
                     {post.title}
                   </h3>
 
                   {/* Description Preview */}
-                  <p className="relative text-base text-slate-500 line-clamp-3 mb-6 leading-relaxed">
+                  <p className="relative text-base text-[#64748B] line-clamp-3 mb-6 leading-relaxed">
                     {post.description}
                   </p>
 
@@ -451,12 +451,12 @@ const TalentSeekerDashboard = () => {
                   {post.requiredSkills && post.requiredSkills.length > 0 && (
                     <div className="relative flex flex-wrap gap-2 mb-6">
                       {post.requiredSkills.slice(0, 3).map((skill, idx) => (
-                        <span key={idx} className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">
+                        <span key={idx} className="px-3 py-1.5 bg-[#F8FAFC] text-[#64748B] rounded-lg text-xs font-medium">
                           {skill}
                         </span>
                       ))}
                       {post.requiredSkills.length > 3 && (
-                        <span className="px-3 py-1.5 bg-slate-100 text-slate-400 rounded-lg text-xs font-medium">
+                        <span className="px-3 py-1.5 bg-[#F8FAFC] text-[#64748B]/60 rounded-lg text-xs font-medium">
                           +{post.requiredSkills.length - 3} more
                         </span>
                       )}
@@ -464,7 +464,7 @@ const TalentSeekerDashboard = () => {
                   )}
 
                   {/* Footer */}
-                  <div className="relative flex items-center justify-between pt-5 border-t border-slate-200/50">
+                  <div className="relative flex items-center justify-between pt-5 border-t border-[#E2E8F0]/50">
                     <div className="flex items-center gap-3">
                       {post.creator?.avatar ? (
                         <img 
@@ -473,20 +473,20 @@ const TalentSeekerDashboard = () => {
                           className="w-10 h-10 rounded-xl object-cover"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-xl bg-slate-200 flex items-center justify-center text-sm font-semibold text-slate-600">
+                        <div className="w-10 h-10 rounded-xl bg-[#EBF1FF] flex items-center justify-center text-sm font-semibold text-[#1152d4]">
                           {post.creator?.displayName?.charAt(0) || '?'}
                         </div>
                       )}
                       <div>
-                        <span className="block text-sm font-medium text-slate-900">
+                        <span className="block text-sm font-medium text-[#1E293B]">
                           {post.creator?.displayName || 'Unknown'}
                         </span>
-                        <span className="block text-xs text-slate-400">
+                        <span className="block text-xs text-[#64748B]">
                           {post.creator?.university || 'University'}
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-50 px-3 py-2 rounded-xl">
+                    <div className="flex items-center gap-2 text-sm text-[#64748B] bg-[#F8FAFC] px-3 py-2 rounded-xl">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>

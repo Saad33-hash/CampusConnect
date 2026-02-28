@@ -46,7 +46,7 @@ const SavedJobs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
       <Navbar />
       <div className="flex">
         <Sidebar />
@@ -54,10 +54,10 @@ const SavedJobs = () => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-2 h-8 rounded-full bg-rose-500"></div>
-              <h1 className="text-2xl font-semibold text-slate-900">Saved Jobs</h1>
+              <div className="w-2 h-8 rounded-full bg-[#1152d4]"></div>
+              <h1 className="text-2xl font-semibold text-[#1E293B]">Saved Jobs</h1>
             </div>
-            <p className="text-slate-500 ml-5">
+            <p className="text-[#64748B] ml-5">
               Jobs and opportunities you've bookmarked for later
             </p>
           </div>
@@ -80,19 +80,19 @@ const SavedJobs = () => {
           </div>
         ) : savedPosts.length === 0 ? (
           /* Empty State */
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-slate-200/50 p-16 text-center">
-            <div className="w-24 h-24 bg-linear-to-br from-rose-100 to-rose-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#E2E8F0] p-16 text-center">
+            <div className="w-24 h-24 bg-[#EBF1FF] rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
               </svg>
             </div>
-            <h3 className="text-slate-900 font-semibold text-xl mb-3">No saved jobs yet</h3>
-            <p className="text-slate-500 text-base mb-6 max-w-md mx-auto">
+            <h3 className="text-[#1E293B] font-semibold text-xl mb-3">No saved jobs yet</h3>
+            <p className="text-[#64748B] text-base mb-6 max-w-md mx-auto">
               Browse opportunities and click the bookmark icon to save jobs you're interested in
             </p>
             <Link 
               to="/posts" 
-              className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 transition"
+              className="inline-flex items-center gap-2 bg-[#1152d4] text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-[#0d42a8] transition"
             >
               Browse Opportunities
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ const SavedJobs = () => {
                 
                 {/* Header with Type & Unsave */}
                 <div className="relative flex items-center justify-between mb-5">
-                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-xl text-sm font-medium bg-blue-100 text-blue-700 capitalize">
+                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-xl text-sm font-medium bg-[#EBF1FF] text-[#1152d4] capitalize">
                     {post.type?.replace('-', ' ') || 'Opportunity'}
                   </span>
                   <div className="flex items-center gap-2">
@@ -139,13 +139,13 @@ const SavedJobs = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="relative text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="relative text-xl font-bold text-[#1E293B] mb-3 line-clamp-2 group-hover:text-[#1152d4] transition-colors">
                   {post.title}
                 </h3>
 
                 {/* Description Preview */}
                 {post.description && (
-                  <p className="relative text-base text-slate-500 line-clamp-3 mb-6 leading-relaxed">
+                  <p className="relative text-base text-[#64748B] line-clamp-3 mb-6 leading-relaxed">
                     {post.description}
                   </p>
                 )}
