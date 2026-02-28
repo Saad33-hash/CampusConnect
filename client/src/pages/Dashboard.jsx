@@ -275,11 +275,11 @@ const TalentSeekerDashboard = () => {
 
   // Chart data for the bar visualization
   const chartData = [
-    { label: 'Pending', value: appStats.pending || 0, color: 'bg-slate-400' },
-    { label: 'In Review', value: appStats.reviewing || 0, color: 'bg-slate-500' },
-    { label: 'Shortlisted', value: appStats.shortlisted || 0, color: 'bg-slate-600' },
-    { label: 'Accepted', value: appStats.accepted || 0, color: 'bg-slate-700' },
-    { label: 'Rejected', value: appStats.rejected || 0, color: 'bg-slate-300' },
+    { label: 'Pending', value: appStats.pending || 0, color: 'bg-[#1152d4]' },
+    { label: 'In Review', value: appStats.reviewing || 0, color: 'bg-[#1152d4]' },
+    { label: 'Shortlisted', value: appStats.shortlisted || 0, color: 'bg-[#1152d4]' },
+    { label: 'Accepted', value: appStats.accepted || 0, color: 'bg-[#1152d4]' },
+    { label: 'Rejected', value: appStats.rejected || 0, color: 'bg-[#1152d4]/40' },
   ];
 
   const maxValue = Math.max(...chartData.map(d => d.value), 1);
