@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
-export const API_BASE_URL = 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 // Helper to convert resume URL to full URL
 export const getFullResumeUrl = (url) => {
@@ -380,7 +380,7 @@ export const interviewsAPI = {
 };
 
 // OAuth URLs
-export const GOOGLE_AUTH_URL = 'http://localhost:5000/api/auth/google';
-export const GITHUB_AUTH_URL = 'http://localhost:5000/api/auth/github';
+export const GOOGLE_AUTH_URL = `${API_BASE_URL}/api/auth/google`;
+export const GITHUB_AUTH_URL = `${API_BASE_URL}/api/auth/github`;
 
 export default api;
