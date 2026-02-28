@@ -127,7 +127,7 @@ export default function Posts() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="finder-theme min-h-screen bg-[#F8FAFC]">
       <Navbar />
       
       <div className="flex">
@@ -138,10 +138,10 @@ export default function Posts() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <div className="w-2 h-8 rounded-full bg-blue-600"></div>
-                <h1 className="text-2xl font-semibold text-slate-900">Explore Opportunities</h1>
+                <div className="w-2 h-8 rounded-full bg-[#1152d4]"></div>
+                <h1 className="text-2xl font-semibold text-[#1E293B]">Explore Opportunities</h1>
               </div>
-              <p className="text-slate-500 ml-5 text-sm">Discover projects and roles that match your expertise</p>
+              <p className="text-[#64748B] ml-5 text-sm">Discover projects and roles that match your expertise</p>
             </div>
           </div>
 
@@ -149,19 +149,19 @@ export default function Posts() {
         <div className="flex gap-6 min-h-[calc(100vh-12rem)]">
           {/* Filter Sidebar (LEFT) */}
           <aside className="hidden lg:block w-64 shrink-0 self-stretch">
-            <div className="sticky top-24 bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl shadow-sm ring-1 ring-slate-900/5 p-5 space-y-6 h-[calc(100vh-7rem)]">
+            <div className="sticky top-24 bg-white/60 backdrop-blur-xl border border-[#E2E8F0] rounded-lg shadow-sm ring-1 ring-slate-900/5 p-5 space-y-6 h-[calc(100vh-7rem)]">
               {/* Sidebar Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
                     <FilterIcon />
                   </div>
-                  <h3 className="text-sm font-semibold text-slate-800">Filters</h3>
+                  <h3 className="text-sm font-semibold text-[#1E293B]">Filters</h3>
                 </div>
                 {type && (
                   <button
                     onClick={clearAllFilters}
-                    className="text-xs text-slate-400 hover:text-blue-600 font-medium transition-colors"
+                    className="text-xs text-[#64748B] hover:text-[#1152d4] font-medium transition-colors"
                   >
                     Clear
                   </button>
@@ -170,7 +170,7 @@ export default function Posts() {
 
               {/* Opportunity Type */}
               <div>
-                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Category</h4>
+                <h4 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">Category</h4>
                 <div className="space-y-1">
                   {POST_TYPES.map((postType) => {
                     const TypeIcon = postType.Icon;
@@ -179,10 +179,10 @@ export default function Posts() {
                       <button
                         key={postType.value}
                         onClick={() => handleTypeChange(postType.value)}
-                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                           isActive
-                            ? 'bg-blue-50 text-blue-600 font-semibold'
-                            : 'text-slate-600 hover:bg-slate-50'
+                            ? 'bg-[#EBF1FF] text-[#1152d4] font-semibold'
+                            : 'text-[#1E293B] hover:bg-[#F8FAFC]'
                         }`}
                       >
                         <TypeIcon />
@@ -196,9 +196,9 @@ export default function Posts() {
               {/* Active filter indicator */}
               {type && (
                 <>
-                  <div className="border-t border-slate-100" />
-                  <div className="bg-blue-50/60 rounded-xl px-3 py-2.5 text-center">
-                    <p className="text-xs text-blue-600 font-medium">1 filter active</p>
+                  <div className="border-t border-[#E2E8F0]" />
+                  <div className="bg-[#EBF1FF]/60 rounded-lg px-3 py-2.5 text-center">
+                    <p className="text-xs text-[#1152d4] font-medium">1 filter active</p>
                   </div>
                 </>
               )}
@@ -217,10 +217,10 @@ export default function Posts() {
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Search by title, skills, or keywords..."
-                      className="w-full pl-12 pr-4 py-3.5 bg-white/70 backdrop-blur-sm border border-slate-200/60 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all shadow-sm"
+                      className="w-full pl-12 pr-4 py-3.5 bg-white/70 backdrop-blur-sm border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] focus:bg-white transition-all shadow-sm"
                     />
                     <svg
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748B]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -231,7 +231,7 @@ export default function Posts() {
                 </div>
                 <button
                   type="submit"
-                  className="px-6 py-3.5 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors font-medium shadow-sm"
+                  className="px-6 py-3.5 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition-colors font-medium shadow-sm"
                 >
                   Search
                 </button>
@@ -242,12 +242,12 @@ export default function Posts() {
           <div className="lg:hidden fixed bottom-6 right-6 z-40">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-full shadow-xl hover:bg-slate-800 transition-all font-medium"
+              className="flex items-center gap-2 px-5 py-3 bg-[#1152d4] text-white rounded-full shadow-xl hover:bg-[#0d42a8] transition-all font-medium"
             >
               <FilterIcon />
               Filters
               {type && (
-                <span className="w-5 h-5 flex items-center justify-center bg-blue-500 text-white text-xs rounded-full">1</span>
+                <span className="w-5 h-5 flex items-center justify-center bg-white text-[#1152d4] text-xs rounded-full font-bold">1</span>
               )}
             </button>
           </div>
@@ -257,9 +257,9 @@ export default function Posts() {
             <div className="lg:hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" onClick={() => setShowFilters(false)}>
               <div className="absolute left-0 top-0 h-full w-72 max-w-[85vw] bg-white shadow-2xl p-6 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800">Filters</h3>
-                  <button onClick={() => setShowFilters(false)} className="p-2 hover:bg-slate-100 rounded-lg transition">
-                    <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="text-lg font-semibold text-[#1E293B]">Filters</h3>
+                  <button onClick={() => setShowFilters(false)} className="p-2 hover:bg-[#F8FAFC] rounded-lg transition">
+                    <svg className="w-5 h-5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
@@ -268,7 +268,7 @@ export default function Posts() {
                 <div className="space-y-6">
                   {/* Category */}
                   <div>
-                    <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Category</h4>
+                    <h4 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">Category</h4>
                     <div className="space-y-1">
                       {POST_TYPES.map((postType) => {
                         const MTypeIcon = postType.Icon;
@@ -277,8 +277,8 @@ export default function Posts() {
                           <button
                             key={postType.value}
                             onClick={() => handleTypeChange(postType.value)}
-                            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                              isActive ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50'
+                            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                              isActive ? 'bg-[#EBF1FF] text-[#1152d4] font-semibold' : 'text-[#1E293B] hover:bg-[#F8FAFC]'
                             }`}
                           >
                             <MTypeIcon />
@@ -292,7 +292,7 @@ export default function Posts() {
                   {type && (
                     <button
                       onClick={clearAllFilters}
-                      className="w-full py-3 text-sm text-slate-500 hover:text-blue-600 font-medium border border-slate-200 rounded-xl transition-colors"
+                      className="w-full py-3 text-sm text-[#64748B] hover:text-[#1152d4] font-medium border border-[#E2E8F0] rounded-lg transition-colors"
                     >
                       Clear filter
                     </button>
@@ -306,22 +306,22 @@ export default function Posts() {
             {loading ? (
               <div className="flex justify-center items-center py-24">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin"></div>
+                  <div className="w-12 h-12 rounded-full border-4 border-[#E2E8F0] border-t-[#1152d4] animate-spin"></div>
                 </div>
               </div>
             ) : posts.length === 0 ? (
               <div className="text-center py-24">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-slate-100 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
+                  <svg className="w-10 h-10 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">No opportunities found</h3>
-                <p className="text-slate-500 mb-8 max-w-md mx-auto">We couldn't find any posts matching your criteria. Try adjusting your filters.</p>
+                <h3 className="text-xl font-semibold text-[#1E293B] mb-2">No opportunities found</h3>
+                <p className="text-[#64748B] mb-8 max-w-md mx-auto">We couldn't find any posts matching your criteria. Try adjusting your filters.</p>
                 {activeRole === 'talent-seeker' && (
                   <Link
                     to="/posts/create"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors font-medium"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition-colors font-medium"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -344,7 +344,7 @@ export default function Posts() {
                     <button
                       onClick={() => handlePageChange(page - 1)}
                       disabled={page === 1}
-                      className="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="p-2.5 rounded-lg border border-[#E2E8F0] text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -366,10 +366,10 @@ export default function Posts() {
                           <button
                             key={pageNum}
                             onClick={() => handlePageChange(pageNum)}
-                            className={`w-10 h-10 rounded-xl font-medium transition-all ${
+                            className={`w-10 h-10 rounded-lg font-medium transition-all ${
                               page === pageNum
-                                ? 'bg-slate-900 text-white shadow-lg'
-                                : 'text-slate-600 hover:bg-slate-100'
+                                ? 'bg-[#1152d4] text-white shadow-lg'
+                                : 'text-[#1E293B] hover:bg-[#EBF1FF]'
                             }`}
                           >
                             {pageNum}
@@ -380,7 +380,7 @@ export default function Posts() {
                     <button
                       onClick={() => handlePageChange(page + 1)}
                       disabled={page === pagination.pages}
-                      className="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="p-2.5 rounded-lg border border-[#E2E8F0] text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -390,8 +390,8 @@ export default function Posts() {
                 )}
 
                 {/* Results info */}
-                <p className="text-center text-sm text-slate-400 mt-6">
-                  Showing <span className="font-medium text-slate-600">{posts.length}</span> of <span className="font-medium text-slate-600">{pagination.total}</span> opportunities
+                <p className="text-center text-sm text-[#64748B] mt-6">
+                  Showing <span className="font-medium text-[#1E293B]">{posts.length}</span> of <span className="font-medium text-[#1E293B]">{pagination.total}</span> opportunities
                 </p>
               </>
             )}

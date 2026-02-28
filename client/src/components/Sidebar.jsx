@@ -57,14 +57,23 @@ export default function Sidebar() {
   ];
 
   const navItems = activeRole === 'talent-finder' ? finderNavItems : seekerNavItems;
+  const isFinder = activeRole === 'talent-finder';
+
+  // Finder theme colors (Royal Blue)
+  const finderColors = {
+    activeBg: 'bg-[#EBF1FF]',
+    activeText: 'text-[#1152d4]',
+    hoverBg: 'hover:bg-[#EBF1FF]',
+    hoverText: 'hover:text-[#1152d4]',
+  };
 
   return (
-    <aside className={`${sidebarOpen ? 'w-64' : 'w-18'} shrink-0 min-h-[calc(100vh-4rem)] bg-white border-r border-slate-200 transition-all duration-300 flex flex-col`}>
+    <aside className={`${sidebarOpen ? 'w-64' : 'w-18'} shrink-0 min-h-[calc(100vh-4rem)] bg-white border-r border-slate-200 transition-all duration-300 flex flex-col ${isFinder ? 'finder-theme' : ''}`}>
       <div className="flex flex-col flex-1 py-4 px-3">
         {/* Sidebar Toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition mb-4"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition mb-4`}
         >
           <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -78,13 +87,17 @@ export default function Sidebar() {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                 isActive(item.path)
-                  ? 'bg-blue-50 text-blue-600 font-semibold'
-                  : 'text-slate-600 hover:bg-slate-50'
+                  ? isFinder 
+                    ? `${finderColors.activeBg} ${finderColors.activeText} font-semibold`
+                    : 'bg-blue-50 text-blue-600 font-semibold'
+                  : isFinder
+                    ? `text-[#1E293B] ${finderColors.hoverBg} ${finderColors.hoverText}`
+                    : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <svg className={`w-5 h-5 shrink-0 ${isActive(item.path) ? 'text-blue-600' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className={`w-5 h-5 shrink-0 ${isActive(item.path) ? (isFinder ? 'text-[#1152d4]' : 'text-blue-600') : 'text-[#64748B]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
               </svg>
               {sidebarOpen && <span className="text-sm">{item.label}</span>}
@@ -92,7 +105,7 @@ export default function Sidebar() {
           ))}
 
           {/* Divider */}
-          <div className="my-3 border-t border-slate-200" />
+          <div className="my-3 border-t border-[#E2E8F0]" />
 
           {/* Profile Completion for Seekers */}
           {activeRole === 'talent-seeker' && sidebarOpen && (
@@ -136,11 +149,11 @@ export default function Sidebar() {
           {/* Role Section */}
           {sidebarOpen ? (
             <div className="px-1">
-              <div className="bg-slate-50 rounded-xl p-3">
+              <div className={`rounded-lg p-3 ${isFinder ? 'bg-[#F8FAFC]' : 'bg-slate-50'}`}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${activeRole === 'talent-finder' ? 'bg-blue-100' : 'bg-green-100'}`}>
-                    <svg className={`w-4 h-4 ${activeRole === 'talent-finder' ? 'text-blue-600' : 'text-green-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      {activeRole === 'talent-finder' ? (
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isFinder ? 'bg-[#EBF1FF]' : 'bg-green-100'}`}>
+                    <svg className={`w-4 h-4 ${isFinder ? 'text-[#1152d4]' : 'text-green-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {isFinder ? (
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                       ) : (
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
@@ -148,20 +161,24 @@ export default function Sidebar() {
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs text-slate-400 uppercase tracking-wider leading-none mb-0.5">Current Mode</p>
-                    <p className="text-sm font-semibold text-slate-800 truncate">
-                      {activeRole === 'talent-finder' ? 'Talent Finder' : 'Talent Seeker'}
+                    <p className="text-xs text-[#64748B] uppercase tracking-wider leading-none mb-0.5">Current Mode</p>
+                    <p className={`text-sm font-semibold truncate ${isFinder ? 'text-[#1E293B]' : 'text-slate-800'}`}>
+                      {isFinder ? 'Talent Finder' : 'Talent Seeker'}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={handleSwitchRole}
                   disabled={switching}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-600 text-xs font-medium hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all duration-200 disabled:opacity-50"
+                  className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white border text-xs font-medium transition-all duration-200 disabled:opacity-50 ${
+                    isFinder 
+                      ? 'border-[#E2E8F0] text-[#1E293B] hover:bg-[#EBF1FF] hover:text-[#1152d4] hover:border-[#1152d4]'
+                      : 'border-slate-200 text-slate-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'
+                  }`}
                 >
                   {switching ? (
                     <>
-                      <div className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                      <div className={`w-3.5 h-3.5 border-2 border-t-transparent rounded-full animate-spin ${isFinder ? 'border-[#1152d4]' : 'border-blue-400'}`} />
                       Switching...
                     </>
                   ) : (
@@ -169,7 +186,7 @@ export default function Sidebar() {
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                       </svg>
-                      Switch to {activeRole === 'talent-finder' ? 'Seeker' : 'Finder'}
+                      Switch to {isFinder ? 'Seeker' : 'Finder'}
                     </>
                   )}
                 </button>
@@ -179,8 +196,12 @@ export default function Sidebar() {
             <button
               onClick={handleSwitchRole}
               disabled={switching}
-              className="w-full flex items-center justify-center px-3 py-2.5 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition disabled:opacity-50"
-              title={`Switch to ${activeRole === 'talent-finder' ? 'Talent Seeker' : 'Talent Finder'}`}
+              className={`w-full flex items-center justify-center px-3 py-2.5 rounded-lg text-[#64748B] transition disabled:opacity-50 ${
+                isFinder 
+                  ? 'hover:text-[#1152d4] hover:bg-[#EBF1FF]'
+                  : 'hover:text-blue-600 hover:bg-blue-50'
+              }`}
+              title={`Switch to ${isFinder ? 'Talent Seeker' : 'Talent Finder'}`}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />

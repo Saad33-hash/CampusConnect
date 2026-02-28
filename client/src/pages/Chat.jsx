@@ -196,25 +196,25 @@ const Chat = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="finder-theme min-h-screen bg-[#F8FAFC]">
       <Navbar />
       <div className="flex">
         <Sidebar />
         <div className="flex-1 h-[calc(100vh-64px)] flex">
         {/* Conversations Sidebar */}
-        <div className="w-80 bg-white border-r border-slate-200 flex flex-col">
+        <div className="w-80 bg-white border-r border-[#E2E8F0] flex flex-col">
           {/* Search Header */}
-          <div className="p-4 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900 mb-3">Messages</h2>
+          <div className="p-4 border-b border-[#E2E8F0]">
+            <h2 className="text-lg font-semibold text-[#1E293B] mb-3">Messages</h2>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-[#E2E8F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4]"
               />
-              <svg className="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-[#64748B] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -224,19 +224,19 @@ const Chat = () => {
           <div className="flex-1 overflow-y-auto">
             {filteredConversations.length === 0 ? (
               <div className="p-8 text-center">
-                <svg className="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-12 h-12 text-[#E2E8F0] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
-                <p className="text-slate-500 text-sm">No conversations yet</p>
-                <p className="text-slate-400 text-xs mt-1">Start chatting from an application</p>
+                <p className="text-[#64748B] text-sm">No conversations yet</p>
+                <p className="text-[#64748B]/70 text-xs mt-1">Start chatting from an application</p>
               </div>
             ) : (
               filteredConversations.map((conversation) => (
                 <div
                   key={conversation._id}
                   onClick={() => handleSelectConversation(conversation)}
-                  className={`p-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition ${
-                    selectedConversation?._id === conversation._id ? 'bg-indigo-50 border-l-4 border-l-indigo-600' : ''
+                  className={`p-4 border-b border-[#E2E8F0]/50 cursor-pointer hover:bg-[#F8FAFC] transition ${
+                    selectedConversation?._id === conversation._id ? 'bg-[#EBF1FF] border-l-4 border-l-[#1152d4]' : ''
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -244,7 +244,7 @@ const Chat = () => {
                     {conversation.otherUser?.avatar ? (
                       <img src={conversation.otherUser.avatar} alt="" className="w-12 h-12 rounded-full shrink-0 object-cover" />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#1152d4] to-[#0d42a8] flex items-center justify-center text-white font-semibold text-lg shrink-0">
                         {conversation.otherUser?.displayName?.charAt(0).toUpperCase() || '?'}
                       </div>
                     )}
@@ -252,21 +252,21 @@ const Chat = () => {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-slate-900 truncate">
+                        <h3 className="font-medium text-[#1E293B] truncate">
                           {conversation.otherUser?.displayName || 'Unknown User'}
                         </h3>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-[#64748B]">
                           {conversation.lastMessageAt && formatTime(conversation.lastMessageAt)}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-500 truncate mt-0.5">
+                      <p className="text-sm text-[#64748B] truncate mt-0.5">
                         {conversation.lastMessage?.content || 'No messages yet'}
                       </p>
                     </div>
                     
                     {/* Unread Badge */}
                     {conversation.unreadCount > 0 && (
-                      <span className="bg-indigo-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                      <span className="bg-[#1152d4] text-white text-xs font-bold px-2 py-0.5 rounded-full">
                         {conversation.unreadCount}
                       </span>
                     )}
@@ -282,26 +282,26 @@ const Chat = () => {
           {selectedConversation ? (
             <>
               {/* Chat Header */}
-              <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-4">
+              <div className="px-6 py-4 border-b border-[#E2E8F0] flex items-center gap-4">
                 {selectedConversation.otherUser?.avatar ? (
                   <img src={selectedConversation.otherUser.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#1152d4] to-[#0d42a8] flex items-center justify-center text-white font-semibold">
                     {selectedConversation.otherUser?.displayName?.charAt(0).toUpperCase() || '?'}
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="font-semibold text-slate-900">
+                  <h3 className="font-semibold text-[#1E293B]">
                     {selectedConversation.otherUser?.displayName || 'Unknown User'}
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-[#64748B]">
                     {selectedConversation.otherUser?.email}
                   </p>
                 </div>
                 {/* Close Button */}
                 <button
                   onClick={() => setSelectedConversation(null)}
-                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition"
+                  className="p-2 text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8FAFC] rounded-full transition"
                   title="Close chat"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,14 +311,14 @@ const Chat = () => {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50">
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F8FAFC]">
                 {messages.length === 0 ? (
                   <div className="text-center py-12">
-                    <svg className="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-16 h-16 text-[#E2E8F0] mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
-                    <p className="text-slate-500">No messages yet</p>
-                    <p className="text-slate-400 text-sm mt-1">Send a message to start the conversation</p>
+                    <p className="text-[#64748B]">No messages yet</p>
+                    <p className="text-[#64748B]/70 text-sm mt-1">Send a message to start the conversation</p>
                   </div>
                 ) : (
                   messages.map((message, index) => {
@@ -336,7 +336,7 @@ const Chat = () => {
                             message.sender.avatar ? (
                               <img src={message.sender.avatar} alt="" className="w-8 h-8 rounded-full shrink-0 object-cover" />
                             ) : (
-                              <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                              <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#1152d4] to-[#0d42a8] flex items-center justify-center text-white text-sm font-semibold shrink-0">
                                 {message.sender.displayName?.charAt(0).toUpperCase() || '?'}
                               </div>
                             )
@@ -347,12 +347,12 @@ const Chat = () => {
                           <div
                             className={`px-4 py-2 rounded-2xl ${
                               isOwn
-                                ? 'bg-indigo-600 text-white rounded-br-md'
-                                : 'bg-white text-slate-900 rounded-bl-md shadow-sm border border-slate-200'
+                                ? 'bg-[#1152d4] text-white rounded-br-md'
+                                : 'bg-white text-[#1E293B] rounded-bl-md shadow-sm border border-[#E2E8F0]'
                             }`}
                           >
                             <p className="text-sm whitespace-pre-wrap wrap-break-word">{message.content}</p>
-                            <p className={`text-xs mt-1 ${isOwn ? 'text-indigo-200' : 'text-slate-400'}`}>
+                            <p className={`text-xs mt-1 ${isOwn ? 'text-white/70' : 'text-[#64748B]'}`}>
                               {formatTime(message.createdAt)}
                             </p>
                           </div>
@@ -365,19 +365,19 @@ const Chat = () => {
               </div>
 
               {/* Message Input */}
-              <form onSubmit={handleSendMessage} className="px-6 py-4 border-t border-slate-200 bg-white">
+              <form onSubmit={handleSendMessage} className="px-6 py-4 border-t border-[#E2E8F0] bg-white">
                 <div className="flex items-center gap-3">
                   <input
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
-                    className="flex-1 px-4 py-3 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-[#E2E8F0] rounded-full focus:outline-none focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4]"
                   />
                   <button
                     type="submit"
                     disabled={!newMessage.trim() || sendingMessage}
-                    className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    className="p-3 bg-[#1152d4] text-white rounded-full hover:bg-[#0d42a8] disabled:opacity-50 disabled:cursor-not-allowed transition"
                   >
                     {sendingMessage ? (
                       <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -397,13 +397,13 @@ const Chat = () => {
             /* Empty State */
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-24 h-24 bg-[#EBF1FF] rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-12 h-12 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">Your Messages</h3>
-                <p className="text-slate-500 max-w-sm">
+                <h3 className="text-xl font-semibold text-[#1E293B] mb-2">Your Messages</h3>
+                <p className="text-[#64748B] max-w-sm">
                   Select a conversation from the sidebar to start chatting, or message someone from their application.
                 </p>
               </div>

@@ -115,17 +115,17 @@ export default function PostApplications() {
 
   if (loading && !post) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
+      <div className="finder-theme min-h-screen bg-[#F8FAFC]">
         <Navbar />
         <div className="flex items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1152d4]"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100">
+    <div className="finder-theme min-h-screen bg-[#F8FAFC]">
       <Navbar />
       
       <div className="flex">
@@ -133,14 +133,14 @@ export default function PostApplications() {
         <div className="flex-1 min-w-0 p-8">
           {/* Header */}
           <div className="mb-8">
-            <Link to={`/posts/${postId}`} className="text-blue-600 hover:text-blue-700 text-sm font-medium mb-2 inline-flex items-center gap-1">
+            <Link to={`/posts/${postId}`} className="text-[#1152d4] hover:text-[#0d42a8] text-sm font-medium mb-2 inline-flex items-center gap-1">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Back to Post
             </Link>
-            <h1 className="text-3xl font-bold text-slate-900">Applications</h1>
-            <p className="text-slate-600 mt-1">{post?.title}</p>
+            <h1 className="text-3xl font-bold text-[#1E293B]">Applications</h1>
+            <p className="text-[#64748B] mt-1">{post?.title}</p>
           </div>
 
         {/* Filter Tabs */}
@@ -155,16 +155,16 @@ export default function PostApplications() {
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
                   filter === status
                     ? status === 'all' 
-                      ? 'bg-slate-900 text-white' 
+                      ? 'bg-[#1152d4] text-white' 
                       : `${config.bg} ${config.text}`
-                    : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-300'
+                    : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#1152d4]/30'
                 }`}
               >
                 {status === 'all' ? 'All' : config.label}
                 <span className={`px-1.5 py-0.5 rounded text-xs ${
                   filter === status 
-                    ? status === 'all' ? 'bg-slate-700' : 'bg-white/50'
-                    : 'bg-slate-100'
+                    ? status === 'all' ? 'bg-[#0d42a8]' : 'bg-white/50'
+                    : 'bg-[#EBF1FF]'
                 }`}>
                   {count}
                 </span>
@@ -175,14 +175,14 @@ export default function PostApplications() {
 
         {/* Applications Grid */}
         {applications.length === 0 ? (
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-12 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+            <div className="w-16 h-16 bg-[#EBF1FF] rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">No applications yet</h3>
-            <p className="text-slate-500">Share your post to start receiving applications</p>
+            <h3 className="text-lg font-semibold text-[#1E293B] mb-2">No applications yet</h3>
+            <p className="text-[#64748B]">Share your post to start receiving applications</p>
           </div>
         ) : (
           <div className="grid gap-4">
@@ -193,12 +193,12 @@ export default function PostApplications() {
               return (
                 <div 
                   key={app._id} 
-                  className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden"
+                  className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden"
                 >
                   <div className="p-5">
                     <div className="flex items-start gap-4">
                       {/* Avatar */}
-                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#1152d4] to-[#0d42a8] flex items-center justify-center text-white font-bold text-lg shadow-lg">
                         {app.applicant?.displayName?.[0]?.toUpperCase() || 'U'}
                       </div>
                       
@@ -206,10 +206,10 @@ export default function PostApplications() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <h3 className="font-semibold text-slate-900 text-lg">
+                            <h3 className="font-semibold text-[#1E293B] text-lg">
                               {app.applicant?.displayName || 'Unknown User'}
                             </h3>
-                            <div className="flex items-center gap-2 mt-1 text-sm text-slate-500">
+                            <div className="flex items-center gap-2 mt-1 text-sm text-[#64748B]">
                               {app.applicant?.university && (
                                 <span>{app.applicant.university}</span>
                               )}
@@ -254,21 +254,21 @@ export default function PostApplications() {
                         
                         {/* Cover Letter Preview */}
                         {app.coverLetter && (
-                          <p className="mt-3 text-sm text-slate-600 line-clamp-2">
+                          <p className="mt-3 text-sm text-[#64748B] line-clamp-2">
                             {app.coverLetter}
                           </p>
                         )}
                         
                         {/* Meta & Actions */}
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
-                          <div className="flex items-center gap-4 text-sm text-slate-500">
+                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#E2E8F0]">
+                          <div className="flex items-center gap-4 text-sm text-[#64748B]">
                             <span>Applied {formatDate(app.appliedAt)}</span>
                             {app.resumeUrl && (
                               <a 
                                 href={getFullResumeUrl(app.resumeUrl)} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-700 font-medium"
+                                className="text-[#1152d4] hover:text-[#0d42a8] font-medium"
                               >
                                 Resume
                               </a>
@@ -278,7 +278,7 @@ export default function PostApplications() {
                                 href={app.portfolioUrl} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-700 font-medium"
+                                className="text-[#1152d4] hover:text-[#0d42a8] font-medium"
                               >
                                 Portfolio
                               </a>
@@ -289,7 +289,7 @@ export default function PostApplications() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => setSelectedApp(selectedApp?._id === app._id ? null : app)}
-                              className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+                              className="px-3 py-1.5 text-sm font-medium text-[#64748B] hover:text-[#1E293B] transition"
                             >
                               {selectedApp?._id === app._id ? 'Hide Details' : 'View Details'}
                             </button>
@@ -313,7 +313,7 @@ export default function PostApplications() {
                         </div>
                         
                         {/* Interview Section - Visible on main card */}
-                        <div className="mt-4 pt-4 border-t border-slate-100">
+                        <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
                           {app.interview?.status === 'scheduled' && app.interview?.scheduledAt ? (
                             <div className="flex items-center justify-between gap-4 p-3 bg-green-50 border border-green-200 rounded-xl">
                               <div className="flex items-center gap-3">
@@ -345,18 +345,18 @@ export default function PostApplications() {
                               </div>
                             </div>
                           ) : app.interview?.status === 'completed' ? (
-                            <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl text-sm text-slate-600">
+                            <div className="flex items-center gap-2 p-3 bg-[#F8FAFC] rounded-xl text-sm text-[#64748B]">
                               <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                               Interview completed {app.interview?.scheduledAt ? `on ${formatInterviewDate(app.interview.scheduledAt)}` : ''}
                             </div>
                           ) : app.interview?.status === 'cancelled' ? (
-                            <div className="flex items-center justify-between gap-4 p-3 bg-slate-50 rounded-xl">
-                              <span className="text-sm text-slate-500">Previous interview was cancelled</span>
+                            <div className="flex items-center justify-between gap-4 p-3 bg-[#F8FAFC] rounded-xl">
+                              <span className="text-sm text-[#64748B]">Previous interview was cancelled</span>
                               <button
                                 onClick={() => setInterviewApp(app)}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium flex items-center gap-2"
+                                className="px-4 py-2 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition text-sm font-medium flex items-center gap-2"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -367,7 +367,7 @@ export default function PostApplications() {
                           ) : (
                             <button
                               onClick={() => setInterviewApp(app)}
-                              className="w-full px-4 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-medium flex items-center justify-center gap-2"
+                              className="w-full px-4 py-2.5 bg-[#1152d4] text-white rounded-xl hover:bg-[#0d42a8] transition text-sm font-medium flex items-center justify-center gap-2"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -383,44 +383,44 @@ export default function PostApplications() {
                   {/* Expanded Details */}
                   {selectedApp?._id === app._id && (
                     <div className="px-5 pb-5 pt-0">
-                      <div className="bg-slate-50 rounded-xl p-4 space-y-4">
+                      <div className="bg-[#F8FAFC] rounded-xl p-4 space-y-4">
                         {/* About */}
                         <div>
-                          <h4 className="text-sm font-semibold text-slate-700 mb-1">About</h4>
-                          <p className="text-sm text-slate-600">{app.applicant?.bio || 'No bio provided'}</p>
+                          <h4 className="text-sm font-semibold text-[#1E293B] mb-1">About</h4>
+                          <p className="text-sm text-[#64748B]">{app.applicant?.bio || 'No bio provided'}</p>
                         </div>
                         
                         {/* Cover Letter */}
                         <div>
-                          <h4 className="text-sm font-semibold text-slate-700 mb-1">Cover Letter</h4>
-                          <p className="text-sm text-slate-600 whitespace-pre-wrap">{app.coverLetter || 'No cover letter provided'}</p>
+                          <h4 className="text-sm font-semibold text-[#1E293B] mb-1">Cover Letter</h4>
+                          <p className="text-sm text-[#64748B] whitespace-pre-wrap">{app.coverLetter || 'No cover letter provided'}</p>
                         </div>
                         
                         {/* Highlighted Skills */}
                         <div>
-                          <h4 className="text-sm font-semibold text-slate-700 mb-1">Highlighted Skills</h4>
+                          <h4 className="text-sm font-semibold text-[#1E293B] mb-1">Highlighted Skills</h4>
                           {app.highlightedSkills?.length > 0 ? (
                             <div className="flex flex-wrap gap-1.5">
                               {app.highlightedSkills.map((skill) => (
-                                <span key={skill} className="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-medium">
+                                <span key={skill} className="px-2 py-1 bg-[#EBF1FF] text-[#1152d4] rounded-md text-xs font-medium">
                                   {skill}
                                 </span>
                               ))}
                             </div>
                           ) : (
-                            <p className="text-sm text-slate-500">No skills highlighted</p>
+                            <p className="text-sm text-[#64748B]">No skills highlighted</p>
                           )}
                         </div>
                         
                         {/* Resume */}
                         <div>
-                          <h4 className="text-sm font-semibold text-slate-700 mb-1">Resume</h4>
+                          <h4 className="text-sm font-semibold text-[#1E293B] mb-1">Resume</h4>
                           {app.resumeUrl ? (
                             <a 
                               href={getFullResumeUrl(app.resumeUrl)} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition"
+                              className="inline-flex items-center gap-2 px-3 py-2 bg-[#EBF1FF] text-[#1152d4] rounded-lg text-sm font-medium hover:bg-[#1152d4]/20 transition"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -428,23 +428,23 @@ export default function PostApplications() {
                               Download Resume
                             </a>
                           ) : (
-                            <p className="text-sm text-slate-500">No resume uploaded</p>
+                            <p className="text-sm text-[#64748B]">No resume uploaded</p>
                           )}
                         </div>
                         
                         {/* Contact */}
                         <div>
-                          <h4 className="text-sm font-semibold text-slate-700 mb-1">Contact</h4>
+                          <h4 className="text-sm font-semibold text-[#1E293B] mb-1">Contact</h4>
                           {app.applicant?.email ? (
-                            <a href={`mailto:${app.applicant.email}`} className="text-sm text-blue-600 hover:text-blue-700">
+                            <a href={`mailto:${app.applicant.email}`} className="text-sm text-[#1152d4] hover:text-[#0d42a8]">
                               {app.applicant.email}
                             </a>
                           ) : (
-                            <p className="text-sm text-slate-500">Email not available</p>
+                            <p className="text-sm text-[#64748B]">Email not available</p>
                           )}
                           <button
                             onClick={() => navigate(`/chat?user=${app.applicant?._id}`)}
-                            className="mt-2 w-full px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-sm font-medium flex items-center justify-center gap-2"
+                            className="mt-2 w-full px-3 py-2 bg-[#EBF1FF] text-[#1152d4] rounded-lg hover:bg-[#1152d4]/20 transition text-sm font-medium flex items-center justify-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

@@ -263,7 +263,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="finder-theme min-h-screen bg-[#F8FAFC]">
       <Navbar />
       
       <div className="flex">
@@ -275,23 +275,23 @@ export default function CreatePost() {
             {/* Page Header */}
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-1">
-                <div className="w-2 h-8 rounded-full bg-blue-600"></div>
-                <h1 className="text-2xl font-semibold text-slate-900">Create New Post</h1>
+                <div className="w-2 h-8 rounded-full bg-[#1152d4]"></div>
+                <h1 className="text-2xl font-semibold text-[#1E293B]">Create New Post</h1>
               </div>
-              <p className="text-slate-500 ml-5 text-sm">Share an opportunity with the campus community</p>
+              <p className="text-[#64748B] ml-5 text-sm">Share an opportunity with the campus community</p>
             </div>
 
             <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-6">
               {/* Post Type Selection — Glassmorphism Card */}
-              <div className="bg-white/60 backdrop-blur-xl rounded-2xl p-6 shadow-sm border border-white/80 ring-1 ring-slate-900/5">
+              <div className="bg-white/60 backdrop-blur-xl rounded-lg p-6 shadow-sm border border-[#E2E8F0] ring-1 ring-slate-900/5">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-8 h-8 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
+                    <svg className="w-4 h-4 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 6h.008v.008H6V6z" />
                     </svg>
                   </div>
-                  <h2 className="text-base font-semibold text-slate-900">Opportunity Type</h2>
+                  <h2 className="text-base font-semibold text-[#1E293B]">Opportunity Type</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {POST_TYPES.map((type) => {
@@ -302,26 +302,26 @@ export default function CreatePost() {
                         key={type.value}
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, type: type.value }))}
-                        className={`group relative p-4 rounded-xl border-2 transition-all duration-200 text-center overflow-hidden ${
+                        className={`group relative p-4 rounded-lg border-2 transition-all duration-200 text-center overflow-hidden ${
                           isSelected
-                            ? 'border-blue-500 bg-blue-50/60 shadow-sm'
-                            : 'border-slate-200 hover:border-slate-300 hover:shadow-sm bg-white'
+                            ? 'border-[#1152d4] bg-[#EBF1FF]/60 shadow-sm'
+                            : 'border-[#E2E8F0] hover:border-[#1152d4]/30 hover:shadow-sm bg-white'
                         }`}
                       >
-                        <div className={`w-10 h-10 mx-auto mb-2.5 rounded-xl flex items-center justify-center transition-all ${
+                        <div className={`w-10 h-10 mx-auto mb-2.5 rounded-lg flex items-center justify-center transition-all ${
                           isSelected 
-                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                            : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
+                            ? 'bg-[#1152d4] text-white shadow-lg shadow-[#1152d4]/25'
+                            : 'bg-slate-100 text-[#64748B] group-hover:bg-slate-200'
                         }`}>
                           <TypeIcon className="w-5 h-5" />
                         </div>
                         <span className={`text-sm font-medium transition-colors ${
-                          isSelected ? 'text-blue-700' : 'text-slate-600'
+                          isSelected ? 'text-[#1152d4]' : 'text-[#1E293B]'
                         }`}>
                           {type.label}
                         </span>
                         {isSelected && (
-                          <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
+                          <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#1152d4] flex items-center justify-center">
                             <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
@@ -334,18 +334,18 @@ export default function CreatePost() {
               </div>
 
               {/* Basic Info — Glassmorphism Card */}
-              <div className="bg-white/60 backdrop-blur-xl rounded-2xl p-6 shadow-sm border border-white/80 ring-1 ring-slate-900/5 space-y-5">
+              <div className="bg-white/60 backdrop-blur-xl rounded-lg p-6 shadow-sm border border-[#E2E8F0] ring-1 ring-slate-900/5 space-y-5">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-8 h-8 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
+                    <svg className="w-4 h-4 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                     </svg>
                   </div>
-                  <h2 className="text-base font-semibold text-slate-900">Basic Information</h2>
+                  <h2 className="text-base font-semibold text-[#1E293B]">Basic Information</h2>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                     Title <span className="text-red-400">*</span>
                   </label>
                   <input
@@ -356,13 +356,13 @@ export default function CreatePost() {
                     required
                     maxLength={100}
                     placeholder="e.g., Looking for React Developer for Campus App"
-                    className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                    className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                   />
-                  <p className="text-xs text-slate-400 mt-1.5">{formData.title.length}/100 characters</p>
+                  <p className="text-xs text-[#64748B] mt-1.5">{formData.title.length}/100 characters</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                     Description <span className="text-red-400">*</span>
                   </label>
                   <textarea
@@ -373,9 +373,9 @@ export default function CreatePost() {
                     rows={6}
                     maxLength={5000}
                     placeholder="Describe the opportunity, responsibilities, requirements, and what you're looking for..."
-                    className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all text-slate-800 placeholder:text-slate-400"
+                    className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] resize-none transition-all text-[#1E293B] placeholder:text-[#64748B]"
                   />
-                  <p className="text-xs text-slate-400 mt-1.5">{formData.description.length}/5000 characters</p>
+                  <p className="text-xs text-[#64748B] mt-1.5">{formData.description.length}/5000 characters</p>
                 </div>
 
                 {/* Type-specific fields */}
@@ -383,18 +383,18 @@ export default function CreatePost() {
               </div>
 
               {/* Skills & Tags — Glassmorphism Card */}
-              <div className="bg-white/60 backdrop-blur-xl rounded-2xl p-6 shadow-sm border border-white/80 ring-1 ring-slate-900/5 space-y-5">
+              <div className="bg-white/60 backdrop-blur-xl rounded-lg p-6 shadow-sm border border-[#E2E8F0] ring-1 ring-slate-900/5 space-y-5">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-8 h-8 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
+                    <svg className="w-4 h-4 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                     </svg>
                   </div>
-                  <h2 className="text-base font-semibold text-slate-900">Skills & Tags</h2>
+                  <h2 className="text-base font-semibold text-[#1E293B]">Skills & Tags</h2>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                     Required Skills
                   </label>
                   <div className="flex gap-2">
@@ -404,12 +404,12 @@ export default function CreatePost() {
                       onChange={(e) => setSkillInput(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, 'skill')}
                       placeholder="Type a skill and press Enter"
-                      className="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                      className="flex-1 px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                     />
                     <button
                       type="button"
                       onClick={addSkill}
-                      className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all font-medium text-sm"
+                      className="px-4 py-2.5 bg-[#F8FAFC] text-[#1E293B] rounded-lg hover:bg-[#EBF1FF] hover:text-[#1152d4] transition-all font-medium text-sm border border-[#E2E8F0]"
                     >
                       Add
                     </button>
@@ -438,7 +438,7 @@ export default function CreatePost() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                     Tags
                   </label>
                   <div className="flex gap-2">
@@ -448,12 +448,12 @@ export default function CreatePost() {
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, 'tag')}
                       placeholder="Add tags for better discoverability"
-                      className="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                      className="flex-1 px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                     />
                     <button
                       type="button"
                       onClick={addTag}
-                      className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all font-medium text-sm"
+                      className="px-4 py-2.5 bg-[#F8FAFC] text-[#1E293B] rounded-lg hover:bg-[#EBF1FF] hover:text-[#1152d4] transition-all font-medium text-sm border border-[#E2E8F0]"
                     >
                       Add
                     </button>
@@ -463,13 +463,13 @@ export default function CreatePost() {
                       {formData.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium border border-blue-100"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EBF1FF] text-[#1152d4] rounded-lg text-sm font-medium border border-[#1152d4]/20"
                         >
                           #{tag}
                           <button
                             type="button"
                             onClick={() => removeTag(tag)}
-                            className="hover:text-blue-800 transition-colors"
+                            className="hover:text-[#0d42a8] transition-colors"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -483,19 +483,19 @@ export default function CreatePost() {
               </div>
 
               {/* Details — Glassmorphism Card */}
-              <div className="bg-white/60 backdrop-blur-xl rounded-2xl p-6 shadow-sm border border-white/80 ring-1 ring-slate-900/5 space-y-5">
+              <div className="bg-white/60 backdrop-blur-xl rounded-lg p-6 shadow-sm border border-[#E2E8F0] ring-1 ring-slate-900/5 space-y-5">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-8 h-8 rounded-lg bg-[#EBF1FF] flex items-center justify-center">
+                    <svg className="w-4 h-4 text-[#1152d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                     </svg>
                   </div>
-                  <h2 className="text-base font-semibold text-slate-900">Details</h2>
+                  <h2 className="text-base font-semibold text-[#1E293B]">Details</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                       Application Deadline
                     </label>
                     <input
@@ -504,19 +504,19 @@ export default function CreatePost() {
                       value={formData.deadline}
                       onChange={handleChange}
                       min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800"
+                      className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                       Location
                     </label>
                     <select
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800"
+                      className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B]"
                     >
                       {LOCATION_TYPES.map((loc) => (
                         <option key={loc.value} value={loc.value}>{loc.label}</option>
@@ -525,7 +525,7 @@ export default function CreatePost() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                       Duration
                     </label>
                     <input
@@ -534,12 +534,12 @@ export default function CreatePost() {
                       value={formData.duration}
                       onChange={handleChange}
                       placeholder="e.g., 3 months, Ongoing"
-                      className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                      className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                       Team Size Needed
                     </label>
                     <input
@@ -549,21 +549,21 @@ export default function CreatePost() {
                       onChange={handleChange}
                       min="1"
                       placeholder="e.g., 3"
-                      className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                      className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                       Compensation Type
                     </label>
                     <select
                       name="compensation.type"
                       value={formData.compensation.type}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800"
+                      className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B]"
                     >
                       {COMPENSATION_TYPES.map((comp) => (
                         <option key={comp.value} value={comp.value}>{comp.label}</option>
@@ -573,7 +573,7 @@ export default function CreatePost() {
 
                   {formData.compensation.type === 'paid' && (
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                      <label className="block text-sm font-medium text-[#1E293B] mb-1.5">
                         Amount/Rate
                       </label>
                       <input
@@ -582,7 +582,7 @@ export default function CreatePost() {
                         value={formData.compensation.amount}
                         onChange={handleChange}
                         placeholder="e.g., $20/hr, $500 fixed"
-                        className="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-800 placeholder:text-slate-400"
+                        className="w-full px-4 py-2.5 bg-white/80 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#1152d4]/20 focus:border-[#1152d4] transition-all text-[#1E293B] placeholder:text-[#64748B]"
                       />
                     </div>
                   )}
@@ -590,12 +590,12 @@ export default function CreatePost() {
               </div>
 
               {/* Action Buttons */}
-              <div className="bg-white/70 backdrop-blur-xl rounded-2xl p-4 shadow-sm border border-white/80 ring-1 ring-slate-900/5">
+              <div className="bg-white/70 backdrop-blur-xl rounded-lg p-4 shadow-sm border border-[#E2E8F0] ring-1 ring-slate-900/5">
                 <div className="flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => navigate(-1)}
-                    className="px-5 py-2.5 text-slate-500 hover:text-slate-700 transition-colors font-medium text-sm"
+                    className="px-5 py-2.5 text-[#64748B] hover:text-[#1E293B] transition-colors font-medium text-sm"
                   >
                     Cancel
                   </button>
@@ -604,14 +604,14 @@ export default function CreatePost() {
                       type="button"
                       onClick={(e) => handleSubmit(e, true)}
                       disabled={loading || !formData.type || !formData.title}
-                      className="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed border border-slate-200"
+                      className="px-5 py-2.5 bg-[#F8FAFC] text-[#1E293B] rounded-lg hover:bg-[#EBF1FF] hover:text-[#1152d4] transition-all font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed border border-[#E2E8F0]"
                     >
                       Save as Draft
                     </button>
                     <button
                       type="submit"
                       disabled={loading || !formData.type || !formData.title || !formData.description}
-                      className="px-5 py-2.5 bg-black text-white rounded-xl hover:bg-gray-900 transition-all font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-5 py-2.5 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition-all font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {loading ? (
                         <span className="flex items-center gap-2">

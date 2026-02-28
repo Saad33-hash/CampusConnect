@@ -1,8 +1,39 @@
 @import "tailwindcss";
 
 /* ============================================
-   CAMPUSCONNECT COLOR SYSTEM
+   CAMPUSCONNECT DESIGN SYSTEM
    ============================================ */
+
+/* Finder Mode Theme - Royal Blue System */
+.finder-theme {
+  /* Typography */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Primary Brand - Royal Blue */
+  --finder-primary: #1152d4;
+  --finder-primary-hover: #0d42a8;
+  --finder-primary-light: #EBF1FF;
+  --finder-primary-bg: #F0F5FF;
+  
+  /* Semantic Colors */
+  --finder-success: #10B981;
+  --finder-success-light: #d1fae5;
+  --finder-warning: #F59E0B;
+  --finder-warning-light: #fef3c7;
+  --finder-error: #ef4444;
+  --finder-error-light: #fee2e2;
+  
+  /* Neutrals */
+  --finder-surface: #FFFFFF;
+  --finder-bg: #F8FAFC;
+  --finder-border: #E2E8F0;
+  --finder-border-hover: #CBD5E1;
+  
+  /* Text */
+  --finder-text-primary: #1E293B;
+  --finder-text-secondary: #64748B;
+  --finder-text-muted: #94A3B8;
+}
 
 :root {
   /* Primary Colors - Main Brand */
