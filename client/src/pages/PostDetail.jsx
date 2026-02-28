@@ -33,10 +33,10 @@ const HackathonIcon = ({ className = "w-5 h-5" }) => (
 );
 
 const TYPE_CONFIG = {
-  'academic-project': { label: 'Academic Project', Icon: AcademicIcon, gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/10', text: 'text-violet-600' },
-  'startup-gig': { label: 'Startup Gig', Icon: StartupIcon, gradient: 'from-orange-500 to-rose-500', bg: 'bg-orange-500/10', text: 'text-orange-600' },
-  'part-time-job': { label: 'Part-time Job', Icon: BriefcaseIcon, gradient: 'from-cyan-500 to-blue-600', bg: 'bg-cyan-500/10', text: 'text-cyan-600' },
-  'hackathon': { label: 'Hackathon', Icon: HackathonIcon, gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/10', text: 'text-emerald-600' },
+  'academic-project': { label: 'Academic Project', Icon: AcademicIcon, bg: 'bg-violet-100', text: 'text-violet-700', iconBg: 'bg-violet-500' },
+  'startup-gig': { label: 'Startup Gig', Icon: StartupIcon, bg: 'bg-orange-100', text: 'text-orange-700', iconBg: 'bg-orange-500' },
+  'part-time-job': { label: 'Part-time Job', Icon: BriefcaseIcon, bg: 'bg-[#EBF1FF]', text: 'text-[#1152d4]', iconBg: 'bg-[#1152d4]' },
+  'hackathon': { label: 'Hackathon', Icon: HackathonIcon, bg: 'bg-emerald-100', text: 'text-emerald-700', iconBg: 'bg-emerald-500' },
 };
 
 const COMPENSATION_LABELS = {
@@ -220,7 +220,7 @@ export default function PostDetail() {
           {/* Back Button */}
           <Link
             to="/posts"
-            className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 transition-colors group"
+            className="inline-flex items-center gap-2 text-[#64748B] hover:text-[#1152d4] mb-8 transition-colors group"
           >
             <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -229,33 +229,33 @@ export default function PostDetail() {
           </Link>
 
         {/* Main Content Card */}
-        <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.2)] transition-shadow duration-500 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden">
           
           {/* Header */}
           <div className="p-8 md:p-10">
             <div className="flex flex-wrap items-start justify-between gap-6">
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-3 mb-5">
-                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${typeConfig.bg} ${typeConfig.text}`}>
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold ${typeConfig.bg} ${typeConfig.text}`}>
                     <TypeIcon className="w-4 h-4" />
                     {typeConfig.label}
                   </span>
-                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold ${
                     post.status === 'open' ? 'bg-emerald-50 text-emerald-600' :
                     post.status === 'draft' ? 'bg-amber-50 text-amber-600' :
                     post.status === 'filled' ? 'bg-[#EBF1FF] text-[#1152d4]' :
-                    'bg-slate-100 text-slate-500'
+                    'bg-[#F8FAFC] text-[#64748B]'
                   }`}>
                     <span className={`w-2 h-2 rounded-full ${
                       post.status === 'open' ? 'bg-emerald-500 animate-pulse' :
                       post.status === 'draft' ? 'bg-amber-500' :
                       post.status === 'filled' ? 'bg-[#1152d4]' :
-                      'bg-slate-400'
+                      'bg-[#64748B]'
                     }`} />
                     {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
                   </span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">{post.title}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-[#1E293B] tracking-tight leading-tight">{post.title}</h1>
                 
                 {/* Match Score Display - for non-owners */}
                 {!isOwner && post.matchScore !== undefined && (
@@ -322,7 +322,7 @@ export default function PostDetail() {
                     <button
                       onClick={handlePublish}
                       disabled={actionLoading}
-                      className="px-5 py-2.5 bg-linear-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/20 font-semibold disabled:opacity-50"
+                      className="px-5 py-2.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all font-semibold disabled:opacity-50"
                     >
                       Publish
                     </button>
@@ -332,14 +332,14 @@ export default function PostDetail() {
                       <button
                         onClick={() => handleClose(true)}
                         disabled={actionLoading}
-                        className="px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors font-semibold disabled:opacity-50"
+                        className="px-5 py-2.5 bg-[#1E293B] text-white rounded-lg hover:bg-[#334155] transition-colors font-semibold disabled:opacity-50"
                       >
                         Mark Filled
                       </button>
                       <button
                         onClick={() => handleClose(false)}
                         disabled={actionLoading}
-                        className="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors font-semibold disabled:opacity-50"
+                        className="px-5 py-2.5 bg-[#F8FAFC] text-[#1E293B] rounded-lg hover:bg-[#EBF1FF] transition-colors font-semibold disabled:opacity-50 border border-[#E2E8F0]"
                       >
                         Close
                       </button>
@@ -347,20 +347,20 @@ export default function PostDetail() {
                   )}
                   <Link
                     to={`/posts/${post._id}/applications`}
-                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all font-semibold"
+                    className="px-5 py-2.5 border border-[#E2E8F0] text-[#1E293B] rounded-lg hover:border-[#1152d4]/30 hover:bg-[#EBF1FF] transition-all font-semibold"
                   >
                     Applications
                   </Link>
                   <Link
                     to={`/posts/${post._id}/edit`}
-                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-600 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-colors font-semibold"
+                    className="px-5 py-2.5 border border-[#E2E8F0] text-[#64748B] rounded-lg hover:border-[#1152d4]/30 hover:bg-[#EBF1FF] transition-colors font-semibold"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={handleDelete}
                     disabled={actionLoading}
-                    className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
+                    className="p-2.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -371,22 +371,22 @@ export default function PostDetail() {
             </div>
 
             {/* Creator Info */}
-            <div className="flex items-center justify-between mt-8 pt-8 border-t border-slate-100">
+            <div className="flex items-center justify-between mt-8 pt-8 border-t border-[#E2E8F0]">
               <div className="flex items-center gap-4">
                 {post.creator?.avatar ? (
                   <img
                     src={post.creator.avatar}
                     alt={post.creator.displayName}
-                    className="w-14 h-14 rounded-full ring-4 ring-white shadow-lg"
+                    className="w-14 h-14 rounded-xl ring-2 ring-[#E2E8F0] object-cover"
                   />
                 ) : (
-                  <div className={`w-14 h-14 rounded-full bg-linear-to-br ${typeConfig.gradient} flex items-center justify-center text-xl font-bold text-white shadow-lg ring-4 ring-white`}>
+                  <div className={`w-14 h-14 rounded-xl ${typeConfig.iconBg} flex items-center justify-center text-xl font-bold text-white`}>
                     {post.creator?.displayName?.[0] || '?'}
                   </div>
                 )}
                 <div>
-                  <p className="font-bold text-slate-900 text-lg">{post.creator?.displayName}</p>
-                  <p className="text-sm text-slate-500">
+                  <p className="font-bold text-[#1E293B] text-lg">{post.creator?.displayName}</p>
+                  <p className="text-sm text-[#64748B]">
                     {post.creator?.university}
                     {post.creator?.department && ` · ${post.creator.department}`}
                   </p>
@@ -398,10 +398,10 @@ export default function PostDetail() {
                   <button
                     onClick={handleToggleSave}
                     disabled={savingPost}
-                    className={`p-3 rounded-xl transition-all duration-200 disabled:opacity-50 ${
+                    className={`p-3 rounded-lg transition-all duration-200 disabled:opacity-50 ${
                       isSaved 
                         ? 'bg-rose-50 text-rose-500 hover:bg-rose-100' 
-                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
+                        : 'bg-[#F8FAFC] text-[#64748B] hover:bg-[#EBF1FF] hover:text-[#1152d4]'
                     }`}
                     title={isSaved ? 'Remove from saved' : 'Save job'}
                   >
@@ -412,7 +412,7 @@ export default function PostDetail() {
                   {/* Message Button */}
                   <button
                     onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                    className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 font-semibold flex items-center gap-2"
+                    className="px-5 py-2.5 border border-[#E2E8F0] text-[#1E293B] rounded-lg hover:border-[#1152d4]/30 hover:bg-[#EBF1FF] transition-all duration-200 font-semibold flex items-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -425,34 +425,34 @@ export default function PostDetail() {
           </div>
 
           {/* Details Grid */}
-          <div className="p-8 md:p-10 grid grid-cols-2 md:grid-cols-4 gap-8 bg-linear-to-br from-slate-50/80 to-blue-50/30">
+          <div className="p-8 md:p-10 grid grid-cols-2 md:grid-cols-4 gap-8 bg-[#F8FAFC] border-t border-b border-[#E2E8F0]">
             <div className="space-y-2">
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Location</p>
-              <p className="font-semibold text-slate-900">{LOCATION_LABELS[post.location]}</p>
+              <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Location</p>
+              <p className="font-semibold text-[#1E293B]">{LOCATION_LABELS[post.location]}</p>
             </div>
             <div className="space-y-2">
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Compensation</p>
-              <p className="font-semibold text-slate-900">
+              <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Compensation</p>
+              <p className="font-semibold text-[#1E293B]">
                 {COMPENSATION_LABELS[post.compensation?.type]}
                 {post.compensation?.amount && ` · ${post.compensation.amount}`}
               </p>
             </div>
             {post.duration && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Duration</p>
-                <p className="font-semibold text-slate-900">{post.duration}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Duration</p>
+                <p className="font-semibold text-[#1E293B]">{post.duration}</p>
               </div>
             )}
             {post.teamSize && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Team Size</p>
-                <p className="font-semibold text-slate-900">{post.teamSize} people</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Team Size</p>
+                <p className="font-semibold text-[#1E293B]">{post.teamSize} people</p>
               </div>
             )}
             {post.deadline && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Deadline</p>
-                <p className={`font-semibold ${new Date(post.deadline) < new Date() ? 'text-red-500' : 'text-slate-900'}`}>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Deadline</p>
+                <p className={`font-semibold ${new Date(post.deadline) < new Date() ? 'text-red-500' : 'text-[#1E293B]'}`}>
                   {formatDate(post.deadline)}
                 </p>
               </div>
@@ -460,41 +460,41 @@ export default function PostDetail() {
             {/* Type-specific fields */}
             {post.courseCode && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Course</p>
-                <p className="font-semibold text-slate-900">{post.courseCode}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Course</p>
+                <p className="font-semibold text-[#1E293B]">{post.courseCode}</p>
               </div>
             )}
             {post.professor && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Professor</p>
-                <p className="font-semibold text-slate-900">{post.professor}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Professor</p>
+                <p className="font-semibold text-[#1E293B]">{post.professor}</p>
               </div>
             )}
             {post.companyName && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Company</p>
-                <p className="font-semibold text-slate-900">{post.companyName}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Company</p>
+                <p className="font-semibold text-[#1E293B]">{post.companyName}</p>
               </div>
             )}
             {post.eventDate && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Event Date</p>
-                <p className="font-semibold text-slate-900">{formatDate(post.eventDate)}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Event Date</p>
+                <p className="font-semibold text-[#1E293B]">{formatDate(post.eventDate)}</p>
               </div>
             )}
             {post.venue && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Venue</p>
-                <p className="font-semibold text-slate-900">{post.venue}</p>
+                <p className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Venue</p>
+                <p className="font-semibold text-[#1E293B]">{post.venue}</p>
               </div>
             )}
           </div>
 
           {/* Description */}
           <div className="p-8 md:p-10">
-            <h2 className="text-xl font-bold text-slate-900 mb-5">About This Opportunity</h2>
+            <h2 className="text-xl font-bold text-[#1E293B] mb-5">About This Opportunity</h2>
             <div className="prose prose-slate max-w-none">
-              <p className="whitespace-pre-wrap text-slate-600 leading-relaxed text-base">{post.description}</p>
+              <p className="whitespace-pre-wrap text-[#64748B] leading-relaxed text-base">{post.description}</p>
             </div>
           </div>
 
@@ -503,12 +503,12 @@ export default function PostDetail() {
             <div className="px-8 md:px-10 pb-8 md:pb-10">
               {post.requiredSkills?.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider">Required Skills</h3>
+                  <h3 className="text-sm font-bold text-[#1E293B] mb-4 uppercase tracking-wider">Required Skills</h3>
                   <div className="flex flex-wrap gap-3">
                     {post.requiredSkills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-semibold"
+                        className="px-4 py-2 bg-[#EBF1FF] text-[#1152d4] rounded-lg text-sm font-semibold"
                       >
                         {skill}
                       </span>
@@ -518,12 +518,12 @@ export default function PostDetail() {
               )}
               {post.tags?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider">Tags</h3>
+                  <h3 className="text-sm font-bold text-[#1E293B] mb-4 uppercase tracking-wider">Tags</h3>
                   <div className="flex flex-wrap gap-3">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-semibold"
+                        className="px-4 py-2 bg-[#F8FAFC] text-[#64748B] rounded-lg text-sm font-semibold border border-[#E2E8F0]"
                       >
                         #{tag}
                       </span>
@@ -535,23 +535,23 @@ export default function PostDetail() {
           )}
 
           {/* Stats & Apply */}
-          <div className="p-8 md:p-10 flex flex-wrap items-center justify-between gap-6 bg-linear-to-br from-slate-50/80 to-blue-50/30 border-t border-slate-100">
-            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-500">
-              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="p-8 md:p-10 flex flex-wrap items-center justify-between gap-6 bg-[#F8FAFC] border-t border-[#E2E8F0]">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#64748B]">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-[#E2E8F0]">
+                <svg className="w-5 h-5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
-                <span className="font-semibold text-slate-700">{post.views}</span> views
+                <span className="font-semibold text-[#1E293B]">{post.views}</span> views
               </span>
-              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-[#E2E8F0]">
+                <svg className="w-5 h-5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span className="font-semibold text-slate-700">{post.applicationsCount || 0}</span> applications
+                <span className="font-semibold text-[#1E293B]">{post.applicationsCount || 0}</span> applications
               </span>
-              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-[#E2E8F0]">
+                <svg className="w-5 h-5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Posted {new Date(post.createdAt).toLocaleDateString()}
@@ -566,7 +566,7 @@ export default function PostDetail() {
                   </div>
                 ) : applicationStatus ? (
                   <div className="flex items-center gap-4">
-                    <span className={`px-5 py-2.5 rounded-full text-sm font-semibold ${
+                    <span className={`px-5 py-2.5 rounded-lg text-sm font-semibold ${
                       applicationStatus.status === 'pending' ? 'bg-amber-100 text-amber-700' :
                       applicationStatus.status === 'reviewing' ? 'bg-[#EBF1FF] text-[#1152d4]' :
                       applicationStatus.status === 'shortlisted' ? 'bg-purple-100 text-purple-700' :
@@ -586,13 +586,13 @@ export default function PostDetail() {
                   <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setShowApplyModal(true)}
-                      className="px-8 py-3 bg-[#1152d4] text-white rounded-xl hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/30 hover:shadow-[#1152d4]/50 hover:-translate-y-0.5"
+                      className="px-8 py-3 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/20 hover:shadow-[#1152d4]/30"
                     >
                       Apply Now
                     </button>
                     <button
                       onClick={() => navigate(`/chat?user=${post.creator?._id}`)}
-                      className="px-6 py-3 bg-white border-2 border-[#E2E8F0] text-[#1E293B] rounded-xl hover:border-[#1152d4]/30 hover:bg-[#F8FAFC] transition-all duration-200 font-semibold flex items-center gap-2"
+                      className="px-6 py-3 bg-white border border-[#E2E8F0] text-[#1E293B] rounded-lg hover:border-[#1152d4]/30 hover:bg-[#EBF1FF] transition-all duration-200 font-semibold flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -603,7 +603,7 @@ export default function PostDetail() {
                 ) : (
                   <Link 
                     to="/login"
-                    className="px-8 py-3 bg-[#1152d4] text-white rounded-xl hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/30 hover:shadow-[#1152d4]/50 hover:-translate-y-0.5"
+                    className="px-8 py-3 bg-[#1152d4] text-white rounded-lg hover:bg-[#0d42a8] transition-all duration-200 font-bold shadow-lg shadow-[#1152d4]/20 hover:shadow-[#1152d4]/30"
                   >
                     Login to Apply
                   </Link>
