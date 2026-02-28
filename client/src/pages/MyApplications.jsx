@@ -141,8 +141,8 @@ export default function MyApplications() {
       const percent = (item.value / total) * 100;
       const start = cumulativePercent;
       cumulativePercent += percent;
-      // Using different shades of slate/blue
-      const colors = ['#94a3b8', '#64748b', '#475569', '#334155', '#1e293b'];
+      // Using different shades of primary blue
+      const colors = ['#1152d4', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd'];
       return `${colors[index]} ${start}% ${cumulativePercent}%`;
     }).join(', ');
 
@@ -235,7 +235,7 @@ export default function MyApplications() {
                       {/* Mini Progress Bar */}
                       <div className="mt-3 h-1 bg-slate-100 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-slate-400 rounded-full transition-all duration-500"
+                          className="h-full bg-[#1152d4] rounded-full transition-all duration-500"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
