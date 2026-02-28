@@ -89,8 +89,13 @@ const Login = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
+            <div className="w-9 h-9 rounded-xl bg-[#1152d4] flex items-center justify-center">
+              <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none">
+                <path d="M16 6L4 12l12 6 12-6-12-6z" fill="white"/>
+                <path d="M8 14.5v6c0 1.5 3.5 4 8 4s8-2.5 8-4v-6l-8 4-8-4z" fill="white" fillOpacity="0.9"/>
+                <path d="M26 12v8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                <circle cx="26" cy="21" r="1.5" fill="white"/>
+              </svg>
             </div>
             <span className="text-white font-bold text-lg tracking-tight">CampusConnect</span>
           </Link>
