@@ -73,6 +73,17 @@ const Login = () => {
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-600/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 right-0 w-64 h-64 bg-emerald-600/6 rounded-full blur-3xl pointer-events-none" />
 
+      {/* Back Button */}
+      <Link 
+        to="/" 
+        className="absolute top-6 left-6 flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
+      >
+        <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </Link>
+
       {/* Glassmorphism Card */}
       <div className="relative w-full max-w-md bg-white/4 backdrop-blur-2xl border border-white/8 rounded-3xl p-10 shadow-2xl shadow-black/30">
         {/* Logo */}

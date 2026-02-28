@@ -63,6 +63,18 @@ const Signup = () => {
       <div className="min-h-screen flex items-center justify-center bg-[#020617] px-4 relative overflow-hidden font-['Inter']">
         <div className="absolute top-1/4 -left-32 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 -right-32 w-72 h-72 bg-emerald-600/15 rounded-full blur-3xl" />
+        
+        {/* Back Button */}
+        <Link 
+          to="/" 
+          className="absolute top-6 left-6 flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
+        >
+          <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span className="text-sm font-medium">Back</span>
+        </Link>
+
         <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-10 w-full max-w-md text-center shadow-2xl shadow-blue-900/10">
           <div className="w-16 h-16 bg-emerald-500/15 rounded-full flex items-center justify-center mx-auto mb-5">
             <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,6 +108,17 @@ const Signup = () => {
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-600/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 right-0 w-64 h-64 bg-emerald-600/6 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Back Button */}
+      <Link 
+        to="/" 
+        className="absolute top-6 left-6 flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
+      >
+        <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </Link>
 
       {/* Glassmorphism Card */}
       <div className="relative w-full max-w-md bg-white/4 backdrop-blur-2xl border border-white/8 rounded-3xl p-10 shadow-2xl shadow-black/30">
