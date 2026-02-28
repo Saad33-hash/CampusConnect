@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'https://via.placeholder.com/150' // Default profile pic
+        default: '' // Will generate avatar from initials on frontend
     },
 
     // Password field (Only required for traditional Sign-up)

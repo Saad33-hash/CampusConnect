@@ -6,7 +6,7 @@ const https = require('https');
 // Configure multer for memory storage
 const storage = multer.memoryStorage();
 
-const fileFilter = (req, file, cb) => {
+const resumeFileFilter = (req, file, cb) => {
   // Allow PDF, DOC, DOCX for resumes
   const allowedTypes = [
     'application/pdf',
@@ -21,9 +21,34 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+const imageFileFilter = (req, file, cb) => {
+  // Allow common image formats for avatars
+  const allowedTypes = [
+    'image/jpeg',
+    'image/jpg', 
+    'image/png',
+    'image/gif',
+    'image/webp'
+  ];
+  
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.'), false);
+  }
+};
+
 const upload = multer({
   storage,
-  fileFilter,
+  fileFilter: resumeFileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  }
+});
+
+const uploadImage = multer({
+  storage,
+  fileFilter: imageFileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024 // 5MB limit
   }
@@ -142,6 +167,56 @@ const downloadFile = async (req, res) => {
   }
 };
 
+// Controller: Upload avatar image
+const uploadAvatar = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const publicId = `avatar_${req.user._id}_${Date.now()}`;
+
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'image',
+          folder: 'campusconnect/avatars',
+          public_id: publicId,
+          transformation: [
+            { width: 400, height: 400, crop: 'fill', gravity: 'face' },
+            { quality: 'auto', fetch_format: 'auto' }
+          ]
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      
+      const readable = new Readable();
+      readable.push(req.file.buffer);
+      readable.push(null);
+      readable.pipe(uploadStream);
+    });
+
+    console.log('Avatar upload result:', {
+      secure_url: result.secure_url,
+      public_id: result.public_id
+    });
+
+    res.json({
+      success: true,
+      url: result.secure_url,
+      publicId: result.public_id
+    });
+  } catch (error) {
+    console.error('Avatar upload error:', error);
+    res.status(500).json({ 
+      message: error.message || 'Failed to upload avatar' 
+    });
+  }
+};
+
 // Delete file from Cloudinary
 const deleteFile = async (req, res) => {
   try {
@@ -162,7 +237,9 @@ const deleteFile = async (req, res) => {
 
 module.exports = {
   upload,
+  uploadImage,
   uploadResume,
+  uploadAvatar,
   downloadFile,
   deleteFile
 };

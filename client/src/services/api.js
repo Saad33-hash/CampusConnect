@@ -259,6 +259,19 @@ export const uploadAPI = {
     return response.data;
   },
 
+  // Upload avatar image
+  uploadAvatar: async (file) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    
+    const response = await api.post('/upload/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
   // Delete file
   deleteFile: async (publicId) => {
     const response = await api.delete('/upload/file', { data: { publicId } });

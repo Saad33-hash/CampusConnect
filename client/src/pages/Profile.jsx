@@ -88,6 +88,8 @@ export default function Profile() {
     setUploading(true);
     try {
       const result = await uploadAPI.uploadAvatar(file);
+      // Save avatar URL to database
+      await authAPI.updateProfile({ avatar: result.url });
       updateUser({ avatar: result.url });
       showToast('Avatar updated successfully', 'success');
     } catch (error) {
@@ -164,7 +166,7 @@ export default function Profile() {
               <div className="flex items-center gap-6">
                 <div className="relative">
                   <img
-                    src={user?.avatar || 'https://via.placeholder.com/150'}
+                    src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.displayName || 'User')}&background=1152d4&color=fff&size=150`}
                     alt={user?.displayName}
                     className="w-24 h-24 rounded-lg object-cover border-2 border-[#E2E8F0]"
                   />

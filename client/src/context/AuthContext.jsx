@@ -128,6 +128,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update user state locally (for immediate UI updates)
+  const updateUser = (updates) => {
+    setUser(prev => ({ ...prev, ...updates }));
+  };
+
   const value = {
     user,
     loading,
@@ -138,6 +143,7 @@ export const AuthProvider = ({ children }) => {
     handleOAuthCallback,
     switchRole,
     updateProfile,
+    updateUser,
     refreshUser,
     isAuthenticated: !!user,
     activeRole: user?.activeRole || 'talent-seeker',

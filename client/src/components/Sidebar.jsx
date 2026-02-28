@@ -22,7 +22,7 @@ export default function Sidebar() {
     if (!user) return 0;
     const fields = [
       user.displayName,
-      user.avatar && user.avatar !== 'https://via.placeholder.com/150',
+      user.avatar && !user.avatar.includes('ui-avatars.com'),
       user.university,
       user.department,
       user.year,
